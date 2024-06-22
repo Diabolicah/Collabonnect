@@ -7,7 +7,7 @@ header, nav, main, aside, section, article, footer, div {
 }
 
 a {
-    text-decoration: none;
+    text-decoration: none !important;
     cursor: pointer;
 }
 
@@ -69,7 +69,8 @@ header {
 
 #wrapper {
     margin: 0 40px;
-    height: 100vh;
+    min-height: calc(100vh - 52px);
+    padding-top: 9px;
 }
 
 #breadCrumb {
@@ -83,19 +84,28 @@ ol.breadcrumb {
 .breadcrumb-item a, .breadcrumb-item.active, .breadcrumb-item.active::before{
     display: block;
     height: 18px;
-    color: #FFF !important;
+    color: #ffffffa5 !important;
     font-family: Lora;
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
     text-decoration: none;
-    align-self: center;
+    text-align: center;
+}
+
+.breadcrumb-item.active::before {
+    color: #FFF !important;
+    font-weight: 700;
+    font-size: 14px;
 }
 
 /* media query */
 @media screen and (max-width: 1030px) {
     #header_navigation {
+        display: none;
+    }
+    #breadCrumb {
         display: none;
     }
 }

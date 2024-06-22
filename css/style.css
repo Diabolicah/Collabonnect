@@ -11,6 +11,10 @@ a {
     cursor: pointer;
 }
 
+main {
+    background-color: #2E2C2C;
+}
+
 /* Header */
 header {
     display: flex;
@@ -66,6 +70,27 @@ header {
 #wrapper {
     margin: 0 40px;
     height: 100vh;
+}
+
+#breadCrumb {
+    --bs-breadcrumb-divider: '>';
+}
+
+ol.breadcrumb {
+    margin-bottom: 0px;
+}
+
+.breadcrumb-item a, .breadcrumb-item.active, .breadcrumb-item.active::before{
+    display: block;
+    height: 18px;
+    color: #FFF !important;
+    font-family: Lora;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-decoration: none;
+    align-self: center;
 }
 
 /* media query */

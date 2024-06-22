@@ -73,7 +73,7 @@ header {
 #wrapper {
     margin: 0 40px;
     min-height: calc(100vh - 52px);
-    padding-top: 9px;
+    padding-top: 12px;
 }
 
 #breadCrumb {

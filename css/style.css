@@ -38,12 +38,24 @@ nav {
 }
 
 nav a {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
     width: 162px;
     height: 52px;
     background-color: #444;
     color: rgba(255, 255, 255, 0.5);
     text-align: center;
-    
+    font-family: Lora;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+nav a:not(.active_nav):hover {
+    background-color: #524f4f;
+    color: rgba(255, 255, 255, 0.75);;
 }
 
 .active_nav {

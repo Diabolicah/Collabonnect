@@ -6,7 +6,59 @@ header, nav, main, aside, section, article, footer, div {
     display: block;
 }
 
+a {
+    text-decoration: none;
+    cursor: pointer;
+}
+/* Header */
+header {
+    display: flex;
+    justify-content: flex-start;
+    background-color: #444;
+    color: #fff;
+    text-align: center;
+    height: 52px;
+    padding: 0px 64px 0px 40px;
+}
+
+#logo {
+    display: block;
+    background: url("../images/Logo.png") no-repeat;
+    height: 48px;
+    width: 168px;
+    margin-right: 32px;
+}
+
+#header_navigation {
+    display: flex;
+}
+
+nav {
+    justify-content: flex-start;
+}
+
+nav a {
+    width: 162px;
+    height: 52px;
+    background-color: #444;
+    color: rgba(255, 255, 255, 0.5);
+    text-align: center;
+    
+}
+
+.active_nav {
+    background-color: #2E2C2C;
+    color: #fff;
+}
+
 #wrapper {
     margin: 0 40px;
     height: 100vh;
+}
+
+/* media query */
+@media screen and (max-width: 1030px) {
+    #header_navigation {
+        display: none;
+    }
 }

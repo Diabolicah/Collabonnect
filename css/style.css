@@ -5,3 +5,8 @@
 header, nav, main, aside, section, article, footer, div {
     display: block;
 }
+
+#wrapper {
+    margin: 0 40px;
+    height: 100vh;
+}

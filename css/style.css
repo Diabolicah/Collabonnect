@@ -38,7 +38,21 @@ header {
     display: flex;
 }
 
+#responsive_navigation {
+    display: none;
+    width: 100%;
+    background-color: #444;
+    color: #fff;
+    text-align: center;
+    height: 52px;
+}
+
+#responsive_navigation nav {
+    margin: 0 auto;
+}
+
 .main_navigation {
+    display: flex;
     justify-content: flex-start;
 }
 
@@ -110,5 +124,8 @@ ol.breadcrumb {
     }
     #breadCrumb {
         display: none;
+    }
+    #responsive_navigation {
+        display: flex;
     }
 }

@@ -139,7 +139,7 @@ ol.breadcrumb {
     height: 35px;
     color: #FFF;
     font-size: 8px;
-    background-color: red;
+    /* background-color: red; */
     margin-right: 4px;
 }
 
@@ -166,6 +166,29 @@ ol.breadcrumb {
     font-weight: 700;
     line-height: normal;
     background-color: #FD7E14;
+}
+
+.conatainer_object_details .collaboration_upvotes_downvotes {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 14px;
+    margin-bottom: 14px;
+    width: 110px;
+}
+
+.conatainer_object_details .collaboration_upvotes_downvotes img {
+    height: 16px;
+    width: 16px;
+}
+
+.conatainer_object_details .collaboration_upvotes_downvotes span {
+    color: #FFF;
+    text-align: center;
+    font-family: Lora;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
 }
 
 .conatainer_object_details .collaboration_co_writers img {

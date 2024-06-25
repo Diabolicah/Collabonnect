@@ -143,6 +143,31 @@ ol.breadcrumb {
     margin-right: 4px;
 }
 
+.conatainer_object_details .collaboration_status {
+    color: #FFF;
+    font-family: Merriweather;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin-right: 10px;
+}
+
+.conatainer_object_details .progress {
+    height: 16px;
+    width: 80px;
+}
+
+.conatainer_object_details .progress .progress-bar {
+    color: #000;
+    font-family: Lora;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    background-color: #FD7E14;
+}
+
 .conatainer_object_details .collaboration_co_writers img {
     width: 32px;
     height: 32px;

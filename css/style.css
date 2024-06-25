@@ -117,6 +117,19 @@ ol.breadcrumb {
     font-size: 14px;
 }
 
+#conatainer_object_details section {
+    display: flex;
+}
+
+#conatainer_object_details section h1 {
+    color: #FFF;
+    font-family: Lora;
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin-right: 3px;
+}
 /* media query */
 @media screen and (max-width: 1030px) {
     #header_navigation {
@@ -124,6 +137,9 @@ ol.breadcrumb {
     }
     #breadCrumb {
         display: none;
+    }
+    #wrapper {
+        min-height: calc(100vh - 104px);
     }
     #responsive_navigation {
         display: flex;

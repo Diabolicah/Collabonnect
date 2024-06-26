@@ -7,7 +7,7 @@ header, nav, main, aside, section, article, footer, div {
 }
 
 a {
-    text-decoration: none !important;
+    text-decoration: none;
     cursor: pointer;
 }
 
@@ -17,6 +17,13 @@ main {
 
 /* Header */
 header {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    background-color: #444;
+}
+
+#top_bar {
     display: flex;
     justify-content: flex-start;
     background-color: #444;
@@ -34,11 +41,11 @@ header {
     margin-right: 32px;
 }
 
-#header_navigation {
+#top_bar nav {
     display: flex;
 }
 
-#responsive_navigation {
+#responsive_top_bar {
     display: none;
     width: 100%;
     background-color: #444;
@@ -47,17 +54,17 @@ header {
     height: 52px;
 }
 
-#responsive_navigation nav {
+#responsive_top_bar nav {
     margin: 0 auto;
 }
 
-.main_navigation {
+header nav {
     display: flex;
     justify-content: flex-start;
     overflow-x: auto;
 }
 
-.main_navigation a {
+header nav a {
     display: flex;
     justify-content: center;
     align-items: flex-end;
@@ -71,11 +78,11 @@ header {
     line-height: normal;
 }
 
-.main_navigation a:not(.active_nav) {
+header nav a:not(.active_nav) {
     color: rgba(255, 255, 255, 0.5);
 }
 
-.main_navigation a:not(.active_nav):hover {
+header nav a:not(.active_nav):hover {
     background-color: #524f4f;
     color: rgba(255, 255, 255, 0.75);;
 }
@@ -203,7 +210,7 @@ ol.breadcrumb {
 }
 /* media query */
 @media screen and (max-width: 1030px) {
-    #header_navigation {
+    #top_bar nav {
         display: none;
     }
     #breadCrumb {
@@ -212,7 +219,7 @@ ol.breadcrumb {
     #wrapper {
         min-height: calc(100vh - 104px);
     }
-    #responsive_navigation {
+    #responsive_top_bar {
         display: flex;
     }
 }

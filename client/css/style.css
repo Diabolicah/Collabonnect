@@ -127,6 +127,10 @@ header nav a:not(.active_nav):hover {
     line-height: normal;
 }
 
+#user_details > section span:nth-child(3) {
+    font-size: 16px;
+}
+
 #user_details > section img {
     margin: 0 2px;
 }
@@ -150,6 +154,7 @@ header nav a:not(.active_nav):hover {
     height: 4px;
     width: 52px;
     margin-bottom: 4px;
+    background-color: #AAAAAA;
 }
 
 /* Main */
@@ -207,7 +212,6 @@ ol.breadcrumb {
     height: 35px;
     color: #FFF;
     font-size: 8px;
-    /* background-color: red; */
     margin-right: 4px;
 }
 
@@ -274,27 +278,27 @@ ol.breadcrumb {
     #top_bar {
         padding: 0px 16px;
     }
-    
+
     #top_bar nav {
         display: none;
     }
-    
+
     #user_details_image {
         margin-right: 0px;
     }
-    
+
     #responsive_top_bar {
         display: flex;
     }
-    
+
     #user_details section {
         display: none;
     }
-    
+
     #breadCrumb {
         display: none;
     }
-    
+
     #wrapper {
         min-height: calc(100vh - 104px);
     }

@@ -30,7 +30,7 @@ header {
     color: #fff;
     text-align: center;
     height: 52px;
-    padding: 0px 64px 0px 40px;
+    padding: 0px 32px 0px 32px;
 }
 
 #logo {
@@ -92,6 +92,67 @@ header nav a:not(.active_nav):hover {
     color: #fff;
 }
 
+#notification_bell {
+    width: 18px;
+    height: 21px;
+    margin: auto 16px auto auto;
+    justify-self: end;
+}
+
+#user_details {
+    display: flex;
+    align-items: center;
+}
+
+#user_details_image {
+    width: 44px;
+    height: 44px;
+    border-radius: 100px;
+    margin-right: 12px;
+}
+
+#user_details > section {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+#user_details > section span  {
+    color: #FFF;
+    text-align: center;
+    font-family: Lora;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+#user_details > section img {
+    margin: 0 2px;
+}
+
+#user_details_rank {
+    font-size: 14px;
+}
+
+#user_details_token {
+    margin-left: 2px;
+    font-size: 14px;
+}
+
+#user_details > section > section {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+#user_details .progress {
+    height: 4px;
+    width: 52px;
+    margin-bottom: 4px;
+}
+
+/* Main */
 #wrapper {
     margin: 0 40px;
     min-height: calc(100vh - 52px);
@@ -210,16 +271,31 @@ ol.breadcrumb {
 }
 /* media query */
 @media screen and (max-width: 1030px) {
+    #top_bar {
+        padding: 0px 16px;
+    }
+    
     #top_bar nav {
         display: none;
     }
+    
+    #user_details_image {
+        margin-right: 0px;
+    }
+    
+    #responsive_top_bar {
+        display: flex;
+    }
+    
+    #user_details section {
+        display: none;
+    }
+    
     #breadCrumb {
         display: none;
     }
+    
     #wrapper {
         min-height: calc(100vh - 104px);
-    }
-    #responsive_top_bar {
-        display: flex;
     }
 }

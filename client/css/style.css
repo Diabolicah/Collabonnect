@@ -273,6 +273,10 @@ ol.breadcrumb {
 .conatainer_object_details .collaboration_co_writers img:last-child {
     margin-right: 0;
 }
+
+.container_paragraphs_and_editmode {
+    display: flex;
+}
 /* media query */
 @media screen and (max-width: 1030px) {
     #top_bar {
@@ -301,5 +305,9 @@ ol.breadcrumb {
 
     #wrapper {
         min-height: calc(100vh - 104px);
+    }
+
+    #wrapper .containerr .col-auto:not(:first-child) {
+        display: none;
     }
 }

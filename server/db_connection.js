@@ -1,6 +1,6 @@
 exports.dbConnection = {
     async createConnection() {
-        const mysql = require('mysql/promise');
+        const mysql = require('mysql2/promise');
         
         const connection = await mysql.createConnection({
             host: process.env.DB_HOST,

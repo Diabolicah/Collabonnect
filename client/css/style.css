@@ -343,6 +343,24 @@ ol.breadcrumb {
     line-height: 18px;
 }
 
+.object_adder {
+    opacity: 0.5;
+    background-color: rgba(255, 255, 255, 0.500);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px;
+}
+
+.container_paragraphs .object_adder {
+    flex-basis: 112px;
+}
+
+.object_adder img {
+    width: 48px;
+    height: 48px;
+}
+
 /* media query */
 @media screen and (max-width: 1030px) {
     #top_bar {

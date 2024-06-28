@@ -274,33 +274,33 @@ ol.breadcrumb {
     margin-right: 0;
 }
 
-.container_paragraphs_and_editmode {
+.container_editmode, .container_paragraphs {
     display: flex;
     flex-direction: column;
     max-width: 788px;
 }
 
-.container_paragraphs_and_editmode img {
+.container_editmode img {
     width: 30px;
     height: 30px;
     align-self: flex-end;
 }
 
-.container_paragraphs_and_editmode hr {
+.container_editmode hr {
     display: block;
     border: 1px solid;
     margin: 0px 0px 2px 0px;
     border-color: #FFF;
 }
 
-.container_paragraphs_and_editmode .paragraph{
+.container_paragraphs .paragraph{
     padding: 0px 14px 21px 6px;
     border-radius: 15px;
     background: rgb(68, 68, 68, 0.5);
     margin-bottom: 21px;
 }
 
-.container_paragraphs_and_editmode .paragraph p {
+.container_paragraphs .paragraph p {
     color: #FFF;
     font-family: Roboto;
     font-size: 14px;
@@ -310,14 +310,14 @@ ol.breadcrumb {
     margin: 0;
 }
 
-.container_paragraphs_and_editmode .paragraph_title_and_status {
+.container_paragraphs .paragraph_title_and_status {
     margin-bottom: 15px;
     display: flex;
     align-items: center;
     gap: 16px;
 }
 
-.container_paragraphs_and_editmode .paragraph_title_and_status h2 {
+.container_paragraphs .paragraph_title_and_status h2 {
     margin: 0px;
     color: #FFF;
     font-family: Lora;
@@ -327,7 +327,7 @@ ol.breadcrumb {
     line-height: normal;
 }
 
-.container_paragraphs_and_editmode .paragraph_title_and_status section {
+.container_paragraphs .paragraph_title_and_status section {
     background-color: hsl(162, 73%, 46%, 0.5);
     opacity: 0.5;
     align-self: flex-end;

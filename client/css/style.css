@@ -386,6 +386,46 @@ ol.breadcrumb {
     gap: 16px;
 }
 
+#wrapper h1 {
+    color: #FFF;
+    font-family: Lora;
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin-top: 32px;
+    margin-bottom: 16px;
+}
+
+#search_bar {
+    display: flex;
+    justify-content: space-between;
+    max-width: 290px;
+    min-width: 218px;
+    height: 34px;
+    padding: 5px;
+    border-radius: 10px;
+    background: #FFF;
+    margin-bottom: 10px;
+}
+
+#search_bar input {
+    border: none;
+    outline: none;
+    width: 95%;
+    font-family: Merriweather;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+#search_bar img {
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+}
+
 #collaboration_cards_container {
     display: flex;
     flex-wrap: wrap;
@@ -408,6 +448,7 @@ ol.breadcrumb {
     border-radius: 15px;
     background-color: #FFF;
     padding: 5px 12px 5px 12px;
+    cursor: pointer;
 }
 
 .collaboration_card > section {

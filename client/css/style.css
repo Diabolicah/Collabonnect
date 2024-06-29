@@ -350,6 +350,7 @@ ol.breadcrumb {
     align-items: center;
     justify-content: center;
     border-radius: 15px;
+    cursor: pointer;
 }
 
 .container_paragraphs .object_adder {
@@ -383,6 +384,98 @@ ol.breadcrumb {
     display: flex;
     flex-wrap: wrap;
     gap: 16px;
+}
+
+#collaboration_cards_container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: first;
+}
+
+#collaboration_cards_container .object_adder {
+    flex-basis: 290px;
+    min-height: 192px;
+    min-width: 218px;
+}
+
+.collaboration_card {
+    display: flex;
+    flex-direction: column;
+    max-width: 290px;
+    min-width: 218px;
+    min-height: 192px;
+    border-radius: 15px;
+    background-color: #FFF;
+    padding: 5px 12px 5px 12px;
+}
+
+.collaboration_card > section {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+}
+
+.collaboration_card > section:first-child, .collaboration_card > section:last-child{
+    justify-content: space-between;
+}
+
+.collaboration_card > section:nth-last-child(2){
+    margin-top: auto;
+}
+
+.collaboration_card section section {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.collaboration_card h2 {
+    color: #000;
+    font-family: Lora;
+    font-size: 26px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    max-width: 198px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.collaboration_card > section:first-child img {
+    width: 28px;
+    height: 28px;
+}
+
+.collaboration_card img {
+    width: 16px;
+    height: 16px;
+}
+
+.collaboration_card section span:nth-child(2) {
+    color: #000;
+    text-align: center;
+    font-family: Lora;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.collaboration_card p, .collaboration_card section span:not(:nth-child(2)) {
+    color: #23232380;
+    font-family: Merriweather;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.collaboration_card p{
+    color: #000;
+    margin-top: 8px;
+    padding-right: 32px;
 }
 
 /* media query */

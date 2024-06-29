@@ -161,7 +161,7 @@ header nav a:not(.active_nav):hover {
 #wrapper {
     margin: 0 40px;
     min-height: calc(100vh - 52px);
-    padding-top: 12px;
+    padding: 12px 0px;
 }
 
 #breadCrumb {
@@ -359,6 +359,30 @@ ol.breadcrumb {
 .object_adder img {
     width: 48px;
     height: 48px;
+}
+
+.collaboration_assests {
+    max-width: 288px;
+    border-radius: 15px;
+    background-color: rgb(68, 68, 68, 0.5);
+    padding: 6px 16px;
+}
+
+.collaboration_assests > h2 {
+    color: #FFF;
+    text-align: center;
+    font-family: Lora;
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin-bottom: 6px;
+}
+
+.collaboration_assests .container_images {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
 }
 
 /* media query */

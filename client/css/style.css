@@ -305,7 +305,7 @@ ol.breadcrumb {
     cursor: pointer;
 }
 
-#container_edit_mode hr {
+#container_edit_mode hr, #edit_logs hr{
     display: block;
     border: 1px solid;
     margin: 0px 0px 2px 0px;
@@ -388,6 +388,7 @@ ol.breadcrumb {
 #collaboration_assets {
     max-width: 288px;
     border-radius: 15px;
+    min-height: calc(100vh - 96px);
     background-color: rgb(68, 68, 68, 0.5);
     padding: 6px 16px;
 }
@@ -407,6 +408,48 @@ ol.breadcrumb {
     display: flex;
     flex-wrap: wrap;
     gap: 16px;
+}
+
+#edit_logs {
+    max-width: 122px;
+    margin-top: 24px;
+}
+
+#edit_logs h4 {
+    color: #FFF;
+    text-align: center;
+    font-family: Merriweather;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin-bottom: 0;
+}
+
+#edit_logs section {
+    height: 32px;
+    background-color: #FFF;
+    border-radius: 10px;
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0px 3px;
+}
+
+#edit_logs section img {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+}
+
+#edit_logs section span {
+    color: #444;
+    font-family: Merriweather;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
 }
 
 #wrapper h1 {

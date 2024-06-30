@@ -291,7 +291,7 @@ ol.breadcrumb {
 #container_edit_mode, #container_paragraphs {
     display: flex;
     flex-direction: column;
-    max-width: 788px;
+    max-width: 1400px;
 }
 
 #container_edit_mode {
@@ -386,7 +386,7 @@ ol.breadcrumb {
 }
 
 #collaboration_assets {
-    max-width: 288px;
+    max-width: 576px;
     border-radius: 15px;
     min-height: calc(100vh - 96px);
     background-color: rgb(68, 68, 68, 0.5);
@@ -416,7 +416,7 @@ ol.breadcrumb {
 }
 
 #edit_logs {
-    max-width: 122px;
+    max-width: 244px;
     margin-top: 24px;
 }
 

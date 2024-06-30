@@ -393,6 +393,11 @@ ol.breadcrumb {
     padding: 6px 16px;
 }
 
+.col-lg {
+    display: flex;
+    justify-content: center;
+}
+
 #collaboration_assets > h2 {
     color: #FFF;
     text-align: center;

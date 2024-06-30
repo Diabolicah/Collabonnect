@@ -9,7 +9,7 @@ const collaborationController = {
 
         try {
             const [collaborations] = await connection.execute(`SELECT * FROM ${TABLE_NAME_PREFIX}_collaboration`);
-            res.status(201).json(collaborations);
+            res.status(200).json(collaborations);
         } catch (error) {
             res.status(500).json({ message: error.message });
         } finally {
@@ -17,11 +17,52 @@ const collaborationController = {
         }
     },
     // GET /api/collaboration/:id
-    async getCollaborationById(req, res) {},
+    async getCollaborationById(req, res) {
+        const connection = await dbConnection.createConnection();
+
+        try {
+            const [collaborations] = await connection.execute(`SELECT * FROM ${TABLE_NAME_PREFIX}_collaboration WHERE id = ?`, [req.params.id]);
+            if (collaborations.length === 0) {
+                res.status(404).json({ message: `Collaboration with id ${req.params.id} not found` });
+                return;
+            }
+            res.status(200).json(collaborations[0]);
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        } finally {
+            connection.end();
+        }
+    },
     // GET /api/collaboration/:id/paragraphs
-    async getCollaborationParagraphs(req, res) {},
+    async getCollaborationParagraphs(req, res) {
+        const connection = await dbConnection.createConnection();
+
+        try {
+            const [paragraphs] = await connection.execute(`SELECT id, title, status, text, image, video FROM ${TABLE_NAME_PREFIX}_collaboration_paragraph inner join ${TABLE_NAME_PREFIX}_paragraph on ${TABLE_NAME_PREFIX}_paragraph.id = ${TABLE_NAME_PREFIX}_collaboration_paragraph.paragraph_id WHERE collaboration_id = ?`, [req.params.id]);
+            res.status(200).json(paragraphs);
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        } finally {
+            connection.end();
+        }
+    },
     // GET /api/collaboration/:id/paragraphs/:paragraphId
-    async getCollaborationParagraphById(req, res) {},
+    async getCollaborationParagraphById(req, res) {
+        const connection = await dbConnection.createConnection();
+
+        try {
+            const [paragraphs] = await connection.execute(`SELECT id, title, status, text, image, video FROM ${TABLE_NAME_PREFIX}_collaboration_paragraph inner join ${TABLE_NAME_PREFIX}_paragraph on ${TABLE_NAME_PREFIX}_paragraph.id = ${TABLE_NAME_PREFIX}_collaboration_paragraph.paragraph_id WHERE collaboration_id = ? and paragraph_id = ?`, [req.params.id, req.params.paragraphId]);
+            if (paragraphs.length === 0) {
+                res.status(404).json({ message: `Paragraph with id ${req.params.paragraphId} for collaboration id ${req.params.id} not found` });
+                return;
+            }
+            res.status(200).json(paragraphs[0]);
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        } finally {
+            connection.end();
+        }
+    },
     // GET /api/collaboration/:id/logs
     async getCollaborationLogs(req, res) {},
     // POST /api/collaboration

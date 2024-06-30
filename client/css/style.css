@@ -200,18 +200,23 @@ ol.breadcrumb {
     font-size: 14px;
 }
 
+#container_object_details {
+    position: absolute;
+}
+
 #container_object_details section {
     display: flex;
     align-items: center;
 }
 
-#container_object_details section h1 {
+#container_object_details section #collaboration_title {
     color: #FFF;
     font-family: Lora;
     font-size: 36px;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
+    margin-top: 0px;
     margin-right: 8px;
     margin-bottom: 16px;
 }
@@ -289,10 +294,15 @@ ol.breadcrumb {
     max-width: 788px;
 }
 
+#container_edit_mode {
+    margin-top: 144px;
+}
+
 #container_edit_mode img {
     width: 30px;
     height: 30px;
     align-self: flex-end;
+    cursor: pointer;
 }
 
 #container_edit_mode hr {
@@ -375,14 +385,14 @@ ol.breadcrumb {
     height: 48px;
 }
 
-#collaboration_assests {
+#collaboration_assets {
     max-width: 288px;
     border-radius: 15px;
     background-color: rgb(68, 68, 68, 0.5);
     padding: 6px 16px;
 }
 
-#collaboration_assests > h2 {
+#collaboration_assets > h2 {
     color: #FFF;
     text-align: center;
     font-family: Lora;
@@ -393,14 +403,10 @@ ol.breadcrumb {
     margin-bottom: 6px;
 }
 
-#collaboration_assests #container_images {
+#collaboration_assets #container_images {
     display: flex;
     flex-wrap: wrap;
     gap: 16px;
-}
-
-#wrapper .containerr .col-auto:first-child {
-    
 }
 
 #wrapper h1 {
@@ -410,7 +416,7 @@ ol.breadcrumb {
     font-style: normal;
     font-weight: 700;
     line-height: normal;
-    margin-top: 32px;
+    margin-top: 28px;
     margin-bottom: 16px;
 }
 
@@ -450,7 +456,7 @@ ol.breadcrumb {
     justify-content: first;
 }
 
-#collaboration_cards_container .object_adder {
+#collaboration_cards_container #object_adder {
     flex-basis: 290px;
     min-height: 192px;
     min-width: 218px;

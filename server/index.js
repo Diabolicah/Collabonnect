@@ -16,6 +16,8 @@ app.use((req, res, next) => {
     next();
 });
 
+app.use("/assets", express.static(`${__dirname}/public`));
+
 app.use('/api/collaboration', collaborationRouter);
 
 app.listen(port, () => {

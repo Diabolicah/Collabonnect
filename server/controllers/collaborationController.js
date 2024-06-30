@@ -18,12 +18,24 @@ const collaborationController = {
     },
     // GET /api/collaboration/:id
     async getCollaborationById(req, res) {},
+    // GET /api/collaboration/:id/paragraphs
+    async getCollaborationParagraphs(req, res) {},
+    // GET /api/collaboration/:id/paragraphs/:paragraphId
+    async getCollaborationParagraphById(req, res) {},
+    // GET /api/collaboration/:id/logs
+    async getCollaborationLogs(req, res) {},
     // POST /api/collaboration
     async createCollaboration(req, res) {},
+    // POST /api/collaboration/:id/paragraphs
+    async createCollaborationParagraph(req, res) {},
     // PUT /api/collaboration/:id
     async updateCollaboration(req, res) {},
+    // PUT /api/collaboration/:id/paragraphs/:paragraphId
+    async updateCollaborationParagraph(req, res) {},
     // DELETE /api/collaboration/:id
-    async deleteCollaboration(req, res) {}
+    async deleteCollaboration(req, res) {},
+    // DELETE /api/collaboration/:id/paragraphs/:paragraphId
+    async deleteCollaborationParagraph(req, res) {}
 };
 
 module.exports = { collaborationController };

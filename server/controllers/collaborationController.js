@@ -6,9 +6,15 @@ const collaborationController = {
     // GET /api/collaboration
     async getCollaborations(req, res) {
         const connection = await dbConnection.createConnection();
-        const [collaborations] = await connection.execute(`SELECT * FROM ${TABLE_NAME_PREFIX}_collaboration`);
-        connection.end();
-        res.json(collaborations);
+
+        try {
+            const [collaborations] = await connection.execute(`SELECT * FROM ${TABLE_NAME_PREFIX}_collaboration`);
+            res.status(201).json(collaborations);
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        } finally {
+            connection.end();
+        }
     },
     // GET /api/collaboration/:id
     async getCollaborationById(req, res) {},

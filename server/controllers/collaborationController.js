@@ -77,11 +77,11 @@ const collaborationController = {
         }
     },
     // GET /api/collaboration/:id/co_writers
-    async getCollaborationCoWriters(req, res) {
+    async getCollaborationCoWritersProfileImages(req, res) {
         const connection = await dbConnection.createConnection();
 
         try {
-            const [coWriters] = await connection.execute(`SELECT * FROM ${TABLE_NAME_PREFIX}_collaboration_cowriter WHERE collaboration_id = ?`, [req.params.id]);
+            const [coWriters] = await connection.execute(`SELECT profile_image FROM ${TABLE_NAME_PREFIX}_collaboration_cowriter inner join ${TABLE_NAME_PREFIX}_user on ${TABLE_NAME_PREFIX}_user.id = ${TABLE_NAME_PREFIX}_collaboration_cowriter.user_id WHERE collaboration_id = ?`, [req.params.id]);
             res.status(200).json(coWriters);
         } catch (error) {
             res.status(500).json({ error: error.message });

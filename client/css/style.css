@@ -422,8 +422,6 @@ ol.breadcrumb {
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    background: radial-gradient(closest-side, #2E2C2C 79%, transparent 80% 100%),
-                conic-gradient(from 270deg,#FD7E14 0%, #FD7E14 50%,#2E2C2C 50%);
 }
 
 .circular_progress_bar span {

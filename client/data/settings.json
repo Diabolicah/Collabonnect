@@ -1,5 +1,4 @@
 {
     "user_id": 1,
-    "domain": "http://localhost:8080"
-    // https://collabonnect.onrender.com
+    "domain": "http://127.0.0.1:8080"
 }

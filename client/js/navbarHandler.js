@@ -12,11 +12,11 @@ function updateNavbarDetails(details) {
 }
 
 (async () => {
-    const {domain, user_id} = await fetch("./data/settings.json")
+    const {nav_bar_domain, nav_bar_user_id} = await fetch("./data/settings.json")
     .then((response) => response.json());
 
-    const user_details = await fetch(`${domain}/api/user/${user_id}`)
+    const user_details = await fetch(`${nav_bar_domain}/api/user/${nav_bar_user_id}`)
     .then(response => response.json());
-    user_details.profile_image = `${domain}/assets/profile_images/${user_details.profile_image}`;
+    user_details.profile_image = `${nav_bar_domain}/assets/profile_images/${user_details.profile_image}`;
     updateNavbarDetails(user_details);
 })();

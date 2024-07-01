@@ -8,7 +8,7 @@ collaborationRouter.get('/:id', collaborationController.getCollaborationById);
 collaborationRouter.get('/:id/paragraphs', collaborationController.getCollaborationParagraphs);
 collaborationRouter.get('/:id/paragraphs/:paragraphId', collaborationController.getCollaborationParagraphById);
 collaborationRouter.get('/:id/logs', collaborationController.getCollaborationLogs);
-collaborationRouter.get('/:id/co_writers', collaborationController.getCollaborationCoWritersProfileImages);
+collaborationRouter.get('/:id/co_writers_images', collaborationController.getCollaborationCoWritersProfileImages);
 
 collaborationRouter.post('/', collaborationController.createCollaboration);
 collaborationRouter.post('/:id/paragraphs', collaborationController.createCollaborationParagraph);

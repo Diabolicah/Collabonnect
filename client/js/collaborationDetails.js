@@ -10,8 +10,7 @@ let user_id, domain;
 })();
 
 async function getCollaborationLogos(collaboration) {
-    let brandLogo = '#', developerLogo = '#';
-    await fetch(`${domain}/api/brand/${collaboration.brand_id}`)
+    const brandPromise = fetch(`${domain}/api/brand/${collaboration.brand_id}`)
         .then(response => {
             if(response.status == 200)
                 return response.json();
@@ -19,14 +18,16 @@ async function getCollaborationLogos(collaboration) {
         })
         .then(data => brandLogo = `${domain}/assets/brand_images/${data.image_name}`);
 
-    await fetch(`${domain}/api/developer/${collaboration.developer_id}`)
+    const developerPromise = fetch(`${domain}/api/developer/${collaboration.developer_id}`)
         .then(response => {
             if(response.status == 200)
                 return response.json();
         })
         .then(data => developerLogo = `${domain}/assets/developer_images/${data.image_name}`);
 
-    return {brandLogo, developerLogo};
+    return await Promise.all([brandPromise, developerPromise]).then(values => {
+        return {"brandLogo": values[0], "developerLogo": values[1]};
+    });
 }
 
 async function getCollaborationDetails(collaborationId) {

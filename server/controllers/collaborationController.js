@@ -111,6 +111,110 @@ const collaborationController = {
             connection.end();
         }
     },
+    // PUT /api/collaboration/:id/status
+    async updateCollaborationStatus(req, res) {
+        const { status } = req.body;
+        if (!status) {
+            res.status(400).json({
+                error: "All fields are required",
+                fields: ["status"]
+            });
+            return;
+        }
+
+        const connection = await dbConnection.createConnection();
+
+        try {
+            const [collaborations] = await connection.execute(`UPDATE ${TABLE_NAME_PREFIX}_collaboration SET status = ? WHERE id = ?`, [status, req.params.id]);
+            if (collaborations.affectedRows === 0) {
+                res.status(404).json({ error: `Collaboration with id ${req.params.id} not found` });
+                return;
+            }
+            res.status(200).json({ message: `Collaboration with id ${req.params.id} updated` });
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        } finally {
+            connection.end();
+        }
+    },
+    // PUT /api/collaboration/:id/upvote
+    async updateCollaborationUpvote(req, res) {
+        const { amount } = req.body;
+        if (!amount) {
+            res.status(400).json({
+                error: "All fields are required",
+                fields: ["amount"]
+            });
+            return;
+        }
+
+        const connection = await dbConnection.createConnection();
+
+        try {
+            const [collaborations] = await connection.execute(`UPDATE ${TABLE_NAME_PREFIX}_collaboration SET upvote = upvote + ? WHERE id = ?`, [amount, req.params.id]);
+            if (collaborations.affectedRows === 0) {
+                res.status(404).json({ error: `Collaboration with id ${req.params.id} not found` });
+                return;
+            }
+            res.status(200).json({ message: `Collaboration with id ${req.params.id} updated` });
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        } finally {
+            connection.end();
+        }
+    },
+    // PUT /api/collaboration/:id/downvote
+    async updateCollaborationDownvote(req, res) {
+        const { amount } = req.body;
+        if (!amount) {
+            res.status(400).json({
+                error: "All fields are required",
+                fields: ["amount"]
+            });
+            return;
+        }
+        
+        const connection = await dbConnection.createConnection();
+
+        try {
+            const [collaborations] = await connection.execute(`UPDATE ${TABLE_NAME_PREFIX}_collaboration SET downvote = downvote + ? WHERE id = ?`, [amount, req.params.id]);
+            if (collaborations.affectedRows === 0) {
+                res.status(404).json({ error: `Collaboration with id ${req.params.id} not found` });
+                return;
+            }
+            res.status(200).json({ message: `Collaboration with id ${req.params.id} updated` });
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        } finally {
+            connection.end();
+        }
+    },
+    // PUT /api/collaboration/:id/readability
+    async updateCollaborationReadability(req, res) {
+        const { readability } = req.body;
+        if (!readability) {
+            res.status(400).json({
+                error: "All fields are required",
+                fields: ["readability"]
+            });
+            return;
+        }
+
+        const connection = await dbConnection.createConnection();
+        
+        try {
+            const [collaborations] = await connection.execute(`UPDATE ${TABLE_NAME_PREFIX}_collaboration SET ai_readability = ? WHERE id = ?`, [readability, req.params.id]);
+            if (collaborations.affectedRows === 0) {
+                res.status(404).json({ error: `Collaboration with id ${req.params.id} not found` });
+                return;
+            }
+            res.status(200).json({ message: `Collaboration with id ${req.params.id} updated` });
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        } finally {
+            connection.end();
+        }
+    },
     // PUT /api/collaboration/:id/paragraphs/:paragraphId
     async updateCollaborationParagraph(req, res) {
         const { title, status, text, image, video } = req.body;

@@ -12,7 +12,10 @@ collaborationRouter.get('/:id/logs', collaborationController.getCollaborationLog
 collaborationRouter.post('/', collaborationController.createCollaboration);
 collaborationRouter.post('/:id/paragraphs', collaborationController.createCollaborationParagraph);
 
-collaborationRouter.put('/:id', collaborationController.updateCollaboration);
+collaborationRouter.put('/:id/status', collaborationController.updateCollaborationStatus);
+collaborationRouter.put('/:id/upvote', collaborationController.updateCollaborationUpvote);
+collaborationRouter.put('/:id/downvote', collaborationController.updateCollaborationDownvote);
+collaborationRouter.put('/:id/readability', collaborationController.updateCollaborationReadability);
 collaborationRouter.put('/:id/paragraphs/:paragraphId', collaborationController.updateCollaborationParagraph);
 
 collaborationRouter.delete('/:id', collaborationController.deleteCollaboration);

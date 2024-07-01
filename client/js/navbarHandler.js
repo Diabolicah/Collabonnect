@@ -11,7 +11,7 @@ function updateNavbarDetails(details) {
     progress_bar.style.width = `${Math.min(Math.max(details.experience, 0), 100)}%`;
 }
 
-window.onload = async () => {
+(async () => {
     const {domain, user_id} = await fetch("./data/settings.json")
     .then((response) => response.json());
 
@@ -19,4 +19,4 @@ window.onload = async () => {
     .then(response => response.json());
     user_details.profile_image = `${domain}/assets/profile_images/${user_details.profile_image}`;
     updateNavbarDetails(user_details);
-};
+})();

@@ -66,13 +66,16 @@ async function getCollaborationWriterProfileImage(collaboration){
 async function getCollaborationCoWritersProfileImages(collaboration){
     let co_writers = null;
     await fetch(`${domain}/api/collaboration/${collaboration.id}/co_writers_images`)
-    .then(response => {
-        if(response.status == 200)
-            return response.json();
-    })
-    .then(data => {
-        co_writers = data;
-    });
+        .then(response => {
+            if(response.status == 200)
+                return response.json();
+        })
+        .then(data => {
+            data.forEach(element => {
+                element.profile_image = `${domain}/assets/profile_images/${element.profile_image}`;
+            });
+            co_writers = data;
+        });
 
     return co_writers;
 }

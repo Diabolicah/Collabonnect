@@ -5,10 +5,28 @@ function updateThresholdProgressBar(progressBar, threshold) {
     progressBar.style.backgroundColor = progress_color;
 }
 
+function populateCollaborationCoWriters(coWriters) {
+    const containerCoWriters =  document.querySelector("#collaboration_co_writers");
+
+    coWriters.forEach(element => {
+        const img = document.createElement("img");
+        img.src = element.profile_image;
+        img.alt = "co_writer_image";
+        containerCoWriters.appendChild(img);
+    });
+}
+
 async function initObjectDetails(objectData){
-    const {brandLogo, developerLogo} = await getCollaborationLogos(objectData);
-    const writerProfileImage = await getCollaborationWriterProfileImage(objectData);
-    const threshold = await getCollaborationThresholdPercentage(objectData);
+    getCollaborationLogos(objectData)
+        .then(({brandLogo, developerLogo}) => {
+            document.querySelector("#collaboration_brand_logo").src = `${brandLogo}`;
+            document.querySelector("#collaboration_developer_logo").src = `${developerLogo}`;
+        });
+    getCollaborationWriterProfileImage(objectData)
+        .then(writerProfileImage => document.querySelector("#collaboration_co_writers img").src = `${writerProfileImage}`);
+    getCollaborationThresholdPercentage(objectData)
+        .then(threshold => updateThresholdProgressBar(document.querySelector("#container_object_details .progress .progress-bar"), threshold));
+
     document.querySelector("#collaboration_title").textContent = objectData.title;
     document.querySelector(".breadcrumb-item.active").textContent = objectData.title;
     document.querySelector("#collaboration_status").textContent = `Status: ${objectData.status}`;
@@ -16,10 +34,8 @@ async function initObjectDetails(objectData){
     document.querySelectorAll("#collaboration_upvotes_downvotes span")[1].textContent = objectData.downvote;
     document.querySelector(".circular_progress_bar span").textContent = objectData.ai_readability;
     updateCircularProgressBar(document.querySelector(".circular_progress_bar"), objectData.ai_readability, "#2E2C2C");
-    document.querySelector("#collaboration_brand_logo").src = `${brandLogo}`;
-    document.querySelector("#collaboration_developer_logo").src = `${developerLogo}`;
-    updateThresholdProgressBar(document.querySelector("#container_object_details .progress .progress-bar"), threshold);
-    document.querySelector("#collaboration_co_writers img").src = `${writerProfileImage}`;
+
+    populateCollaborationCoWriters(await getCollaborationCoWritersProfileImages(objectData));
 
 }
 

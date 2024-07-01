@@ -415,6 +415,27 @@ ol.breadcrumb {
     gap: 16px;
 }
 
+.circular_progress_bar {
+    width: 81px;
+    height: 81px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, #2E2C2C 79%, transparent 80% 100%),
+                conic-gradient(from 270deg,#FD7E14 0%, #2E2C2C 50%);
+}
+
+.circular_progress_bar span {
+    color: #FFF;
+    text-align: center;
+    font-family: Lora;
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
 #edit_logs {
     max-width: 244px;
     margin-top: 24px;

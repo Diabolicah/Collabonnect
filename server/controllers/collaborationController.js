@@ -64,7 +64,18 @@ const collaborationController = {
         }
     },
     // GET /api/collaboration/:id/logs
-    async getCollaborationLogs(req, res) {},
+    async getCollaborationLogs(req, res) {
+        const connection = await dbConnection.createConnection();
+
+        try {
+            const [logs] = await connection.execute(`SELECT * FROM ${TABLE_NAME_PREFIX}_collaboration_logs WHERE collaboration_id = ?`, [req.params.id]);
+            res.status(200).json(logs);
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        } finally {
+            connection.end();
+        }
+    },
     // POST /api/collaboration
     async createCollaboration(req, res) {},
     // POST /api/collaboration/:id/paragraphs

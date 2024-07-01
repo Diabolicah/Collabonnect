@@ -76,6 +76,19 @@ const collaborationController = {
             connection.end();
         }
     },
+    // GET /api/collaboration/:id/co_writers
+    async getCollaborationCoWriters(req, res) {
+        const connection = await dbConnection.createConnection();
+
+        try {
+            const [coWriters] = await connection.execute(`SELECT * FROM ${TABLE_NAME_PREFIX}_collaboration_cowriter WHERE collaboration_id = ?`, [req.params.id]);
+            res.status(200).json(coWriters);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        } finally {
+            connection.end();
+        }
+    },
     // POST /api/collaboration
     async createCollaboration(req, res) {
         const { user_id, title, developer_id, brand_id } = req.body;
@@ -105,6 +118,19 @@ const collaborationController = {
         try {
             const [paragraphs] = await connection.execute(`INSERT INTO ${TABLE_NAME_PREFIX}_collaboration_paragraph (collaboration_id, title, status, text, image, video) VALUES (?, "", "up to date", "", "", "")`, [req.params.id]);
             res.status(201).json({ message: `Paragraph with id ${paragraphs.insertId} for collaboration id ${req.params.id} created` });
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        } finally {
+            connection.end();
+        }
+    },
+    // POST /api/collaboration/:id/co_writers/:coWriterId
+    async addCollaborationCoWriter(req, res) {
+        const connection = await dbConnection.createConnection();
+        
+        try {
+            const [coWriters] = await connection.execute(`INSERT INTO ${TABLE_NAME_PREFIX}_collaboration_cowriter (collaboration_id, co_writer_id) VALUES (?, ?)`, [req.params.id, req.params.coWriterId]);
+            res.status(201).json({ message: `Co-writer with id ${req.params.coWriterId} for collaboration id ${req.params.id} created` });
         } catch (error) {
             res.status(500).json({ error: error.message });
         } finally {
@@ -269,6 +295,23 @@ const collaborationController = {
                 return;
             }
             res.status(200).json({ message: `Paragraph with id ${req.params.paragraphId} for collaboration id ${req.params.id} deleted` });
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        } finally {
+            connection.end();
+        }
+    },
+    // DELETE /api/collaboration/:id/co_writers/:coWriterId
+    async deleteCollaborationCoWriter(req, res) {
+        const connection = await dbConnection.createConnection();
+
+        try {
+            const [coWriters] = await connection.execute(`DELETE FROM ${TABLE_NAME_PREFIX}_collaboration_cowriter WHERE collaboration_id = ? and co_writer_id = ?`, [req.params.id, req.params.coWriterId]);
+            if (coWriters.affectedRows === 0) {
+                res.status(404).json({ error: `Co-writer with id ${req.params.coWriterId} for collaboration id ${req.params.id} not found` });
+                return;
+            }
+            res.status(200).json({ message: `Co-writer with id ${req.params.coWriterId} for collaboration id ${req.params.id} deleted` });
         } catch (error) {
             res.status(500).json({ error: error.message });
         } finally {

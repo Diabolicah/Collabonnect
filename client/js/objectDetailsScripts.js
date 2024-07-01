@@ -7,6 +7,7 @@ function updateThresholdProgressBar(progressBar, threshold) {
 
 async function initObjectDetails(objectData){
     const {brandLogo, developerLogo} = await getCollaborationLogos(objectData);
+    const writerProfileImage = await getCollaborationWriterProfileImage(objectData);
     const threshold = await getCollaborationThresholdPercentage(objectData);
     document.querySelector("#collaboration_title").textContent = objectData.title;
     document.querySelector(".breadcrumb-item.active").textContent = objectData.title;
@@ -18,6 +19,7 @@ async function initObjectDetails(objectData){
     document.querySelector("#collaboration_brand_logo").src = `${brandLogo}`;
     document.querySelector("#collaboration_developer_logo").src = `${developerLogo}`;
     updateThresholdProgressBar(document.querySelector("#container_object_details .progress .progress-bar"), threshold);
+    document.querySelector("#collaboration_co_writers img").src = `${writerProfileImage}`;
 
 }
 

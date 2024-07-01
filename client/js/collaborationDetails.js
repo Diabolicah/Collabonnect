@@ -51,9 +51,21 @@ async function getCollaborationThresholdPercentage(collaboration) {
     return Math.floor(((collaboration.upvote - collaboration.downvote) / threshold) * 100);
 }
 
+async function getCollaborationWriterProfileImage(collaboration){
+    let writerProfileImage = '#';
+    await fetch(`${domain}/api/user/${collaboration.writer_id}`)
+        .then(response => {
+            if(response.status == 200)
+                return response.json();
+        })
+        .then(data => writerProfileImage = `${domain}/assets/profile_images/${data.profile_image}`);
+
+    return writerProfileImage;
+}
+
 async function getCollaborationCoWritersProfileImages(collaboration){
     let co_writers = null;
-    fetch(`${domain}/api/collaboration/${collaboration.id}/co_writers_images`)
+    await fetch(`${domain}/api/collaboration/${collaboration.id}/co_writers_images`)
     .then(response => {
         if(response.status == 200)
             return response.json();

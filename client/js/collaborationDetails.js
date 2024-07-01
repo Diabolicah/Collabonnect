@@ -50,3 +50,17 @@ async function getCollaborationThresholdPercentage(collaboration) {
 
     return Math.floor(((collaboration.upvote - collaboration.downvote) / threshold) * 100);
 }
+
+async function getCollaborationCoWritersProfileImages(collaboration){
+    let co_writers = null;
+    fetch(`${domain}/api/collaboration/${collaboration.id}/co_writers_images`)
+    .then(response => {
+        if(response.status == 200)
+            return response.json();
+    })
+    .then(data => {
+        co_writers = data;
+    });
+
+    return co_writers;
+}

@@ -17,16 +17,14 @@ async function getCollaborationLogos(collaboration) {
                 return response.json();
             else return null;
         })
-        .then(data => brandLogo = data.image_name);
+        .then(data => brandLogo = `${domain}/assets/${data.image_name}`);
 
     await fetch(`${domain}/api/developer/${collaboration.developer_id}`)
         .then(response => {
             if(response.status == 200)
                 return response.json();
         })
-        .then(data => developerLogo = data.image_name);
-
-    console.log(developerLogo, brandLogo);
+        .then(data => developerLogo = `${domain}/assets/${data.image_name}`);
 
     return {brandLogo, developerLogo};
 }

@@ -85,9 +85,39 @@ const collaborationController = {
     // PUT /api/collaboration/:id/paragraphs/:paragraphId
     async updateCollaborationParagraph(req, res) {},
     // DELETE /api/collaboration/:id
-    async deleteCollaboration(req, res) {},
+    async deleteCollaboration(req, res) {
+        const connection = await dbConnection.createConnection();
+
+        try {
+            const [collaborations] = await connection.execute(`DELETE FROM ${TABLE_NAME_PREFIX}_collaboration WHERE id = ?`, [req.params.id]);
+            if (collaborations.affectedRows === 0) {
+                res.status(404).json({ message: `Collaboration with id ${req.params.id} not found` });
+                return;
+            }
+            res.status(200).json({ message: `Collaboration with id ${req.params.id} deleted` });
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        } finally {
+            connection.end();
+        }
+    },
     // DELETE /api/collaboration/:id/paragraphs/:paragraphId
-    async deleteCollaborationParagraph(req, res) {}
+    async deleteCollaborationParagraph(req, res) {
+        const connection = await dbConnection.createConnection();
+
+        try {
+            const [paragraphs] = await connection.execute(`DELETE FROM ${TABLE_NAME_PREFIX}_collaboration_paragraph WHERE collaboration_id = ? and paragraph_id = ?`, [req.params.id, req.params.paragraphId]);
+            if (paragraphs.affectedRows === 0) {
+                res.status(404).json({ message: `Paragraph with id ${req.params.paragraphId} for collaboration id ${req.params.id} not found` });
+                return;
+            }
+            res.status(200).json({ message: `Paragraph with id ${req.params.paragraphId} for collaboration id ${req.params.id} deleted` });
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        } finally {
+            connection.end();
+        }
+    }
 };
 
 module.exports = { collaborationController };

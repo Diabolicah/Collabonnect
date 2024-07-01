@@ -373,6 +373,7 @@ ol.breadcrumb {
     justify-content: center;
     border-radius: 15px;
     cursor: pointer;
+    order: 9999;
 }
 
 #container_paragraphs #object_adder {

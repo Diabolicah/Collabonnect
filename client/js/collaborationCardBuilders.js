@@ -76,13 +76,15 @@ function createCollaborationCardCircularProgressBar(percentage) {
 
 async function homePageCollaborationCardBuilder(details) {
     const { id, title, description, upvote, downvote, status, ai_readability } = details;
-    const {brandLogo, developerLogo} = await getCollaborationLogos({brand_id: details.brand_id, developer_id: details.developer_id});
     const collaboration_card = document.createElement("section");
     collaboration_card.className = "collaboration_card";
-
+    
     const first_section = document.createElement("section");
     first_section.appendChild(createCollaborationCardTitle(title));
-    first_section.appendChild(createCollaborationCardLogos(developerLogo, brandLogo));
+    getCollaborationLogos({brand_id: details.brand_id, developer_id: details.developer_id})
+        .then(({developerLogo, brandLogo}) => {
+            first_section.appendChild(createCollaborationCardLogos(developerLogo, brandLogo));
+        });
     collaboration_card.appendChild(first_section);
 
     collaboration_card.appendChild(createCollaborationCardDetails(upvote, downvote, ai_readability));
@@ -100,8 +102,11 @@ async function homePageCollaborationCardBuilder(details) {
     collaboration_card_status.appendChild(status_span);
     fourth_section.appendChild(collaboration_card_status);
 
-    const circular_progress_bar = createCollaborationCardCircularProgressBar(getCollaborationThresholdPercentage(details));
-    fourth_section.appendChild(circular_progress_bar);
+    getCollaborationThresholdPercentage(details)
+        .then(percentage => {
+            const circular_progress_bar = createCollaborationCardCircularProgressBar(percentage);
+            fourth_section.appendChild(circular_progress_bar);
+        });
     collaboration_card.appendChild(fourth_section);
 
     const fifth_section = document.createElement("section");
@@ -138,15 +143,3 @@ async function homePageCollaborationCardBuilder(details) {
 
     return collaboration_card;
 }
-
-homePageCollaborationCardBuilder({
-    id: 1,
-    title: "Sample Title",
-    description: "Sample Description",
-    upvote: 10,
-    downvote: 5,
-    status: "Pending",
-    ai_readability: 90,
-    brand_id: 1,
-    developer_id: 1
-}).then(collaboration_card => console.log(collaboration_card));

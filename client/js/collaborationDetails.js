@@ -76,3 +76,10 @@ async function getCollaborationCoWritersProfileImages(collaboration){
 
     return co_writers;
 }
+
+async function getCollaborationsList() {
+    const response = await fetch(`${domain}/api/collaboration`);
+    if(response.status == 200)
+        return await response.json();
+    return null;
+}

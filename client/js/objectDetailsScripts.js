@@ -35,7 +35,8 @@ async function initObjectDetails(objectData){
     document.querySelector(".circular_progress_bar span").textContent = objectData.ai_readability;
     updateCircularProgressBar(document.querySelector(".circular_progress_bar"), objectData.ai_readability, "#2E2C2C");
 
-    populateCollaborationCoWriters(await getCollaborationCoWritersProfileImages(objectData));
+    getCollaborationCoWritersProfileImages(objectData)
+        .then(populateCollaborationCoWriters);
 
 }
 

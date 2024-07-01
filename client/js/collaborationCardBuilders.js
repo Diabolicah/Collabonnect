@@ -134,7 +134,7 @@ async function homePageCollaborationCardBuilder(details) {
 
     edit_img.addEventListener("click", (event) => {
         event.stopPropagation();
-        window.location.href = `../objectDetails.html?id=${id}&edit=true`;
+        window.location.href = `./objectDetails.html?id=${id}&edit=true`;
     });
 
     delete_img.addEventListener("click", (event) => {

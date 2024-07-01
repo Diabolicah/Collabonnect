@@ -173,7 +173,7 @@ const collaborationController = {
             });
             return;
         }
-        
+
         const connection = await dbConnection.createConnection();
 
         try {
@@ -201,7 +201,7 @@ const collaborationController = {
         }
 
         const connection = await dbConnection.createConnection();
-        
+
         try {
             const [collaborations] = await connection.execute(`UPDATE ${TABLE_NAME_PREFIX}_collaboration SET ai_readability = ? WHERE id = ?`, [readability, req.params.id]);
             if (collaborations.affectedRows === 0) {

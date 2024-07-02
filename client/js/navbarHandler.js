@@ -27,13 +27,11 @@ function updateActiveNavbarTab(tabList) {
     const searchParams = new URLSearchParams(window.location.search);
     if (searchParams.get("fromPage") == "Vote") {
         let voteTabList = document.querySelectorAll("nav a:nth-child(2)");
-        console.log(voteTabList);
         updateActiveNavbarTab(voteTabList);
     }
 
     if (searchParams.get("fromPage") == "Brand") {
         let voteTabList = document.querySelectorAll("nav a:nth-child(4)");
-        console.log(voteTabList);
         updateActiveNavbarTab(voteTabList);
     }
 })();

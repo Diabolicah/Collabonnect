@@ -24,7 +24,7 @@
             <section id="top_bar">
                 <a href="index.html" id="logo"></a>
                 <nav>
-                    <a href="#">
+                    <a href="./index.html">
                         My Collaborations
                     </a>
                     <a href="./votePage.html">
@@ -63,7 +63,7 @@
             </section>
             <section id="responsive_top_bar">
                 <nav>
-                    <a href="#">
+                    <a href="./index.html">
                         My Collaborations
                     </a>
                     <a href="./votePage.html">
@@ -86,6 +86,11 @@
                     <img src="images/edit_icon.svg" alt="edit_icon">
                 </section>
                 <img src="#" alt="brand_logo" id="brand_logo">
+                <h2>Milestones</h2>
+                <section id="milestones_container">
+
+                </section>
+                <h2>Collaboration Candidates</h2>
                 <section id="search_bar_container">
                     <section id="search_bar">
                         <img src="images/search_icon.svg" alt="search_icon">
@@ -95,23 +100,20 @@
                     <img src="images/information_icon.svg" alt="information_icon">
                 </section>
                 <section id="collaboration_cards_container">
-                    <section id="object_adder">
-                        <img src="./images/add_object_icon.svg" alt="plus_circle_icon">
-                    </section>
                 </section>
             </div>
         </main>
-        <div class="modal fade" id="deleteCollaborationModal" tabindex="-1" aria-labelledby="deleteCollaborationModalLabel" aria-hidden="true">
+        <div class="modal fade" id="updateCollaborationStatusModal" tabindex="-1" aria-labelledby="updateCollaborationStatusModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="deleteCollaborationModalLabel">Delete</h1>
+                  <h1 class="modal-title fs-5" id="updateCollaborationStatusModalLabel">Update Status</h1>
                 </div>
                 <div class="modal-body">
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn" data-bs-dismiss="modal">Cancel</button>
-                  <button id="deleteCollaborationButton" type="button" class="btn">Delete</button>
+                  <button id="updateCollaborationStatusButton" type="button" class="btn">Update</button>
                 </div>
               </div>
             </div>

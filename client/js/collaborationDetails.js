@@ -102,3 +102,31 @@ async function deleteCollaboration(collaborationId) {
         return true;
     return false;
 }
+
+async function approveCollaboration(collaborationId) {
+    const domain = await Settings.domain();
+    const response = await fetch(`${domain}/api/collaboration/${collaborationId}/status`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({"status": "Approved"})
+    });
+    if(response.status == 200)
+        return true;
+    return false;
+}
+
+async function rejectCollaboration(collaborationId) {
+    const domain = await Settings.domain();
+    const response = await fetch(`${domain}/api/collaboration/${collaborationId}/status`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({"status": "Rejected"})
+    });
+    if(response.status == 200)
+        return true;
+    return false;
+}

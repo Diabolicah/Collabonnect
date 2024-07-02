@@ -6,4 +6,6 @@ const brandRouter = Router();
 brandRouter.get('/', brandController.getAllBrands);
 brandRouter.get('/:id', brandController.getBrandById);
 
+brandRouter.put('/:id/threshold', brandController.updateBrandById);
+
 module.exports = { brandRouter };

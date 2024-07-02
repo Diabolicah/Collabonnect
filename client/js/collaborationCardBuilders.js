@@ -62,7 +62,7 @@ function createCollaborationCardDetails(upvoteAmount, downvoteAmount, ai_readabi
 
 function createCollaborationCardCircularProgressBar(percentage) {
     if (percentage <= 0)
-        return;
+        return null;
     if (percentage > 100)
         percentage = 100;
     const section = document.createElement("section");
@@ -75,6 +75,24 @@ function createCollaborationCardCircularProgressBar(percentage) {
     section.appendChild(span);
 
     return section;
+}
+
+function createCollaborationCardBrandButtons() {
+    const brand_buttons = document.createElement("section");
+    brand_buttons.className = "brand_buttons";
+
+    const reject_button = document.createElement("button");
+    reject_button.className = "brand_reject_button";
+    reject_button.textContent = "Reject";
+    brand_buttons.appendChild(reject_button);
+
+    const approve_button = document.createElement("button");
+    approve_button.className = "brand_approve_button";
+    approve_button.textContent = "Approve";
+    brand_buttons.appendChild(approve_button);
+
+    return brand_buttons;
+
 }
 
 async function homePageCollaborationCardBuilder(details) {
@@ -195,6 +213,84 @@ async function votePageCollaborationCardBuilder(details) {
 
     collaboration_card.addEventListener("click", () => {
         window.location.href = `./objectDetails.html?id=${id}&fromPage=Vote&vote=true`;
+    });
+
+    return collaboration_card;
+}
+
+async function brandPageCollaborationCardBuilder(details) {
+    const { id, title, description, upvote, downvote, status, ai_readability } = details;
+    const collaboration_card = document.createElement("section");
+    collaboration_card.className = "collaboration_card";
+
+    const first_section = document.createElement("section");
+    first_section.appendChild(createCollaborationCardTitle(title));
+    getCollaborationLogos({brand_id: details.brand_id, developer_id: details.developer_id})
+        .then(({developerLogo, brandLogo}) => {
+            first_section.appendChild(createCollaborationCardLogos(developerLogo, brandLogo));
+        });
+    collaboration_card.appendChild(first_section);
+
+    const second_section = createCollaborationCardDetails(upvote, downvote)
+    collaboration_card.appendChild(second_section);
+
+    getCollaborationThresholdPercentage(details)
+    .then(percentage => {
+        const circular_progress_bar = createCollaborationCardCircularProgressBar(percentage);
+        if (circular_progress_bar)
+            second_section.appendChild(circular_progress_bar);
+    });
+
+    const third_section = document.createElement("section");
+    const descriptionParagraph = document.createElement("p");
+    descriptionParagraph.textContent = description;
+    third_section.appendChild(descriptionParagraph);
+    collaboration_card.appendChild(third_section);
+
+    const fourth_section = createCollaborationCardBrandButtons();
+    collaboration_card.appendChild(fourth_section);
+
+    const fifth_section = document.createElement("section");
+    collaboration_card.appendChild(fifth_section);
+
+    collaboration_card.addEventListener("click", () => {
+        window.location.href = `./objectDetails.html?id=${id}&fromPage=Brand`;
+    });
+
+    //Add event listeners to the buttons
+    const reject_button = collaboration_card.querySelector(".brand_reject_button");
+    const approve_button = collaboration_card.querySelector(".brand_approve_button");
+    reject_button.addEventListener("click", async (event) => {
+        event.stopPropagation();
+        const updateCollaborationStatusModal = new bootstrap.Modal('#updateCollaborationStatusModal', {})
+        updateCollaborationStatusModal.show();
+        document.querySelector("#updateCollaborationStatusModal .modal-body").textContent = `Are you sure you want to reject\n "${title}"`;
+        const rejectCollaborationFunc = async () => {
+            await rejectCollaboration(id);
+            console.log("Rejected", id);
+            collaboration_card.remove();
+            updateCollaborationStatusModal.hide();
+        }
+        document.getElementById("updateCollaborationStatusButton").addEventListener("click", rejectCollaborationFunc);
+        updateCollaborationStatusModal._element.addEventListener("hide.bs.modal", () => {
+            document.getElementById("updateCollaborationStatusButton").removeEventListener("click", rejectCollaborationFunc);
+        });
+    });
+
+    approve_button.addEventListener("click", async (event) => {
+        event.stopPropagation();
+        const updateCollaborationStatusModal = new bootstrap.Modal('#updateCollaborationStatusModal', {})
+        updateCollaborationStatusModal.show();
+        document.querySelector("#updateCollaborationStatusModal .modal-body").textContent = `Are you sure you want to approve\n "${title}"`;
+        const approveCollaborationFunc = async () => {
+            await approveCollaboration(id);
+            collaboration_card.remove();
+            updateCollaborationStatusModal.hide();
+        }
+        document.getElementById("updateCollaborationStatusButton").addEventListener("click", approveCollaborationFunc);
+        updateCollaborationStatusModal._element.addEventListener("hide.bs.modal", () => {
+            document.getElementById("updateCollaborationStatusButton").removeEventListener("click", approveCollaborationFunc);
+        });
     });
 
     return collaboration_card;

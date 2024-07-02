@@ -640,6 +640,15 @@ ol.breadcrumb {
     margin-bottom: 16px;
 }
 
+#wrapper > h2 {
+    color: #FFF;
+    font-family: Merriweather;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
 #search_bar_container {
     display: flex;
     margin-bottom: 16px;
@@ -950,6 +959,7 @@ ol.breadcrumb {
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+    margin-bottom: 20px;
 }
 
 #threshold img {
@@ -963,6 +973,73 @@ ol.breadcrumb {
     position: absolute;
     top: 80px;
     right: 40px;
+}
+
+#milestones_container {
+    width: 100%;
+    min-height: 148px;
+    border-radius: 15px;
+    background: #44444480;
+    margin-bottom: 28px;
+}
+
+.brand_buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 10px;
+}
+
+.brand_approve_button {
+    width: 60px;
+    height: 30px;
+    border-radius: 5px;
+    background: #20C997;
+    color: #FFF;
+    font-family: Merriweather;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    border: none;
+}
+
+.brand_reject_button {
+    width: 60px;
+    height: 30px;
+    border-radius: 5px;
+    background: #DC3545;
+    color: #FFF;
+    font-family: Merriweather;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    border: none;
+
+}
+
+#updateCollaborationStatusModal .modal-footer {
+    display: flex;
+    justify-content: space-around;
+}
+
+#updateCollaborationStatusModal .modal-footer button {
+    width: 100px;
+    height: 50px;
+    border-radius: 15px;
+    background-color: #444444;
+    stroke: #000000;
+    color: #FFF;
+    font-family: Merriweather;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+#updateCollaborationStatusButton {
+    background-color: #35addc !important;
 }
 
 /* media query */

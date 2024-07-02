@@ -281,6 +281,7 @@ ol.breadcrumb {
     height: 32px;
     margin-right: 15px;
     border-radius: 50%;
+    border: 1px solid;
 }
 
 #container_object_details #collaboration_co_writers img:last-child {

@@ -81,6 +81,24 @@ async function getCollaborationCoWritersProfileImages(collaboration){
     return co_writers;
 }
 
+async function getCollaborationEditLogs(collaboration){
+    let edit_logs = null;
+    await fetch(`${domain}/api/collaboration/${collaboration.id}/logs`)
+        .then(response => {
+            if(response.status == 200)
+                return response.json();
+        })
+        .then(data => {
+            data.forEach(element => {
+                const date = new Date(element.date);
+                element.date = `${date.getDate().toString().padStart(2, '0')}-${(date.getMonth()+1).toString().padStart(2, '0')}-${date.getFullYear()}`;
+            })
+            edit_logs = data;
+        })
+
+    return edit_logs;
+}
+
 async function getCollaborationsList() {
     const response = await fetch(`${domain}/api/collaboration`);
     if(response.status == 200)

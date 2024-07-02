@@ -78,7 +78,7 @@ async function homePageCollaborationCardBuilder(details) {
     const { id, title, description, upvote, downvote, status, ai_readability } = details;
     const collaboration_card = document.createElement("section");
     collaboration_card.className = "collaboration_card";
-    
+
     const first_section = document.createElement("section");
     first_section.appendChild(createCollaborationCardTitle(title));
     getCollaborationLogos({brand_id: details.brand_id, developer_id: details.developer_id})
@@ -139,6 +139,19 @@ async function homePageCollaborationCardBuilder(details) {
 
     delete_img.addEventListener("click", (event) => {
         event.stopPropagation();
+        const deleteModal = new bootstrap.Modal('#deleteCollaborationModal', {})
+        deleteModal.show();
+        document.querySelector("#deleteCollaborationModal .modal-body").textContent = `Are you sure you want to delete\n ${title} collaboration`;
+        const deleteCollaborationFunc = async () => {
+            await deleteCollaboration(id);
+            collaboration_card.remove();
+            deleteModal.hide();
+        }
+        document.getElementById("deleteCollaborationButton").addEventListener("click", deleteCollaborationFunc);
+
+        deleteModal._element.addEventListener("hide.bs.modal", () => {
+            document.getElementById("deleteCollaborationButton").removeEventListener("click", deleteCollaborationFunc);
+        });
     });
 
     return collaboration_card;

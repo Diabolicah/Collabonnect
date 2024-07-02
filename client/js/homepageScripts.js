@@ -41,4 +41,10 @@ window.onload = async () => {
         const newCollaborationModal = new bootstrap.Modal('#newCollaborationModal', {})
         newCollaborationModal.show();
     });
+
+    const information_button = document.querySelector("#search_bar_container > img");
+    information_button.addEventListener("click", () => {
+        const newCollaborationModal = new bootstrap.Modal('#cardInformationModal', {})
+        newCollaborationModal.show();
+    });
 }

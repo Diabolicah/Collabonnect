@@ -1,6 +1,5 @@
 function createDefaultParagraph(paragraphDetails, isEditMode){
     isEditMode = isEditMode || false;
-    console.log(isEditMode);
     const paragraph = document.createElement("section");
     paragraph.classList.add("paragraph");
 
@@ -39,31 +38,9 @@ function createDefaultParagraph(paragraphDetails, isEditMode){
     return paragraph;
 }
 
-{/* <section class="paragraph">
-<section class="paragraph_title_and_status">
-    <h2>Paragraph 2</h2>
-    <section class="pending">Pending</section>
-</section>
-<section class="paragraph_image_video">
-    <img class="paragraph_image" src="./images/image_placeholder.svg" alt="image_placeholder">
-    <!-- <iframe class="paragraph_video" src="https://www.youtube.com/embed/YwJotfRP1MI" frameborder="0" allowfullscreen></iframe> -->
-</section>
-<p>
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sagittis
-    bibendum laoreet. Vestibulum velit tortor, maximus eu scelerisque ut,
-    venenatis sit amet augue. Quisque semper nulla feugiat libero molestie
-    faucibus. Vestibulum sit amet urna orci. Vestibulum ante ipsum primis in
-    faucibus orci luctus et ultrices posuere cubilia curae; Donec ut dictum
-    metus. Quisque eu tellus luctus, fermentum risus in, tincidunt diam. In
-    tristique, turpis in porttitor vestibulum, tellus ipsum elementum nisi,
-    a faucibus eros ante ac nunc. Interdum et malesuada fames ac ante ipsum
-    primis in faucibus.
-</p>
-</section> */}
+function getElementParagraphImageVideo(paragraph, isEditMode){
+    let paragraphImageVideo = paragraph.querySelector(".paragraph_image_video");
 
-function addImage(paragraph, paragraphDetails, isEditMode) {
-    isEditMode = isEditMode || false;
-    let paragraphImageVideo = paragraph.querySelector("paragraph_image_video");
     if(!paragraphImageVideo){
         paragraphImageVideo = document.createElement("section");
         paragraphImageVideo.classList.add("paragraph_image_video");
@@ -73,14 +50,44 @@ function addImage(paragraph, paragraphDetails, isEditMode) {
         }
         else paragraph.querySelector(".paragraph_title_and_status").after(paragraphImageVideo);
     }
+
+    return paragraphImageVideo;
+}
+
+function addImage(paragraph, paragraphDetails, isEditMode) {
+    isEditMode = isEditMode || false;
+    let paragraphImageVideo = getElementParagraphImageVideo(paragraph, isEditMode);
     const paragraphImg = document.createElement("img");
-    paragraphImg.src = isEditMode ? "./images/upload_placeholder.svg": `${domain}/assets/profile_images/${paragraphDetails.image}`;
+    paragraphImg.src = isEditMode ? "./images/upload_placeholder_image.svg": `${domain}/assets/paragraph_image/${paragraphDetails.image}`;
     paragraphImg.alt = "image_placeholder";
     paragraphImg.classList.add("paragraph_image");
+    if(isEditMode)
+        paragraphImg.classList.add("edit_mode");
 
     paragraphImageVideo.appendChild(paragraphImg);
 
     return paragraph;
+}
+
+function addVideo(paragraph, paragraphDetails, isEditMode) {
+    isEditMode = isEditMode || false;
+    let paragraphImageVideo = getElementParagraphImageVideo(paragraph, isEditMode);
+    const paragraphVideo = document.createElement(`${isEditMode ? "img" : "iframe"}`);
+    paragraphVideo.src = isEditMode ? "./images/upload_placeholder_video.svg": `${paragraphDetails.video}`;
+    paragraphVideo.alt = "video_placeholder";
+    paragraphVideo.classList.add("paragraph_video");
+    if(isEditMode)
+        paragraphVideo.classList.add("edit_mode");
+
+
+    paragraphImageVideo.appendChild(paragraphVideo);
+
+    return paragraph;
+}
+
+function addImageAndVideo(paragraph, paragraphDetails, isEditMode){
+    const currParagraph = addImage(paragraph, paragraphDetails, isEditMode);
+    return addVideo(currParagraph, paragraphDetails, isEditMode);
 }
 
 function createParagraph(paragraphDetails, isEditMode){

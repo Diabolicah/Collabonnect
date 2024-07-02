@@ -54,7 +54,8 @@ function getElementParagraphImageVideo(paragraph, isEditMode){
     return paragraphImageVideo;
 }
 
-function addImage(paragraph, paragraphDetails, isEditMode) {
+async function addImage(paragraph, paragraphDetails, isEditMode) {
+    const domain = await Settings.domain();
     isEditMode = isEditMode || false;
     let paragraphImageVideo = getElementParagraphImageVideo(paragraph, isEditMode);
     const paragraphImg = document.createElement("img");
@@ -85,18 +86,18 @@ function addVideo(paragraph, paragraphDetails, isEditMode) {
     return paragraph;
 }
 
-function addImageAndVideo(paragraph, paragraphDetails, isEditMode){
-    const currParagraph = addImage(paragraph, paragraphDetails, isEditMode);
+async function addImageAndVideo(paragraph, paragraphDetails, isEditMode){
+    const currParagraph = await addImage(paragraph, paragraphDetails, isEditMode);
     return addVideo(currParagraph, paragraphDetails, isEditMode);
 }
 
-function createParagraph(paragraphDetails, isEditMode){
+async function createParagraph(paragraphDetails, isEditMode){
     isEditMode = isEditMode || false;
     let paragraph = createDefaultParagraph(paragraphDetails, isEditMode);
     if(paragraphDetails.image && paragraphDetails.video){
-        return paragraph = addImageAndVideo(paragraph, paragraphDetails, isEditMode);
+        return paragraph = await addImageAndVideo(paragraph, paragraphDetails, isEditMode);
     }else if(paragraphDetails.image){
-        return paragraph = addImage(paragraph, paragraphDetails, isEditMode);
+        return paragraph = await addImage(paragraph, paragraphDetails, isEditMode);
     }else if(paragraphDetails.video){
         return paragraph = addVideo(paragraph, paragraphDetails, isEditMode);
     }

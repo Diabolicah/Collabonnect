@@ -48,8 +48,8 @@ function populateCollaborationEditLogs(editLogs) {
 function populateCollaborationParagraphs(paragraphs) {
     const containerParagraphs = document.querySelector("#container_paragraphs");
 
-    paragraphs.forEach(element => {
-        const paragraph = createParagraph(element);
+    paragraphs.forEach(async element => {
+        const paragraph = await createParagraph(element);
         containerParagraphs.appendChild(paragraph);
     })
 }

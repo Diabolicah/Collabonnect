@@ -310,7 +310,6 @@ const collaborationController = {
             res.status(200).json({ message: `Paragraph with id ${req.params.paragraphId} for collaboration id ${req.params.id} deleted` });
         } catch (error) {
             res.status(500).json({ error: error.message });
-            console.log(error);
         } finally {
             connection.end();
         }

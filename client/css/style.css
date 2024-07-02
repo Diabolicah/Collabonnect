@@ -557,6 +557,7 @@ ol.breadcrumb {
     background-color: #FFF;
     padding: 5px 12px 5px 12px;
     cursor: pointer;
+    flex-basis: 290px;
 }
 
 .collaboration_card > section {
@@ -643,6 +644,45 @@ ol.breadcrumb {
     font-style: normal !important;
     font-weight: 700 !important;
     line-height: normal !important;
+}
+
+#deleteCollaborationModal .modal-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    background-color: #FFF;
+    border-radius: 15px;
+    color: #000;
+    font-family: Merriweather;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+#deleteCollaborationModal .modal-footer {
+    display: flex;
+    justify-content: space-around;
+}
+
+#deleteCollaborationModal .modal-footer button {
+    width: 100px;
+    height: 50px;
+    border-radius: 15px;
+    background-color: #444444;
+    stroke: #000000;
+    color: #FFF;
+    font-family: Merriweather;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+#deleteCollaborationButton {
+    background-color: #DC3545 !important;
 }
 
 /* media query */

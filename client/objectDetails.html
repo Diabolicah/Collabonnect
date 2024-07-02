@@ -13,7 +13,8 @@
         <link rel="stylesheet" href="css/style.css">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
         <script src="js/navbarHandler.js" defer></script>
-        <script src="js/circularProgressBarHandler.js" defer></script>
+        <script src="js/circularProgressBarHandler.js"></script>
+        <script src="js/collaborationParagraphBuilder.js"></script>
         <script src="js/collaborationDetails.js"></script>
         <script src="js/objectDetailsScripts.js"></script>
     </head>
@@ -115,7 +116,7 @@
                                 <hr>
                             </section>
                             <section id="container_paragraphs">
-                                <section class="paragraph text">
+                            <section class="paragraph">
                                 <section class="paragraph_title_and_status">
                                     <h2>Summary</h2>
                                     <section>Up to date</section>
@@ -132,10 +133,13 @@
                                     primis in faucibus.
                                 </p>
                             </section>
-                            <section class="paragraph text">
+                            <section class="paragraph">
                                 <section class="paragraph_title_and_status">
                                     <h2>Paragraph 2</h2>
                                     <section>Up to date</section>
+                                </section>
+                                <section class="paragraph_image_video">
+                                    <!-- <iframe class="paragraph_video" src="https://www.youtube.com/embed/YwJotfRP1MI" frameborder="0" allowfullscreen></iframe> -->
                                 </section>
                                 <p>
                                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sagittis
@@ -150,27 +154,25 @@
                                 </p>
                             </section>
                             <section class="paragraph">
-                                <section>
-                                    <section class="paragraph_title_and_status">
-                                        <h2>Paragraph 2</h2>
-                                        <section class="pending">Pending</section>
-                                    </section>
-                                    <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sagittis
-                                        bibendum laoreet. Vestibulum velit tortor, maximus eu scelerisque ut,
-                                        venenatis sit amet augue. Quisque semper nulla feugiat libero molestie
-                                        faucibus. Vestibulum sit amet urna orci. Vestibulum ante ipsum primis in
-                                        faucibus orci luctus et ultrices posuere cubilia curae; Donec ut dictum
-                                        metus. Quisque eu tellus luctus, fermentum risus in, tincidunt diam. In
-                                        tristique, turpis in porttitor vestibulum, tellus ipsum elementum nisi,
-                                        a faucibus eros ante ac nunc. Interdum et malesuada fames ac ante ipsum
-                                        primis in faucibus.
-                                    </p>
+                                <section class="paragraph_title_and_status">
+                                    <h2>Paragraph 2</h2>
+                                    <section class="pending">Pending</section>
                                 </section>
-                                <section class="paragraph_container_image_video">
+                                <section class="paragraph_image_video">
                                     <img class="paragraph_image" src="./images/image_placeholder.svg" alt="image_placeholder">
-                                    <img class="paragraph_video" src="./images/video_placeholder.jpg" alt="image_video_placeholder">
+                                    <!-- <iframe class="paragraph_video" src="https://www.youtube.com/embed/YwJotfRP1MI" frameborder="0" allowfullscreen></iframe> -->
                                 </section>
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sagittis
+                                    bibendum laoreet. Vestibulum velit tortor, maximus eu scelerisque ut,
+                                    venenatis sit amet augue. Quisque semper nulla feugiat libero molestie
+                                    faucibus. Vestibulum sit amet urna orci. Vestibulum ante ipsum primis in
+                                    faucibus orci luctus et ultrices posuere cubilia curae; Donec ut dictum
+                                    metus. Quisque eu tellus luctus, fermentum risus in, tincidunt diam. In
+                                    tristique, turpis in porttitor vestibulum, tellus ipsum elementum nisi,
+                                    a faucibus eros ante ac nunc. Interdum et malesuada fames ac ante ipsum
+                                    primis in faucibus.
+                                </p>
                             </section>
                             <section id="object_adder">
                                 <img src="./images/add_object_icon.svg" alt="plus_circle_icon">
@@ -198,10 +200,6 @@
                             <section id="edit_logs">
                                 <h4>Edit Logs</h4>
                                 <hr>
-                                <section>
-                                    <img src="./images/Profile picture.png" alt="user_image">
-                                    <span>04-03-2024</span>
-                                </section>
                             </section>
                         </section>
                     </section>
@@ -275,7 +273,6 @@
                             <span class="placeholder col-3 placeholder-sm"></span>
                         </section>
                         <img class="paragraph_type_video" src="./images/video_placeholder.jpg" alt="image_video_placeholder">
-                        <!-- <iframe class="paragraph_type_video" src="https://www.youtube.com/embed/YwJotfRP1MI" frameborder="0" allowfullscreen></iframe> -->
                     </section>
                     <section class="paragraph_type">
                         <section class="paragraph_type_text">

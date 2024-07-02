@@ -17,6 +17,7 @@ function populateCollaborationCoWriters(coWriters) {
 }
 
 async function createCollaborationLog(editLog) {
+    const domain = await Settings.domain();
     const sectionLog = document.createElement("section");
     const spanDate = document.createElement("span");
     spanDate.textContent = editLog.date;

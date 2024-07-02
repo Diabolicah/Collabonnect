@@ -17,12 +17,11 @@ function updateActiveNavbarTab(tabList) {
     tabList.forEach((tab) => tab.classList.add("active_nav"));
 }
 
-(async () => {
-    const {nav_bar_domain = domain, nav_bar_user_id = user_id} = await fetch("./data/settings.json")
-    .then((response) => response.json());
-    const nav_bar_user_details = await fetch(`${nav_bar_domain}/api/user/${nav_bar_user_id}`)
-    .then(response => response.json());
-    nav_bar_user_details.profile_image = `${nav_bar_domain}/assets/profile_images/${nav_bar_user_details.profile_image}`;
+(async function() {
+    const domain = await Settings.domain();
+    const user_id = await Settings.user_id();
+    const nav_bar_user_details = await fetch(`${domain}/api/user/${user_id}`).then(response => response.json());
+    nav_bar_user_details.profile_image = `${domain}/assets/profile_images/${nav_bar_user_details.profile_image}`;
     updateNavbarDetails(nav_bar_user_details);
 
     const searchParams = new URLSearchParams(window.location.search);

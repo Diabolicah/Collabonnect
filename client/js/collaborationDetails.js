@@ -1,35 +1,11 @@
-let user_id, domain;
-
-(async () => {
-    await fetch("./data/settings.json")
-        .then((response) => response.json())
-        .then(data => {
-            user_id = data.user_id;
-            domain = data.domain;
-        });
-})();
-
 async function getCollaborationLogos(collaboration) {
-    const brandPromise = fetch(`${domain}/api/brand/${collaboration.brand_id}`)
-        .then(response => {
-            if(response.status == 200)
-                return response.json();
-        })
-        .then(data => brandLogo = `${domain}/assets/brand_images/${data?.image_name}`);
-
-    const developerPromise = fetch(`${domain}/api/developer/${collaboration.developer_id}`)
-        .then(response => {
-            if(response.status == 200)
-                return response.json();
-        })
-        .then(data => developerLogo = `${domain}/assets/developer_images/${data?.image_name}`);
-
-    return await Promise.all([brandPromise, developerPromise]).then(values => {
-        return {"brandLogo": values[0], "developerLogo": values[1]};
-    });
+    const BrandData = await Data.brands();
+    const DeveloperData = await Data.developers();
+    return {"brandLogo": BrandData[collaboration.brand_id].image, "developerLogo": DeveloperData[collaboration.developer_id].image};
 }
 
 async function getCollaborationDetails(collaborationId) {
+    const domain = await Settings.domain();
     const response = await fetch(`${domain}/api/collaboration/${collaborationId}`);
     if(response.status == 200)
         return await response.json();
@@ -37,21 +13,15 @@ async function getCollaborationDetails(collaborationId) {
 }
 
 async function getCollaborationThresholdPercentage(collaboration) {
-    let threshold = 0;
-    await fetch(`${domain}/api/brand/${collaboration.brand_id}`)
-        .then(response => {
-            if(response.status == 200)
-                return response.json();
-        })
-        .then(data => threshold = data.threshold);
-
+    const brandData = await Data.brands();
+    let threshold = brandData[collaboration.brand_id].threshold;
     if(threshold == 0)
         return 0;
-
     return Math.floor(((collaboration.upvote - collaboration.downvote) / threshold) * 100);
 }
 
 async function getCollaborationWriterProfileImage(collaboration){
+    const domain = await Settings.domain();
     let writerProfileImage = '#';
     await fetch(`${domain}/api/user/${collaboration.writer_id}`)
         .then(response => {
@@ -64,6 +34,7 @@ async function getCollaborationWriterProfileImage(collaboration){
 }
 
 async function getCollaborationCoWritersProfileImages(collaboration){
+    const domain = await Settings.domain();
     let co_writers = null;
     await fetch(`${domain}/api/collaboration/${collaboration.id}/co_writers_images`)
         .then(response => {
@@ -81,6 +52,7 @@ async function getCollaborationCoWritersProfileImages(collaboration){
 }
 
 async function getCollaborationEditLogs(collaboration){
+    const domain = await Settings.domain();
     let edit_logs = null;
     await fetch(`${domain}/api/collaboration/${collaboration.id}/logs`)
         .then(response => {
@@ -99,6 +71,7 @@ async function getCollaborationEditLogs(collaboration){
 }
 
 async function getCollaborationParagraphs(collaboration) {
+    const domain = await Settings.domain();
     let paragraphs = null;
     await fetch(`${domain}/api/collaboration/${collaboration.id}/paragraphs`)
         .then(response => {
@@ -113,6 +86,7 @@ async function getCollaborationParagraphs(collaboration) {
 }
 
 async function getCollaborationsList() {
+    const domain = await Settings.domain();
     const response = await fetch(`${domain}/api/collaboration`);
     if(response.status == 200)
         return await response.json();
@@ -120,6 +94,7 @@ async function getCollaborationsList() {
 }
 
 async function deleteCollaboration(collaborationId) {
+    const domain = await Settings.domain();
     const response = await fetch(`${domain}/api/collaboration/${collaborationId}`, {
         method: 'DELETE'
     });

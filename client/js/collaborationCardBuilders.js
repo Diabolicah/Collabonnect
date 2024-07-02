@@ -1,6 +1,5 @@
 function createCollaborationCardTitle(title) {
     const collaboration_card_title = document.createElement("h2");
-
     collaboration_card_title.textContent = title;
     return collaboration_card_title;
 }
@@ -46,7 +45,7 @@ function createCollaborationCardDetails(upvoteAmount, downvoteAmount, ai_readabi
         collaboration_card_details.appendChild(collaboration_card_downvote);
     }
 
-    if (ai_readabilityPercentage) {
+    if (ai_readabilityPercentage || ai_readabilityPercentage === 0) {
         const collaboration_card_ai_readability = document.createElement("section");
         const img = document.createElement("img");
         img.src = "./images/ai_icon.svg";

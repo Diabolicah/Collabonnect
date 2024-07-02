@@ -91,7 +91,6 @@ const collaborationController = {
     },
     // POST /api/collaboration
     async createCollaboration(req, res) {
-        console.log(req.body);
         const { user_id, title, description, developer_id, brand_id } = req.body;
         if (!user_id || !title || !developer_id || !brand_id || !description) {
             res.status(400).json({

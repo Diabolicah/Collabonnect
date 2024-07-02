@@ -1,43 +1,37 @@
-async function populateFormBrandSelection() {
-    const { domain } = await fetch("./data/settings.json").then((response) => response.json());
-    const brands = await fetch(`${domain}/api/brand/`).then(response => response.json());
+function createOptionElement(value, text) {
+    const option = document.createElement("option");
+    option.value = value;
+    option.text = text;
+    return option;
+}
 
+async function populateFormBrandSelection() {
+    const brandsData = await Data.brands();
     const brandSelect = document.getElementById("collaborationBrandDataList");
-    const defaultOption = document.createElement("option");
-    defaultOption.value = "";
-    defaultOption.text = "Select a brand";
+    const defaultOption = createOptionElement("", "Select a brand");
     defaultOption.selected = true;
     defaultOption.disabled = true;
     brandSelect.appendChild(defaultOption);
-    brands.forEach(brand => {
-        const option = document.createElement("option");
-        option.value = brand.id;
-        option.text = brand.name;
+    for (let brand of Object.values(brandsData)) {
+        const option = createOptionElement(brand.id, brand.name);
         brandSelect.appendChild(option);
-    });
+    }
 }
 
 async function populateFormDeveloperSelection() {
-    const { domain } = await fetch("./data/settings.json").then((response) => response.json());
-    const developers = await fetch(`${domain}/api/developer/`).then(response => response.json());
-
+    const developersData = await Data.developers();
     const developerSelect = document.getElementById("collaborationDeveloperDataList");
-    const defaultOption = document.createElement("option");
-    defaultOption.value = "";
-    defaultOption.text = "Select a developer";
+    const defaultOption = createOptionElement("", "Select a developer");
     defaultOption.selected = true;
     defaultOption.disabled = true;
     developerSelect.appendChild(defaultOption);
-    developers.forEach(developer => {
-        const option = document.createElement("option");
-        option.value = developer.id;
-        option.text = developer.name;
+    for (let developer of Object.values(developersData)) {
+        const option = createOptionElement(developer.id, developer.name);
         developerSelect.appendChild(option);
-    });
+    }
 }
 
 async function populateCollaborationContainer(){
-    //Reset the container before populating except for the first card
     const collaborationCards = document.querySelectorAll(".collaboration_card");
     collaborationCards.forEach((card, index) => card.remove());
 
@@ -52,6 +46,8 @@ async function populateCollaborationContainer(){
 }
 
 window.onload = async () => {
+    const BrandData = await Data.brands();
+    const DeveloperData = await Data.developers();
     populateCollaborationContainer();
 
     populateFormBrandSelection();
@@ -60,19 +56,15 @@ window.onload = async () => {
     const brandSelect = document.getElementById("collaborationBrandDataList");
     brandSelect.addEventListener("change", async () => {
         const brandId = brandSelect.value;
-        const { domain } = await fetch("./data/settings.json").then((response) => response.json());
-        const brand = await fetch(`${domain}/api/brand/${brandId}`).then(response => response.json());
         const brandImage = document.getElementById("collaborationBrandLogo");
-        brandImage.src = `${domain}/assets/brand_images/${brand?.image_name}`;
+        brandImage.src = BrandData[brandId].image;
     });
 
     const developerSelect = document.getElementById("collaborationDeveloperDataList");
     developerSelect.addEventListener("change", async () => {
         const developerId = developerSelect.value;
-        const { domain } = await fetch("./data/settings.json").then((response) => response.json());
-        const developer = await fetch(`${domain}/api/developer/${developerId}`).then(response => response.json());
         const developerImage = document.getElementById("collaborationDeveloperLogo");
-        developerImage.src = `${domain}/assets/developer_images/${developer?.image_name}`;
+        developerImage.src = DeveloperData[developerId].image;
     });
 
     const object_adder = document.getElementById("object_adder");

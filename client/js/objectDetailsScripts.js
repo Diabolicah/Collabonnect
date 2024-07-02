@@ -47,9 +47,9 @@ function populateCollaborationEditLogs(editLogs) {
 function populateCollaborationParagraphs(paragraphs) {
     const containerParagraphs = document.querySelector("#container_paragraphs");
 
-    containerParagraphs.forEach(element => {
+    paragraphs.forEach(element => {
         const paragraph = createParagraph(element);
-        console.log(paragraph);
+        containerParagraphs.appendChild(paragraph);
     })
 }
 
@@ -78,10 +78,7 @@ async function initObjectDetails(objectData){
         getCollaborationEditLogs(objectData)
         .then(populateCollaborationEditLogs);
     const paragraphs = await getCollaborationParagraphs(objectData);
-
-    console.log(addImage(createDefaultParagraph(paragraphs[1], true), paragraphs[1]));
-    document.querySelector("#container_paragraphs").appendChild(addImage(createDefaultParagraph(paragraphs[1], true), paragraphs[1], true));
-
+    populateCollaborationParagraphs(paragraphs);
 }
 
 function updateBreadCrumbs(fromPage){

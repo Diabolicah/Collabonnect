@@ -847,6 +847,38 @@ ol.breadcrumb {
     background-size: 18px;
 }
 
+.input-group img {
+    width: 60px;
+    height: 48px;
+}
+
+#newCollaborationModal .modal-footer {
+    display: flex;
+    justify-content: space-around;
+}
+
+#newCollaborationModal .modal-footer button {
+    width: 100px;
+    height: 50px;
+    border-radius: 15px;
+    background-color: #444444;
+    stroke: #000000;
+    color: #FFF;
+    font-family: Merriweather;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+#newCollaborationModal form > input {
+    display: none;
+}
+
+#createCollaborationButton {
+    background-color: #20CB98 !important;
+}
+
 /* media query */
 @media screen and (max-width: 992px) {
     #top_bar {

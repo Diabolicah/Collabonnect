@@ -91,11 +91,12 @@ const collaborationController = {
     },
     // POST /api/collaboration
     async createCollaboration(req, res) {
-        const { user_id, title, developer_id, brand_id } = req.body;
-        if (!user_id || !title || !developer_id || !brand_id) {
+        console.log(req.body);
+        const { user_id, title, description, developer_id, brand_id } = req.body;
+        if (!user_id || !title || !developer_id || !brand_id || !description) {
             res.status(400).json({
                 error: "All fields are required",
-                fields: ["user_id", "title", "developer_id", "brand_id"]
+                fields: ["user_id", "title", "developer_id", "brand_id", "description"]
             });
             return;
         }
@@ -103,7 +104,7 @@ const collaborationController = {
         const connection = await dbConnection.createConnection();
 
         try {
-            const [collaborations] = await connection.execute(`INSERT INTO ${TABLE_NAME_PREFIX}_collaboration (writer_id, title, developer_id, brand_id, upvote, downvote, status, ai_readability) VALUES (?, ?, ?, ?, 0, 0, "pending", 0)`, [user_id, title, developer_id, brand_id]);
+            const [collaborations] = await connection.execute(`INSERT INTO ${TABLE_NAME_PREFIX}_collaboration (writer_id, title, description, developer_id, brand_id, upvote, downvote, status, ai_readability) VALUES (?, ?, ?, ?, ?, 0, 0, "pending", 0)`, [user_id, title, description, developer_id, brand_id]);
             res.status(201).json({ message: `Collaboration with id ${collaborations.insertId} created` });
         } catch (error) {
             res.status(500).json({ error: error.message });

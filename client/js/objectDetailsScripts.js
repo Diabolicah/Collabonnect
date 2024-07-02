@@ -6,13 +6,41 @@ function updateThresholdProgressBar(progressBar, threshold) {
 }
 
 function populateCollaborationCoWriters(coWriters) {
-    const containerCoWriters =  document.querySelector("#collaboration_co_writers");
+    const containerCoWriters = document.querySelector("#collaboration_co_writers");
 
     coWriters.forEach(element => {
-        const img = document.createElement("img");
-        img.src = element.profile_image;
-        img.alt = "co_writer_image";
-        containerCoWriters.appendChild(img);
+        const imgCoWriter = document.createElement("img");
+        imgCoWriter.src = element.profile_image;
+        imgCoWriter.alt = "user_image";
+        containerCoWriters.appendChild(imgCoWriter);
+    });
+}
+
+async function createCollaborationLog(editLog) {
+    const sectionLog = document.createElement("section");
+    const spanDate = document.createElement("span");
+    spanDate.textContent = editLog.date;
+    sectionLog.appendChild(spanDate)
+    fetch(`${domain}/api/user/${editLog.user_id}`)
+        .then(response => {
+            if(response.status == 200)
+                return response.json();
+        })
+        .then(data => {
+            const imgUser = document.createElement("img");
+            imgUser.src = `${domain}/assets/profile_images/${data.profile_image}`;
+            imgUser.alt = "user_image";
+            spanDate.before(imgUser);
+        })
+    return sectionLog;
+}
+
+function populateCollaborationEditLogs(editLogs) {
+    const containerEditLogs = document.querySelector("#edit_logs");
+
+    editLogs.forEach(element => {
+        createCollaborationLog(element)
+        .then(result => containerEditLogs.querySelector("hr").after(result));
     });
 }
 
@@ -37,6 +65,10 @@ async function initObjectDetails(objectData){
 
     getCollaborationCoWritersProfileImages(objectData)
         .then(populateCollaborationCoWriters);
+    
+        getCollaborationEditLogs(objectData)
+        .then(populateCollaborationEditLogs);
+    // console.log(await getCollaborationEditLogs(objectData));
 
 }
 

@@ -61,6 +61,10 @@ function createCollaborationCardDetails(upvoteAmount, downvoteAmount, ai_readabi
 }
 
 function createCollaborationCardCircularProgressBar(percentage) {
+    if (percentage <= 0)
+        return;
+    if (percentage > 100)
+        percentage = 100;
     const section = document.createElement("section");
     section.className = "circular_progress_bar";
     section.role = "progressbar";

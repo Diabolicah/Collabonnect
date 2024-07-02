@@ -53,7 +53,7 @@ function createCollaborationCardDetails(upvoteAmount, downvoteAmount, ai_readabi
         img.alt = "ai_icon";
         collaboration_card_ai_readability.appendChild(img);
         const span = document.createElement("span");
-        span.textContent = ai_readabilityPercentage;
+        span.textContent = `${ai_readabilityPercentage}%`;
         collaboration_card_ai_readability.appendChild(span);
         collaboration_card_details.appendChild(collaboration_card_ai_readability);
     }
@@ -113,7 +113,10 @@ async function homePageCollaborationCardBuilder(details) {
     const last_edit_span = document.createElement("span");
     getCollaborationEditLogs(details)
         .then(logs => {
-            last_edit_span.textContent = `Last Edit: ${logs[logs.length - 1].date}`;
+            if (logs.length > 0)
+                last_edit_span.textContent = `Last Edit: ${logs[logs.length - 1].date}`;
+            else 
+                last_edit_span.textContent = `Last Edit: Never`;
         });
     fifth_section.appendChild(last_edit_span);
 
@@ -155,6 +158,40 @@ async function homePageCollaborationCardBuilder(details) {
         deleteModal._element.addEventListener("hide.bs.modal", () => {
             document.getElementById("deleteCollaborationButton").removeEventListener("click", deleteCollaborationFunc);
         });
+    });
+
+    return collaboration_card;
+}
+
+async function votePageCollaborationCardBuilder(details) {
+    const { id, title, description, upvote, downvote, status, ai_readability } = details;
+    const collaboration_card = document.createElement("section");
+    collaboration_card.className = "collaboration_card";
+
+    const first_section = document.createElement("section");
+    first_section.appendChild(createCollaborationCardTitle(title));
+    getCollaborationLogos({brand_id: details.brand_id, developer_id: details.developer_id})
+        .then(({developerLogo, brandLogo}) => {
+            first_section.appendChild(createCollaborationCardLogos(developerLogo, brandLogo));
+        });
+    collaboration_card.appendChild(first_section);
+
+    collaboration_card.appendChild(createCollaborationCardDetails(upvote, downvote));
+
+    const third_section = document.createElement("section");
+    const descriptionParagraph = document.createElement("p");
+    descriptionParagraph.textContent = description;
+    third_section.appendChild(descriptionParagraph);
+    collaboration_card.appendChild(third_section);
+
+    const fourth_section = document.createElement("section");
+    collaboration_card.appendChild(fourth_section);
+
+    const fifth_section = document.createElement("section");
+    collaboration_card.appendChild(fifth_section);
+
+    collaboration_card.addEventListener("click", () => {
+        window.location.href = `./objectDetails.html?id=${id}&fromPage=Vote&vote=true`;
     });
 
     return collaboration_card;

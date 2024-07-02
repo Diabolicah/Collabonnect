@@ -15,17 +15,17 @@
         <script src = "js/collaborationDetails.js"></script>
         <script src = "js/circularProgressBarHandler.js"></script>
         <script src = "js/collaborationCardBuilders.js"></script>
-        <script src = "js/homepageScripts.js"></script>
+        <script src = "js/votePageScripts.js"></script>
 	</head>
 	<body>
         <header class="sticky-top">
             <section id="top_bar">
                 <a href="index.html" id="logo"></a>
                 <nav>
-                    <a href="#" class="active_nav">
+                    <a href="./index.html">
                         My Collaborations
                     </a>
-                    <a href="./votePage.html">
+                    <a href="#" class="active_nav">
                         Vote
                     </a>
                     <a href="#">
@@ -78,7 +78,25 @@
         </header>
         <main>
             <div id="wrapper">
-                <h1>My Collaborations</h1>
+                <h1>Vote</h1>
+                <section id="card_carousel_container" data-bs-theme="dark">
+                    <button class="carousel-control-prev" type="button" data-bs-target=".carousel" data-bs-slide="prev">
+                    </button>
+                    <div id="left_card_carousel" class="carousel slide">
+                        <div class="carousel-inner">
+                        </div>
+                    </div>
+                    <div id="middle_card_carousel" class="carousel slide">
+                        <div class="carousel-inner">
+                        </div>
+                    </div>
+                    <div id="right_card_carousel" class="carousel slide">
+                        <div class="carousel-inner">
+                        </div>
+                    </div>
+                    <button class="carousel-control-next" type="button" data-bs-target="#middle_card_carousel" data-bs-slide="next">
+                    </button>
+                </section>
                 <section id="search_bar_container">
                     <section id="search_bar">
                         <img src="images/search_icon.svg" alt="search_icon">
@@ -88,79 +106,14 @@
                     <img src="images/information_icon.svg" alt="information_icon">
                 </section>
                 <section id="collaboration_cards_container">
-                    <section id="object_adder">
-                        <img src="./images/add_object_icon.svg" alt="plus_circle_icon">
-                    </section>
                 </section>
             </div>
         </main>
-        <div class="modal fade" id="deleteCollaborationModal" tabindex="-1" aria-labelledby="deleteCollaborationModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="deleteCollaborationModalLabel">Delete</h1>
-                </div>
-                <div class="modal-body">
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn" data-bs-dismiss="modal">Cancel</button>
-                  <button id="deleteCollaborationButton" type="button" class="btn">Delete</button>
-                </div>
-              </div>
-            </div>
-        </div>
         <div class="modal fade" id="cardInformationModal" tabindex="-1" aria-labelledby="cardInformationModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg">
               <div class="modal-content">
                 <div class="modal-body">
                     <img src="images/collaboration_card_information.png" alt="card_information">
-                </div>
-              </div>
-            </div>
-        </div>
-        <div class="modal fade" id="newCollaborationModal" tabindex="-1" aria-labelledby="newCollaborationModal" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="newCollaborationModal">New Collaboration</h1>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="mb-3">
-                            <label for="collaborationName" class="form-label">Collaboration Name</label>
-                            <input type="text" class="form-control" id="collaborationName">
-                        </div>
-                        <div class="mb-3">
-                            <label for="collaborationDescription" class="form-label">Collaboration Description</label>
-                            <input type="text" class="form-control" id="collaborationDescription">
-                        </div>
-                        <div class="mb-3">
-                            <label for="collaborationBrandDataList" class="form-label">Brand</label>
-                            <select class="form-control form-select" id="collaborationBrandDataList" placeholder="Type to search...">
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="collaborationDeveloperDataList" class="form-label">Developer</label>
-                            <input class="form-control" list="collaborationDeveloperDatalistOptions" id="collaborationDeveloperDataList" placeholder="Type to search...">
-                            <datalist id="collaborationDeveloperDatalistOptions">
-                            </datalist>
-                        </div>
-                        <div class="mb-3">
-                            <label for="collaborationCoWriterDataList" class="form-label">Co-Writers</label>
-                            <input class="form-control" list="collaborationCoWriterDatalistOptions" id="collaborationCoWriterDataList" placeholder="Type to search...">
-                            <datalist id="collaborationCoWriterDatalistOptions">
-                                <option value="San Francisco">
-                                <option value="New York">
-                                <option value="Seattle">
-                                <option value="Los Angeles">
-                                <option value="Chicago">
-                            </datalist>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn" data-bs-dismiss="modal">Cancel</button>
-                  <button id="deleteCollaborationButton" type="button" class="btn">Create</button>
                 </div>
               </div>
             </div>

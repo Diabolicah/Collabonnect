@@ -21,7 +21,7 @@ function createCollaborationCardLogos(developerLogo, brandLogo) {
 function createCollaborationCardDetails(upvoteAmount, downvoteAmount, ai_readabilityPercentage) {
     const collaboration_card_details = document.createElement("section");
     collaboration_card_details.className = "collaboration_card_details";
-    if (upvoteAmount) {
+    if (upvoteAmount || upvoteAmount === 0) {
         const collaboration_card_upvote = document.createElement("section");
         const img = document.createElement("img");
         img.src = "./images/thumbs_up_black.svg";
@@ -33,7 +33,7 @@ function createCollaborationCardDetails(upvoteAmount, downvoteAmount, ai_readabi
         collaboration_card_details.appendChild(collaboration_card_upvote);
     }
 
-    if (downvoteAmount) {
+    if (downvoteAmount || downvoteAmount === 0) {
         const collaboration_card_downvote = document.createElement("section");
         const img = document.createElement("img");
         img.src = "./images/thumbs_down_black.svg";

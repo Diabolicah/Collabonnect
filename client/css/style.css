@@ -936,6 +936,35 @@ ol.breadcrumb {
     background-color: #20CB98 !important;
 }
 
+#threshold {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 20px;
+}
+
+#threshold h2 {
+    color: #FFF;
+    font-family: Lora;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+#threshold img {
+    width: 28px;
+    height: 28px;
+}
+
+#brand_logo {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    top: 80px;
+    right: 40px;
+}
+
 /* media query */
 @media screen and (max-width: 992px) {
     #top_bar {
@@ -1018,6 +1047,14 @@ ol.breadcrumb {
         min-width: 192px;
         min-height: 192px;
         flex-basis: 512px;
+    }
+
+    #brand_logo {
+        width: 100px;
+        height: 100px;
+        position: absolute;
+        top: 132px;
+        right: 16px;
     }
 }
 

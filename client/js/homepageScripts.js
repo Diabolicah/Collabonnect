@@ -46,6 +46,8 @@ async function populateCollaborationContainer(){
 }
 
 window.onload = async () => {
+    const domain = await Settings.domain();
+    const user_id = await Settings.user_id();
     const BrandData = await Data.brands();
     const DeveloperData = await Data.developers();
     populateCollaborationContainer();
@@ -90,7 +92,6 @@ window.onload = async () => {
     newCollaborationForm.addEventListener("submit", async (event) => {
         event.preventDefault();
         const formData = new FormData(newCollaborationForm);
-        const { domain, user_id} = await fetch("./data/settings.json").then((response) => response.json());
         formData.append("user_id", user_id)
         const requestData = JSON.stringify(Object.fromEntries(formData));
         const response = await fetch(`${domain}/api/collaboration/`, {

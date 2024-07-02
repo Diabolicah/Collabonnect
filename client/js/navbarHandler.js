@@ -30,4 +30,10 @@ function updateActiveNavbarTab(tabList) {
         console.log(voteTabList);
         updateActiveNavbarTab(voteTabList);
     }
+
+    if (searchParams.get("fromPage") == "Brand") {
+        let voteTabList = document.querySelectorAll("nav a:nth-child(4)");
+        console.log(voteTabList);
+        updateActiveNavbarTab(voteTabList);
+    }
 })();

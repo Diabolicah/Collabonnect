@@ -11,6 +11,12 @@ function updateNavbarDetails(details) {
     progress_bar.style.width = `${Math.min(Math.max(details.experience, 0), 100)}%`;
 }
 
+function updateActiveNavbarTab(tabList) {
+    const active_tabs = document.querySelectorAll(".active_nav");
+    active_tabs.forEach((active_tab) => active_tab.classList.remove("active_nav"));
+    tabList.forEach((tab) => tab.classList.add("active_nav"));
+}
+
 (async () => {
     const {nav_bar_domain = domain, nav_bar_user_id = user_id} = await fetch("./data/settings.json")
     .then((response) => response.json());
@@ -18,4 +24,11 @@ function updateNavbarDetails(details) {
     .then(response => response.json());
     nav_bar_user_details.profile_image = `${nav_bar_domain}/assets/profile_images/${nav_bar_user_details.profile_image}`;
     updateNavbarDetails(nav_bar_user_details);
+
+    const searchParams = new URLSearchParams(window.location.search);
+    if (searchParams.get("fromPage") == "Vote") {
+        let voteTabList = document.querySelectorAll("nav a:nth-child(2)");
+        console.log(voteTabList);
+        updateActiveNavbarTab(voteTabList);
+    }
 })();

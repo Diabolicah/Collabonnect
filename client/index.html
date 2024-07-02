@@ -128,39 +128,34 @@
                     <form>
                         <div class="mb-3">
                             <label for="collaborationName" class="form-label">Collaboration Name</label>
-                            <input type="text" class="form-control" id="collaborationName">
+                            <input type="text" class="form-control" id="collaborationName" maxlength="24" required name="title">
                         </div>
                         <div class="mb-3">
                             <label for="collaborationDescription" class="form-label">Collaboration Description</label>
-                            <input type="text" class="form-control" id="collaborationDescription">
+                            <input type="text" class="form-control" id="collaborationDescription" maxlength="80" required name="description">
                         </div>
                         <div class="mb-3">
                             <label for="collaborationBrandDataList" class="form-label">Brand</label>
-                            <select class="form-control form-select" id="collaborationBrandDataList" placeholder="Type to search...">
-                            </select>
+                            <div class="input-group">
+                                <select class="form-control form-select" id="collaborationBrandDataList" placeholder="Type to search..." required name="brand_id">
+                                </select>
+                                <img src="images/image_placeholder.svg" alt="plus_circle_icon" id="collaborationBrandLogo" class="input-group-text">
+                            </div>
                         </div>
                         <div class="mb-3">
                             <label for="collaborationDeveloperDataList" class="form-label">Developer</label>
-                            <input class="form-control" list="collaborationDeveloperDatalistOptions" id="collaborationDeveloperDataList" placeholder="Type to search...">
-                            <datalist id="collaborationDeveloperDatalistOptions">
-                            </datalist>
+                            <div class="input-group">
+                                <select class="form-control form-select" id="collaborationDeveloperDataList" placeholder="Type to search..." required name="developer_id">
+                                </select>
+                                <img src="images/image_placeholder.svg" alt="plus_circle_icon" id="collaborationDeveloperLogo" class="input-group-text">
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="collaborationCoWriterDataList" class="form-label">Co-Writers</label>
-                            <input class="form-control" list="collaborationCoWriterDatalistOptions" id="collaborationCoWriterDataList" placeholder="Type to search...">
-                            <datalist id="collaborationCoWriterDatalistOptions">
-                                <option value="San Francisco">
-                                <option value="New York">
-                                <option value="Seattle">
-                                <option value="Los Angeles">
-                                <option value="Chicago">
-                            </datalist>
-                        </div>
+                        <input type="submit">
                     </form>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn" data-bs-dismiss="modal">Cancel</button>
-                  <button id="deleteCollaborationButton" type="button" class="btn">Create</button>
+                  <button id="cancelCollaborationCreationButton" type="button" class="btn" data-bs-dismiss="modal">Cancel</button>
+                  <button id="createCollaborationButton" type="button" class="btn">Create</button>
                 </div>
               </div>
             </div>

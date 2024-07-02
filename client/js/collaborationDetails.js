@@ -130,3 +130,13 @@ async function rejectCollaboration(collaborationId) {
         return true;
     return false;
 }
+
+async function deleteCollaborationParagraph(collaborationId, paragraphId){
+    const domain = await Settings.domain();
+    const response = await fetch(`${domain}/api/collaboration/${collaborationId}/paragraphs/${paragraphId}`, {
+        method: 'DELETE'
+    });
+    if(response.status == 200)
+        return true;
+    return false;
+}

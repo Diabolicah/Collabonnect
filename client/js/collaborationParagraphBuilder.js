@@ -14,6 +14,7 @@ function createDefaultParagraph(paragraphDetails, isEditMode){
         title.textContent = paragraphDetails.title;
     }
     const status = document.createElement("section");
+    status.classList.add("status");
     if(paragraphDetails.status == "Pending"){
         status.classList.add("pending");
         status.textContent = paragraphDetails.status;
@@ -91,9 +92,51 @@ async function addImageAndVideo(paragraph, paragraphDetails, isEditMode){
     return addVideo(currParagraph, paragraphDetails, isEditMode);
 }
 
+
+function addEditButtons(paragraph, paragraphDetails){
+    const paragraphApproveDelete = document.createElement("section");
+    paragraphApproveDelete.classList.add("paragraph_approve_and_delete");
+
+    const paragraphApproveIcon = document.createElement("img");
+    paragraphApproveIcon.src = "./images/approval_icon.svg"
+    paragraphApproveIcon.alt = "approval_icon";
+
+    const paragraphDeleteIcon = document.createElement("img");;
+    paragraphDeleteIcon.src = "./images/delete_icon.svg";
+    paragraphDeleteIcon.alt = "delete_icon";
+
+    paragraphApproveDelete.appendChild(paragraphApproveIcon);
+    paragraphApproveDelete.appendChild(paragraphDeleteIcon);
+    paragraph.querySelector(".paragraph_title_and_status").appendChild(paragraphApproveDelete);
+
+    paragraphDeleteIcon.addEventListener("click", () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const collaborationId = urlParams.get("id");
+        const title = paragraph.querySelector(".paragraph_title_and_status input").value;
+        const deleteModal = new bootstrap.Modal('#deleteCollaborationModal', {})
+        deleteModal.show();
+        document.querySelector("#deleteCollaborationModal .modal-body").textContent = `Are you sure you want to delete\n ${title} paragraph`;
+        const deleteCollaborationFunc = async () => {
+            await deleteCollaborationParagraph(collaborationId, paragraphDetails.id);
+            paragraph.remove();
+            deleteModal.hide();
+        }
+        document.getElementById("deleteCollaborationButton").addEventListener("click", deleteCollaborationFunc);
+
+        deleteModal._element.addEventListener("hide.bs.modal", () => {
+            document.getElementById("deleteCollaborationButton").removeEventListener("click", deleteCollaborationFunc);
+        });
+    })
+
+    return paragraph;
+}
+
 async function createParagraph(paragraphDetails, isEditMode){
     isEditMode = isEditMode || false;
     let paragraph = createDefaultParagraph(paragraphDetails, isEditMode);
+    if(isEditMode) {
+        paragraph = addEditButtons(paragraph, paragraphDetails);
+    }
     if(paragraphDetails.image && paragraphDetails.video){
         return paragraph = await addImageAndVideo(paragraph, paragraphDetails, isEditMode);
     }else if(paragraphDetails.image){

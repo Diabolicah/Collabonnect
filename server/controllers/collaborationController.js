@@ -289,7 +289,7 @@ const collaborationController = {
         const connection = await dbConnection.createConnection();
 
         try {
-            const [paragraphs] = await connection.execute(`DELETE FROM ${TABLE_NAME_PREFIX}_paragraph WHERE collaboration_id = ? and paragraph_id = ?`, [req.params.id, req.params.paragraphId]);
+            const [paragraphs] = await connection.execute(`DELETE FROM ${TABLE_NAME_PREFIX}_paragraph WHERE id = ?`, [req.params.paragraphId]);
             if (paragraphs.affectedRows === 0) {
                 res.status(404).json({ error: `Paragraph with id ${req.params.paragraphId} for collaboration id ${req.params.id} not found` });
                 return;
@@ -297,6 +297,7 @@ const collaborationController = {
             res.status(200).json({ message: `Paragraph with id ${req.params.paragraphId} for collaboration id ${req.params.id} deleted` });
         } catch (error) {
             res.status(500).json({ error: error.message });
+            console.log(error);
         } finally {
             connection.end();
         }

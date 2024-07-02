@@ -7,6 +7,7 @@ const { collaborationRouter } = require('./routers/collaborationRouter');
 const { userRouter } = require('./routers/userRouter');
 const { developerRouter } = require('./routers/developerRouter');
 const { brandRouter } = require('./routers/brandRouter');
+const { badgeRouter } = require('./routers/badgeRouter');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -25,6 +26,7 @@ app.use('/api/collaboration', collaborationRouter);
 app.use('/api/user', userRouter);
 app.use('/api/developer', developerRouter);
 app.use('/api/brand', brandRouter);
+app.use('/api/badge', badgeRouter)
 
 app.listen(port, () => {
     console.log(`App is listening on port ${port}`);

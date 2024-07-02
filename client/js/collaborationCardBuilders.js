@@ -267,7 +267,6 @@ async function brandPageCollaborationCardBuilder(details) {
         document.querySelector("#updateCollaborationStatusModal .modal-body").textContent = `Are you sure you want to reject\n "${title}"`;
         const rejectCollaborationFunc = async () => {
             await rejectCollaboration(id);
-            console.log("Rejected", id);
             collaboration_card.remove();
             updateCollaborationStatusModal.hide();
         }

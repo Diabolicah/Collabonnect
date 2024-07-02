@@ -32,7 +32,6 @@ window.onload = async () => {
 
     right_carousel.nextWhenVisible();
     left_carousel.prev();
-    console.log(middle_carousel);
     const left_button = document.querySelector("#card_carousel_container .carousel-control-prev");
     const right_button = document.querySelector("#card_carousel_container .carousel-control-next");
 

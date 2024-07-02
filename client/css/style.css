@@ -392,7 +392,7 @@ ol.breadcrumb {
     position: absolute;
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 4px;
 }
 
 #container_paragraphs .paragraph_title_and_status h2 {
@@ -415,11 +415,10 @@ ol.breadcrumb {
     line-height: normal;
 }
 
-#container_paragraphs .paragraph_title_and_status section {
+#container_paragraphs .paragraph_title_and_status .status {
     background-color: rgba(32, 203, 152, 0.5);
     opacity: 0.5;
     align-self: flex-end;
-    margin-bottom: 5px;
     width: 89px;
     border-radius: 5px;
     color: #000;
@@ -433,6 +432,17 @@ ol.breadcrumb {
 
 #container_paragraphs .paragraph_title_and_status .pending {
     background-color: rgb(255, 193, 7, 0.5);
+}
+
+.paragraph_title_and_status .paragraph_approve_and_delete {
+    align-self: flex-end;
+}
+
+.paragraph_title_and_status .paragraph_approve_and_delete img{
+    align-self: flex-end;
+    height: 25px;
+    width: 25px;
+    cursor: pointer;
 }
 
 #object_adder {
@@ -1044,6 +1054,10 @@ ol.breadcrumb {
 
 /* media query */
 @media screen and (max-width: 992px) {
+    .row {
+        display: block;
+    }
+
     #top_bar {
         padding: 0px 16px;
     }
@@ -1069,7 +1083,7 @@ ol.breadcrumb {
     }
 
     #container_paragraphs .paragraph_title_and_status > input {
-        max-width: 220px;
+        max-width: 150px;
     }
 
     .paragraph_type .paragraph_type_image {
@@ -1149,6 +1163,7 @@ ol.breadcrumb {
     }
 
     #container_paragraphs .paragraph_title_and_status {
+        gap: 5px;
         margin-bottom: 8px;
     }
 
@@ -1183,7 +1198,17 @@ ol.breadcrumb {
     }
 
     #container_paragraphs .paragraph_title_and_status > input {
-        max-width: 150px;
+        max-width: 100px;
+        font-size: 20px;
+    }
+
+    .paragraph_title_and_status .paragraph_approve_and_delete img {
+        width: 20px;
+        height: 20px;
+    }
+
+    #container_paragraphs .paragraph > textarea {
+        font-size: 10px;
     }
 
     #container_paragraphs .paragraph_title_and_status section {

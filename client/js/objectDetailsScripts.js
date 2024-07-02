@@ -44,6 +44,15 @@ function populateCollaborationEditLogs(editLogs) {
     });
 }
 
+function populateCollaborationParagraphs(paragraphs) {
+    const containerParagraphs = document.querySelector("#container_paragraphs");
+
+    containerParagraphs.forEach(element => {
+        const paragraph = createParagraph(element);
+        console.log(paragraph);
+    })
+}
+
 async function initObjectDetails(objectData){
     getCollaborationLogos(objectData)
         .then(({brandLogo, developerLogo}) => {
@@ -65,16 +74,33 @@ async function initObjectDetails(objectData){
 
     getCollaborationCoWritersProfileImages(objectData)
         .then(populateCollaborationCoWriters);
-    
+
         getCollaborationEditLogs(objectData)
         .then(populateCollaborationEditLogs);
-    // console.log(await getCollaborationEditLogs(objectData));
+    const paragraphs = await getCollaborationParagraphs(objectData);
 
+    console.log(addImage(createDefaultParagraph(paragraphs[1], true), paragraphs[1]));
+    document.querySelector("#container_paragraphs").appendChild(addImage(createDefaultParagraph(paragraphs[1], true), paragraphs[1], true));
+
+}
+
+function updateBreadCrumbs(fromPage){
+    document.querySelector(".breadcrumb-item a").text = fromPage ? fromPage : document.querySelector(".breadcrumb-item a").text;
+    switch (fromPage) {
+        case "Vote":
+            document.querySelector(".breadcrumb-item a").href = "./votePage.html";
+            break;
+        default:
+            document.querySelector(".breadcrumb-item a").href = "./index.html";
+    }
 }
 
 async function getObjectDetailsFromServer(){
     const urlParams = new URLSearchParams(window.location.search);
     const collaborationId = urlParams.get("id");
+    const fromPage = urlParams.get("fromPage");
+    updateBreadCrumbs(fromPage);
+
     const collaboration = await getCollaborationDetails(collaborationId);
     if(collaboration)
         initObjectDetails(collaboration);

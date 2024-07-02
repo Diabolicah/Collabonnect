@@ -318,17 +318,36 @@ ol.breadcrumb {
 }
 
 #container_paragraphs .paragraph{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     padding: 4px 14px 21px 6px;
     border-radius: 15px;
     background: rgb(68, 68, 68, 0.5);
     margin-bottom: 21px;
 }
 
-#container_paragraphs .paragraph.text {
-    display: block;
+#container_paragraphs .paragraph.edit_mode {
+    display: flex;
+}
+
+.paragraph_image_video {
+    float: right;
+    margin-left: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.paragraph_image {
+    align-self: center;
+    width: 136px;
+    height: 128px;
+    border-radius: 15px;
+    margin-bottom: 10px;
+}
+
+.paragraph_video {
+    align-self: center;
+    width: 277px;
+    height: 128px;
+    border-radius: 15px;
 }
 
 #container_paragraphs .paragraph p {
@@ -339,10 +358,28 @@ ol.breadcrumb {
     font-weight: 400;
     line-height: 18px;
     margin: 0;
+    margin-top: 50px;
+}
+
+#container_paragraphs .paragraph > textarea {
+    color: #000;
+    font-family: Roboto;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 18px;
+    margin: 0;
+    margin-top: 50px;
+    text-wrap: wrap;
+    width: 100%;
+    max-width: 1400px;
+    min-height: 90px;
+    overflow: hidden;
+    resize: none;
 }
 
 #container_paragraphs .paragraph_title_and_status {
-    margin-bottom: 15px;
+    position: absolute;
     display: flex;
     align-items: center;
     gap: 16px;
@@ -351,6 +388,16 @@ ol.breadcrumb {
 #container_paragraphs .paragraph_title_and_status h2 {
     margin: 0px;
     color: #FFF;
+    font-family: Lora;
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+#container_paragraphs .paragraph_title_and_status > input {
+    color: #000;
+    margin: 0px;
     font-family: Lora;
     font-size: 28px;
     font-style: normal;
@@ -873,6 +920,10 @@ ol.breadcrumb {
         display: none;
     }
 
+    #container_paragraphs .paragraph_title_and_status > input {
+        max-width: 220px;
+    }
+
     .paragraph_type .paragraph_type_image {
         width: 60px;
         height: 60px;
@@ -883,6 +934,19 @@ ol.breadcrumb {
         width: 84px;
     }
 
+    .paragraph_image_video{
+        margin-top: 50px;
+    }
+
+    .paragraph_image_video .paragraph_image {
+        width: 68px;
+        height: 64px;
+    }
+
+    .paragraph_image_video .paragraph_video {
+        width: 139px;
+        height: 128px;
+    }
     .paragraph_type .paragraph_type_text span {
         font-size: 10px;
     }
@@ -962,6 +1026,10 @@ ol.breadcrumb {
         font-size: 16px;
     }
 
+    #container_paragraphs .paragraph_title_and_status > input {
+        max-width: 150px;
+    }
+
     #container_paragraphs .paragraph_title_and_status section {
         font-size: 8px;
         width: 60px;
@@ -969,5 +1037,10 @@ ol.breadcrumb {
 
     #container_paragraphs .paragraph p {
         font-size: 10px;
+        margin-top: 30px;
+    }
+
+    .paragraph_image_video {
+        margin-top: 30px;
     }
 }

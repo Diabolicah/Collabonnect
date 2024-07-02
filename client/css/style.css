@@ -318,10 +318,17 @@ ol.breadcrumb {
 }
 
 #container_paragraphs .paragraph{
-    padding: 0px 14px 21px 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px 14px 21px 6px;
     border-radius: 15px;
     background: rgb(68, 68, 68, 0.5);
     margin-bottom: 21px;
+}
+
+#container_paragraphs .paragraph.text {
+    display: block;
 }
 
 #container_paragraphs .paragraph p {
@@ -497,6 +504,72 @@ ol.breadcrumb {
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+}
+
+#addParagraphModal .modal-header {
+    display: flex;
+    justify-content:  center;
+}
+
+#addParagraphModal .modal-body {
+    display: flex;
+    flex-direction: column;
+}
+
+#addParagraphModalLabel {
+    color: #000;
+    font-family: Lora;
+    font-size: 26px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.modal-body .paragraph_type {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    min-height: 113px;
+    border-radius: 15px;
+    background-color: #444;
+    margin-bottom: 15px;
+    padding: 12px 15px;
+    cursor: pointer;
+}
+
+.modal-body .paragraph_type:last-child {
+    margin-bottom: 0px;
+}
+
+.paragraph_type .paragraph_type_text {
+    width: 90%;
+}
+
+.paragraph_type .paragraph_type_text span {
+    color: #FFF;
+    cursor: pointer;
+    vertical-align: baseline;
+    margin-right: 10px;
+}
+
+.paragraph_type .paragraph_type_image {
+    width: 90px;
+    height: 90px;
+}
+
+.paragraph_type .paragraph_type_video {
+    height: 90px;
+    width: 126px;
+}
+
+.paragraph_container_image_video .paragraph_type_video {
+    margin-left: 10px;
+}
+
+.paragraph_container_image_video {
+    display: flex;
+    justify-content: center;
 }
 
 #wrapper h1 {
@@ -800,6 +873,20 @@ ol.breadcrumb {
         display: none;
     }
 
+    .paragraph_type .paragraph_type_image {
+        width: 60px;
+        height: 60px;
+    }
+
+    .paragraph_type .paragraph_type_video {
+        height: 60px;
+        width: 84px;
+    }
+
+    .paragraph_type .paragraph_type_text span {
+        font-size: 10px;
+    }
+
     #wrapper {
         min-height: calc(100vh - 104px);
     }
@@ -824,5 +911,62 @@ ol.breadcrumb {
         min-width: 192px;
         min-height: 192px;
         flex-basis: 512px;
+    }
+}
+
+@media screen and (max-width: 370px) {
+    .paragraph_container_image_video {
+        flex-wrap: wrap;
+    }
+
+    .paragraph_container_image_video .paragraph_type_video {
+        margin-left: 0px;
+    }
+
+    #container_object_details section #collaboration_title {
+        font-size: 26px;
+    }
+
+    #container_paragraphs .paragraph_title_and_status {
+        margin-bottom: 8px;
+    }
+
+    #container_object_details section img {
+        width: 25px;
+        height: 25px;
+    }
+
+    #container_object_details #collaboration_status {
+        font-size: 10px;
+    }
+
+    #container_object_details #collaboration_upvotes_downvotes span {
+        font-size: 10px;
+    }
+
+    #container_object_details .progress {
+        height: 10px;
+    }
+
+    #container_object_details .progress .progress-bar {
+        font-size: 10px;
+    }
+
+    #container_edit_mode img {
+        width: 20px;
+        height: 20px;
+    }
+
+    #container_paragraphs .paragraph_title_and_status h2 {
+        font-size: 16px;
+    }
+
+    #container_paragraphs .paragraph_title_and_status section {
+        font-size: 8px;
+        width: 60px;
+    }
+
+    #container_paragraphs .paragraph p {
+        font-size: 10px;
     }
 }

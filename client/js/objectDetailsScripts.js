@@ -81,24 +81,30 @@ async function getObjectDetailsFromServer(){
     else document.location.replace("./index.html");
 }
 
-function addListeners(){
-    document.querySelector("#collaboration_edit_delete img").addEventListener("click", () => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const collaborationId = urlParams.get("id");
-        const title = document.querySelector("#collaboration_title").textContent;
-        const deleteModal = new bootstrap.Modal('#deleteCollaborationModal', {})
-        deleteModal.show();
-        document.querySelector("#deleteCollaborationModal .modal-body").textContent = `Are you sure you want to delete\n ${title} collaboration`;
-        const deleteCollaborationFunc = async () => {
-            await deleteCollaboration(collaborationId);
-            document.location.replace("./index.html");
-        }
-        document.getElementById("deleteCollaborationButton").addEventListener("click", deleteCollaborationFunc);
+function deleteObjectDetails(){
+    const urlParams = new URLSearchParams(window.location.search);
+    const collaborationId = urlParams.get("id");
+    const title = document.querySelector("#collaboration_title").textContent;
+    const deleteModal = new bootstrap.Modal('#deleteCollaborationModal', {})
+    deleteModal.show();
+    document.querySelector("#deleteCollaborationModal .modal-body").textContent = `Are you sure you want to delete\n ${title} collaboration`;
+    const deleteCollaborationFunc = async () => {
+        await deleteCollaboration(collaborationId);
+        document.location.replace("./index.html");
+    }
+    document.getElementById("deleteCollaborationButton").addEventListener("click", deleteCollaborationFunc);
 
-        deleteModal._element.addEventListener("hide.bs.modal", () => {
-            document.getElementById("deleteCollaborationButton").removeEventListener("click", deleteCollaborationFunc);
-        });
+    deleteModal._element.addEventListener("hide.bs.modal", () => {
+        document.getElementById("deleteCollaborationButton").removeEventListener("click", deleteCollaborationFunc);
     });
+}
+
+function addListeners(){
+    document.querySelector("#collaboration_edit_delete img").addEventListener("click", deleteObjectDetails);
+    document.querySelector("#object_adder").addEventListener("click", () => {
+        const addParagraphModal = new bootstrap.Modal('#addParagraphModal', {})
+        addParagraphModal.show();
+    })
 }
 
 window.onload = async () => {

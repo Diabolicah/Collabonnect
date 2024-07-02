@@ -5,6 +5,8 @@ const collaborationRouter = Router();
 
 collaborationRouter.get('/', collaborationController.getCollaborations);
 collaborationRouter.get('/:id', collaborationController.getCollaborationById);
+collaborationRouter.get('/paragraphs/images', collaborationController.getCollaborationParagraphImages);
+collaborationRouter.get('/paragraphs/videos', collaborationController.getCollaborationParagraphVideos);
 collaborationRouter.get('/:id/paragraphs', collaborationController.getCollaborationParagraphs);
 collaborationRouter.get('/:id/paragraphs/:paragraphId', collaborationController.getCollaborationParagraphById);
 collaborationRouter.get('/:id/logs', collaborationController.getCollaborationLogs);

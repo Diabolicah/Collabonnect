@@ -88,7 +88,9 @@
                 <img src="#" alt="brand_logo" id="brand_logo">
                 <h2>Milestones</h2>
                 <section id="milestones_container">
-
+                    <section id="object_adder">
+                        <img src="./images/add_object_icon.svg" alt="plus_circle_icon">
+                    </section>
                 </section>
                 <h2>Collaboration Candidates</h2>
                 <section id="search_bar_container">
@@ -127,36 +129,28 @@
               </div>
             </div>
         </div>
-        <div class="modal fade" id="newCollaborationModal" tabindex="-1" aria-labelledby="newCollaborationModal" aria-hidden="true">
+        <div class="modal fade" id="newBadgeModal" tabindex="-1" aria-labelledby="newBadgeModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="newCollaborationModal">New Collaboration</h1>
+                  <h1 class="modal-title fs-5" id="newBadgeModal">New Badge</h1>
                 </div>
                 <div class="modal-body">
                     <form>
                         <div class="mb-3">
-                            <label for="collaborationName" class="form-label">Collaboration Name</label>
-                            <input type="text" class="form-control" id="collaborationName" maxlength="24" required name="title">
+                            <label for="badgeName" class="form-label">Badge Name</label>
+                            <input type="text" class="form-control" id="badgeName" maxlength="24" required name="name">
                         </div>
                         <div class="mb-3">
-                            <label for="collaborationDescription" class="form-label">Collaboration Description</label>
+                            <label for="badgeDescription" class="form-label">Badge Description</label>
                             <input type="text" class="form-control" id="collaborationDescription" maxlength="80" required name="description">
                         </div>
                         <div class="mb-3">
-                            <label for="collaborationBrandDataList" class="form-label">Brand</label>
+                            <label for="badgeImageDataList" class="form-label">Image</label>
                             <div class="input-group">
-                                <select class="form-control form-select" id="collaborationBrandDataList" placeholder="Type to search..." required name="brand_id">
+                                <select class="form-control form-select" id="collaborationBrandDataList" placeholder="Type to search..." required name="image_name">
                                 </select>
                                 <img src="images/image_placeholder.svg" alt="plus_circle_icon" id="collaborationBrandLogo" class="input-group-text">
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="collaborationDeveloperDataList" class="form-label">Developer</label>
-                            <div class="input-group">
-                                <select class="form-control form-select" id="collaborationDeveloperDataList" placeholder="Type to search..." required name="developer_id">
-                                </select>
-                                <img src="images/image_placeholder.svg" alt="plus_circle_icon" id="collaborationDeveloperLogo" class="input-group-text">
                             </div>
                         </div>
                         <input type="submit">

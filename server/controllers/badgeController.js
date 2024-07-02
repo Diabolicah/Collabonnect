@@ -33,6 +33,14 @@ const badgeController = {
             connection.end();
         }
     },
+    // GET /api/badge/images
+    async getBadgeImages(req, res) {
+        const fs = require('fs');
+        const path = require('path');
+        const directoryPath = path.join(__dirname, '../public/badge_images');
+        const files = fs.readdirSync(directoryPath);
+        res.status(200).json(files);
+    },
     // POST /api/badge/
     async createBadge(req, res) {
         const { name, description, image_name } = req.body;

@@ -89,6 +89,19 @@ const collaborationController = {
             connection.end();
         }
     },
+    // GET /api/collaboration/paragraphs/images
+    async getCollaborationParagraphImages(req, res) {
+        const fs = require('fs');
+        const path = require('path');
+        const directoryPath = path.join(__dirname, '../public/collaboration_paragraph_images');
+        const files = fs.readdirSync(directoryPath);
+        res.status(200).json(files);
+    },
+    // GET /api/collaboration/paragraphs/videos
+    async getCollaborationParagraphVideos(req, res) {
+        const videoLinks = ["https://www.youtube.com/embed/YwJotfRP1MI", "https://www.youtube.com/embed/1MIb7RkePSk"]
+        res.status(200).json(videoLinks);
+    },
     // POST /api/collaboration
     async createCollaboration(req, res) {
         const { user_id, title, description, developer_id, brand_id } = req.body;

@@ -256,8 +256,9 @@ const collaborationController = {
     },
     // PUT /api/collaboration/:id/paragraphs/:paragraphId
     async updateCollaborationParagraph(req, res) {
+        console.log(req.body)
         const { title, status, text, image, video } = req.body;
-        if (!title || !status || !text || !image || !video) {
+        if (!title || !status || !text) {
             res.status(400).json({
                 error: "All fields are required",
                 fields: ["title", "status", "text", "image", "video"]
@@ -266,15 +267,15 @@ const collaborationController = {
         }
 
         const connection = await dbConnection.createConnection();
-
         try {
-            const [paragraphs] = await connection.execute(`UPDATE ${TABLE_NAME_PREFIX}_collaboration_paragraph SET title = ? status = ? text = ? image = ? video = ?  WHERE collaboration_id = ? and paragraph_id = ?`, [title, status, text, image, video, req.params.id, req.params.paragraphId]);
+            const [paragraphs] = await connection.execute(`UPDATE ${TABLE_NAME_PREFIX}_paragraph SET title = ? status = ? text = ? image = ? video = ? WHERE id = ?`, [title, status, text, image, video, req.params.paragraphId]);
             if (paragraphs.affectedRows === 0) {
                 res.status(404).json({ error: `Paragraph with id ${req.params.paragraphId} for collaboration id ${req.params.id} not found` });
                 return;
             }
             res.status(200).json({ message: `Paragraph with id ${req.params.paragraphId} for collaboration id ${req.params.id} updated` });
         } catch (error) {
+            console.log(error)
             res.status(500).json({ error: error.message });
         } finally {
             connection.end();

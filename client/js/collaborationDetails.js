@@ -131,6 +131,21 @@ async function rejectCollaboration(collaborationId) {
     return false;
 }
 
+async function approveCollaborationParagraph(collaborationId, paragraphId, paragraph) {
+    const domain = await Settings.domain();
+    console.log(paragraph)
+    const response = await fetch(`${domain}/api/collaboration/${collaborationId}/paragraphs/${paragraphId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(paragraph)
+    });
+    if(response.status == 200)
+        return true;
+    return false;
+}
+
 async function deleteCollaborationParagraph(collaborationId, paragraphId){
     const domain = await Settings.domain();
     const response = await fetch(`${domain}/api/collaboration/${collaborationId}/paragraphs/${paragraphId}`, {

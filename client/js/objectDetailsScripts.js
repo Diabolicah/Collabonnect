@@ -133,9 +133,23 @@ async function changeToEditMode() {
     document.querySelector("#container_paragraphs").innerHTML = `<section id="object_adder"><img src="./images/add_object_icon.svg" alt="plus_circle_icon"></section>`;
     populateCollaborationParagraphs(await getCollaborationParagraphs(collaboration), true);
 
+
+
     document.querySelector("#object_adder").addEventListener("click", () => {
         const addParagraphModal = new bootstrap.Modal('#addParagraphModal', {})
         addParagraphModal.show();
+        let paragraphJson;
+        document.querySelectorAll(".paragraph_type")[0].addEventListener("click", async () => {
+            paragraphJson = {
+                "image": null,
+                "status": "Pending",
+                "text": "",
+                "title": "",
+                "video": null,
+            }
+            document.querySelector("#container_paragraphs").appendChild(await createParagraph(paragraphJson, true));
+            console.log(paragraphJson);
+        })
     })
 }
 

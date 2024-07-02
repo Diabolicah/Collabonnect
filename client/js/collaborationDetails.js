@@ -98,6 +98,20 @@ async function getCollaborationEditLogs(collaboration){
     return edit_logs;
 }
 
+async function getCollaborationParagraphs(collaboration) {
+    let paragraphs = null;
+    await fetch(`${domain}/api/collaboration/${collaboration.id}/paragraphs`)
+        .then(response => {
+            if(response.status == 200)
+                return response.json();
+        })
+        .then(data => {
+            paragraphs = data;
+        })
+
+    return paragraphs;
+}
+
 async function getCollaborationsList() {
     const response = await fetch(`${domain}/api/collaboration`);
     if(response.status == 200)

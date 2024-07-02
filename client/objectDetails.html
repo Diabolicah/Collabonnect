@@ -108,7 +108,10 @@
                     <section class="row">
                         <section class="col-auto col-lg-8">
                             <section id="container_edit_mode">
-                                <img src="./images/edit_icon.svg" alt="edit_icon">
+                                <section id="collaboration_edit_delete">
+                                    <img src="./images/delete_icon.svg" alt="delete_icon">
+                                    <img src="./images/edit_icon.svg" alt="edit_icon">
+                                </section>
                                 <hr>
                             </section>
                             <section id="container_paragraphs">
@@ -200,5 +203,20 @@
                 </section>
             </div>
         </main>
+        <div class="modal fade" id="deleteCollaborationModal" tabindex="-1" aria-labelledby="deleteCollaborationModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="deleteCollaborationModalLabel">Delete</h1>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn" data-bs-dismiss="modal">Cancel</button>
+                  <button id="deleteCollaborationButton" type="button" class="btn">Delete</button>
+                </div>
+              </div>
+            </div>
+          </div>
     </body>
 </html>

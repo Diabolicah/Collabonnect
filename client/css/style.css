@@ -298,11 +298,16 @@ ol.breadcrumb {
     margin-top: 144px;
 }
 
+#collaboration_edit_delete {
+    display: flex;
+    align-self: flex-end;
+}
+
 #container_edit_mode img {
     width: 30px;
     height: 30px;
-    align-self: flex-end;
     cursor: pointer;
+    margin-left: 5px;
 }
 
 #container_edit_mode hr, #edit_logs hr{

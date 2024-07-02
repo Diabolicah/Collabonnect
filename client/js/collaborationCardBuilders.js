@@ -111,7 +111,10 @@ async function homePageCollaborationCardBuilder(details) {
 
     const fifth_section = document.createElement("section");
     const last_edit_span = document.createElement("span");
-    last_edit_span.textContent = `Last Edit: `;
+    getCollaborationEditLogs(details)
+        .then(logs => {
+            last_edit_span.textContent = `Last Edit: ${logs[logs.length - 1].date}`;
+        });
     fifth_section.appendChild(last_edit_span);
 
     const lower_button_section = document.createElement("section");

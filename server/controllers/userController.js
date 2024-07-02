@@ -3,6 +3,7 @@ const {dbConnection} = require('../db_connection');
 const TABLE_NAME_PREFIX = "tbl_112"
 
 const userController = {
+    // GET /api/user/:id
     async getUserById(req, res) {
         const connection = await dbConnection.createConnection();
 

@@ -105,6 +105,53 @@
                 </div>
               </div>
             </div>
-          </div>
+        </div>
+        <div class="modal fade" id="newCollaborationModal" tabindex="-1" aria-labelledby="newCollaborationModal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="newCollaborationModal">New Collaboration</h1>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="collaborationName" class="form-label">Collaboration Name</label>
+                            <input type="text" class="form-control" id="collaborationName">
+                        </div>
+                        <div class="mb-3">
+                            <label for="collaborationDescription" class="form-label">Collaboration Description</label>
+                            <input type="text" class="form-control" id="collaborationDescription">
+                        </div>
+                        <div class="mb-3">
+                            <label for="collaborationBrandDataList" class="form-label">Brand</label>
+                            <select class="form-control form-select" id="collaborationBrandDataList" placeholder="Type to search...">
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="collaborationDeveloperDataList" class="form-label">Developer</label>
+                            <input class="form-control" list="collaborationDeveloperDatalistOptions" id="collaborationDeveloperDataList" placeholder="Type to search...">
+                            <datalist id="collaborationDeveloperDatalistOptions">
+                            </datalist>
+                        </div>
+                        <div class="mb-3">
+                            <label for="collaborationCoWriterDataList" class="form-label">Co-Writers</label>
+                            <input class="form-control" list="collaborationCoWriterDatalistOptions" id="collaborationCoWriterDataList" placeholder="Type to search...">
+                            <datalist id="collaborationCoWriterDatalistOptions">
+                                <option value="San Francisco">
+                                <option value="New York">
+                                <option value="Seattle">
+                                <option value="Los Angeles">
+                                <option value="Chicago">
+                            </datalist>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn" data-bs-dismiss="modal">Cancel</button>
+                  <button id="deleteCollaborationButton" type="button" class="btn">Create</button>
+                </div>
+              </div>
+            </div>
+        </div>
 	</body>
 </html>

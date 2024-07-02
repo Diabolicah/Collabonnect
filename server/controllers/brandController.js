@@ -3,6 +3,20 @@ const {dbConnection} = require('../db_connection');
 const TABLE_NAME_PREFIX = "tbl_112"
 
 const brandController = {
+    // GET /api/brand/
+    async getAllBrands(req, res) {
+        const connection = await dbConnection.createConnection();
+
+        try {
+            const [users] = await connection.execute(`SELECT id, name, threshold, image_name FROM ${TABLE_NAME_PREFIX}_brand`);
+            res.status(200).json(users);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        } finally {
+            connection.end();
+        }
+    },
+    // GET /api/brand/:id
     async getBrandById(req, res) {
         const connection = await dbConnection.createConnection();
 

@@ -79,10 +79,13 @@
         <main>
             <div id="wrapper">
                 <h1>My Collaborations</h1>
-                <section id="search_bar">
-                    <img src="images/search_icon.svg" alt="search_icon">
-                    <input type="text" id="search_input" placeholder="Search Collaboration">
-                    <img src="images/filter_icon_inactive.svg" alt="filter_icon">
+                <section id="search_bar_container">
+                    <section id="search_bar">
+                        <img src="images/search_icon.svg" alt="search_icon">
+                        <input type="text" id="search_input" placeholder="Search Collaboration">
+                        <img src="images/filter_icon_inactive.svg" alt="filter_icon">
+                    </section>
+                    <img src="images/information_icon.svg" alt="information_icon">
                 </section>
                 <section id="collaboration_cards_container">
                     <section id="object_adder">
@@ -102,6 +105,30 @@
                 <div class="modal-footer">
                   <button type="button" class="btn" data-bs-dismiss="modal">Cancel</button>
                   <button id="deleteCollaborationButton" type="button" class="btn">Delete</button>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="modal fade" id="deleteCollaborationModal" tabindex="-1" aria-labelledby="deleteCollaborationModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="deleteCollaborationModalLabel">Delete</h1>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn" data-bs-dismiss="modal">Cancel</button>
+                  <button id="deleteCollaborationButton" type="button" class="btn">Delete</button>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="modal fade" id="cardInformationModal" tabindex="-1" aria-labelledby="cardInformationModal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+              <div class="modal-content">
+                <div class="modal-body">
+                    <img src="images/collaboration_card_information.png" alt="card_information">
                 </div>
               </div>
             </div>

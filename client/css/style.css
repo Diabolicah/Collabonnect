@@ -888,6 +888,7 @@ ol.breadcrumb {
     }
 
     #wrapper {
+        margin: 0 16px;
         min-height: calc(100vh - 104px);
     }
 

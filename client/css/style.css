@@ -994,6 +994,7 @@ ol.breadcrumb {
     background: #44444480;
     margin-bottom: 28px;
     padding: 16px;
+    gap: 16px;
 }
 
 #milestones_container #object_adder {
@@ -1089,6 +1090,22 @@ ol.breadcrumb {
 
 #newBadgeModal form > input {
     display: none;
+}
+
+.badge_card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background-color: #FFF;
+    flex-basis: 64px;
+}
+
+.badge_card img {
+    width: 48px;
+    height: 48px;
 }
 
 /* media query */

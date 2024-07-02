@@ -8,14 +8,13 @@ function createOptionElement(value, text) {
 async function populateBadgeImagesSelection() {
     const domain = await Settings.domain();
     const badgesData = await fetch(`${domain}/api/badge/images`).then((response) => response.json());
-    console.log(badgesData);
     const brandSelect = document.getElementById("collaborationBrandDataList");
     const defaultOption = createOptionElement("", "Select a brand");
     defaultOption.selected = true;
     defaultOption.disabled = true;
     brandSelect.appendChild(defaultOption);
-    for (let brand of Object.values(brandsData)) {
-        const option = createOptionElement(brand.id, brand.name);
+    for (let badge of badgesData) {
+        const option = createOptionElement(badge, badge);
         brandSelect.appendChild(option);
     }
 }
@@ -32,7 +31,24 @@ async function populateCollaborationContainer(){
             });
         }
     });
+}
 
+async function populateBadgeContainer(){
+    const domain = await Settings.domain();
+    const badgeCards = document.querySelectorAll(".badge_card");
+    badgeCards.forEach((card, index) => card.remove());
+
+    const badgeContainer = document.getElementById("milestones_container");
+    const badges = await fetch(`${domain}/api/badge/`).then((response) => response.json());
+    badges.forEach(async (badge) => {
+        const section = document.createElement("section");
+        section.classList.add("badge_card");
+        const img = document.createElement("img");
+        img.src = `${domain}/assets/badge_images/${badge.image_name}`;
+        img.alt = badge.name;
+        section.appendChild(img);
+        badgeContainer.appendChild(section);
+    });
 }
 
 function updateBrandPageTitle(brandName){
@@ -70,6 +86,7 @@ window.onload = async () => {
     const BrandData = await Data.brands();
     const currentBrand = BrandData[user_id];
     populateBadgeImagesSelection();
+    populateBadgeContainer();
 
     updateBrandPageTitle(currentBrand.name);
     updateBrandPageThreshold(currentBrand.threshold);
@@ -89,32 +106,32 @@ window.onload = async () => {
         cardInformationModal.show();
     });
 
-    // const newCollaborationForm = document.querySelector("#newCollaborationModal form");
-    // const createCollaborationButton = document.getElementById("createCollaborationButton");
-    // const cancelCollaborationCreationButton = document.getElementById("cancelCollaborationCreationButton");
+    const newCollaborationForm = document.querySelector("#newBadgeModal form");
+    const createCollaborationButton = document.getElementById("createCollaborationButton");
+    const cancelCollaborationCreationButton = document.getElementById("cancelCollaborationCreationButton");
 
-    // createCollaborationButton.addEventListener("click", async () => {
-    //     document.querySelector("#newCollaborationModal form > input").click();
-    // });
+    createCollaborationButton.addEventListener("click", async () => {
+        document.querySelector("#newBadgeModal form > input").click();
+    });
 
-    // newCollaborationForm.addEventListener("submit", async (event) => {
-    //     event.preventDefault();
-    //     const formData = new FormData(newCollaborationForm);
-    //     const { domain, user_id} = await fetch("./data/settings.json").then((response) => response.json());
-    //     formData.append("user_id", user_id)
-    //     const requestData = JSON.stringify(Object.fromEntries(formData));
-    //     const response = await fetch(`${domain}/api/collaboration/`, {
-    //         method: "POST",
-    //         headers: {
-    //             "Content-Type": "application/json"
-    //         },
-    //         body: requestData
-    //     });
+    newCollaborationForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const formData = new FormData(newCollaborationForm);
+        const { domain, user_id} = await fetch("./data/settings.json").then((response) => response.json());
+        formData.append("user_id", user_id)
+        const requestData = JSON.stringify(Object.fromEntries(formData));
+        const response = await fetch(`${domain}/api/badge/`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: requestData
+        });
 
-    //     if(response.status == 201){
-    //         cancelCollaborationCreationButton.click();
-    //         newCollaborationForm.reset();
-    //         populateCollaborationContainer();
-    //     }
-    // });
+        if(response.status == 201){
+            cancelCollaborationCreationButton.click();
+            newCollaborationForm.reset();
+            populateBadgeContainer();
+        }
+    });
 }

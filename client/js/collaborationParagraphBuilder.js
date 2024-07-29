@@ -131,14 +131,13 @@ function addEditButtons(paragraph, paragraphDetails){
     paragraphApproveIcon.addEventListener("click", async () => {
         const urlParams = new URLSearchParams(window.location.search);
         const collaborationId = urlParams.get("id");
-        console.log(paragraphDetails)
-        paragraph.querySelector(".pending").textContent = "Up to date";
-        paragraph.querySelector(".pending").classList.remove("pending");
         paragraphDetails.title = paragraph.querySelector("input").value;
         paragraphDetails.status = "Up to date";
         paragraphDetails.text = paragraph.querySelector("textarea").value;
-        console.log(paragraphDetails);
-        await approveCollaborationParagraph(collaborationId, paragraphDetails.id, paragraphDetails);
+        if(await approveCollaborationParagraph(collaborationId, paragraphDetails.id, paragraphDetails)){
+            paragraph.querySelector(".pending").textContent = "Up to date";
+            paragraph.querySelector(".pending").classList.remove("pending");
+        }
     })
 
     return paragraph;

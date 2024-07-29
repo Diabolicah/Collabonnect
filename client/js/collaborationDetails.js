@@ -133,7 +133,6 @@ async function rejectCollaboration(collaborationId) {
 
 async function approveCollaborationParagraph(collaborationId, paragraphId, paragraph) {
     const domain = await Settings.domain();
-    console.log(paragraph)
     const response = await fetch(`${domain}/api/collaboration/${collaborationId}/paragraphs/${paragraphId}`, {
         method: 'PUT',
         headers: {
@@ -154,4 +153,8 @@ async function deleteCollaborationParagraph(collaborationId, paragraphId){
     if(response.status == 200)
         return true;
     return false;
+}
+
+async function addCollaborationParagraph(){
+    
 }

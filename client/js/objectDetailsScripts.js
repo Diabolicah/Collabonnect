@@ -148,7 +148,6 @@ async function changeToEditMode() {
                 "video": null,
             }
             document.querySelector("#container_paragraphs").appendChild(await createParagraph(paragraphJson, true));
-            console.log(paragraphJson);
         })
     })
 }

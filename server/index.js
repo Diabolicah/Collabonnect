@@ -30,4 +30,4 @@ app.use('/api/badge', badgeRouter)
 
 app.listen(port, () => {
     console.log(`App is listening on port ${port}`);
-});8
+});

@@ -261,14 +261,14 @@ const collaborationController = {
         if (!title || !status || !text) {
             res.status(400).json({
                 error: "All fields are required",
-                fields: ["title", "status", "text", "image", "video"]
+                fields: ["title", "status", "text"]
             });
             return;
         }
 
         const connection = await dbConnection.createConnection();
         try {
-            const [paragraphs] = await connection.execute(`UPDATE ${TABLE_NAME_PREFIX}_paragraph SET title = ? status = ? text = ? image = ? video = ? WHERE id = ?`, [title, status, text, image, video, req.params.paragraphId]);
+            const [paragraphs] = await connection.execute(`UPDATE ${TABLE_NAME_PREFIX}_paragraph SET title = ?, status = ?, text = ? WHERE id = ?`, [title, status, text, req.params.paragraphId]);
             if (paragraphs.affectedRows === 0) {
                 res.status(404).json({ error: `Paragraph with id ${req.params.paragraphId} for collaboration id ${req.params.id} not found` });
                 return;

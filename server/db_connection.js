@@ -1,7 +1,7 @@
 exports.dbConnection = {
     async createConnection() {
         const mysql = require('mysql2/promise');
-        
+
         const connection = await mysql.createConnection({
             host: process.env.DB_HOST,
             user: process.env.DB_USERNAME,

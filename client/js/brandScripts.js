@@ -117,8 +117,8 @@ window.onload = async () => {
     newCollaborationForm.addEventListener("submit", async (event) => {
         event.preventDefault();
         const formData = new FormData(newCollaborationForm);
-        const { domain, user_id} = await fetch("./data/settings.json").then((response) => response.json());
-        formData.append("user_id", user_id)
+        const { domain, userId} = await fetch("./data/settings.json").then((response) => response.json());
+        formData.append("userId", userId)
         const requestData = JSON.stringify(Object.fromEntries(formData));
         const response = await fetch(`${domain}/api/badge/`, {
             method: "POST",

@@ -19,7 +19,7 @@ function updateActiveNavbarTab(tabList) {
 
 (async function() {
     const domain = await Settings.domain();
-    const userId = await Settings.user_id();
+    const userId = await Settings.userId();
     const navBarUserDetails = await fetch(`${domain}/api/user/${userId}`).then(response => response.json());
     navBarUserDetails.profileImage = `${domain}/assets/profileImages/${navBarUserDetails.profileImage}`;
     updateNavbarDetails(navBarUserDetails);

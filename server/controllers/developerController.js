@@ -24,7 +24,6 @@ const developerController = {
             const [users] = await connection.execute(`SELECT name, imageName FROM ${TABLE_NAME_PREFIX}_developer WHERE id = ?`, [req.params.id]);
             if (users.length === 0) {
                 res.status(404).json({ error: `Developer with id ${req.params.id} not found` });
-                return;
             }
             res.status(200).json(users[0]);
         } catch (error) {

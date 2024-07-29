@@ -38,8 +38,8 @@ async function populateCollaborationContainer(){
     const collaborations = await getCollaborationsList();
     collaborations.forEach(async (collaboration) => {
         homePageCollaborationCardBuilder(collaboration)
-            .then(collaboration_card => {
-                document.getElementById("collaboration_cards_container").appendChild(collaboration_card);
+            .then(collaborationCard => {
+                document.getElementById("collaboration_cards_container").appendChild(collaborationCard);
             });
     });
 
@@ -47,7 +47,7 @@ async function populateCollaborationContainer(){
 
 window.onload = async () => {
     const domain = await Settings.domain();
-    const user_id = await Settings.user_id();
+    const userId = await Settings.userId();
     const BrandData = await Data.brands();
     const DeveloperData = await Data.developers();
     populateCollaborationContainer();
@@ -92,7 +92,7 @@ window.onload = async () => {
     newCollaborationForm.addEventListener("submit", async (event) => {
         event.preventDefault();
         const formData = new FormData(newCollaborationForm);
-        formData.append("user_id", user_id)
+        formData.append("userId", userId)
         const requestData = JSON.stringify(Object.fromEntries(formData));
         const response = await fetch(`${domain}/api/collaboration/`, {
             method: "POST",

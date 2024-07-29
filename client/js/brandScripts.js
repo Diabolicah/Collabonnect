@@ -26,8 +26,8 @@ async function populateCollaborationContainer(){
     collaborations.forEach(async (collaboration) => {
         if (collaboration.status != "Approved" && collaboration.status != "Rejected") {
             brandPageCollaborationCardBuilder(collaboration)
-            .then(collaboration_card => {
-                document.getElementById("collaboration_cards_container").appendChild(collaboration_card);
+            .then(collaborationCard => {
+                document.getElementById("collaboration_cards_container").appendChild(collaborationCard);
             });
         }
     });
@@ -82,9 +82,9 @@ function updateBrandPageLogo(logo){
 }
 
 window.onload = async () => {
-    const user_id = await Settings.user_id();
+    const userId = await Settings.userId();
     const BrandData = await Data.brands();
-    const currentBrand = BrandData[user_id];
+    const currentBrand = BrandData[userId];
     populateBadgeImagesSelection();
     populateBadgeContainer();
 
@@ -94,14 +94,14 @@ window.onload = async () => {
 
     populateCollaborationContainer();
 
-    const object_adder = document.getElementById("object_adder");
-    object_adder.addEventListener("click", () => {
+    const objectAdder = document.getElementById("object_adder");
+    objectAdder.addEventListener("click", () => {
         const newBadgeModal = new bootstrap.Modal('#newBadgeModal', {})
         newBadgeModal.show();
     });
 
-    const information_button = document.querySelector("#search_bar_container > img");
-    information_button.addEventListener("click", () => {
+    const informationButton = document.querySelector("#search_bar_container > img");
+    informationButton.addEventListener("click", () => {
         const cardInformationModal = new bootstrap.Modal('#cardInformationModal', {})
         cardInformationModal.show();
     });

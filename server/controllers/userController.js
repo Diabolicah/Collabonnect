@@ -8,7 +8,7 @@ const userController = {
         const connection = await dbConnection.createConnection();
 
         try {
-            const [users] = await connection.execute(`SELECT developer_id, brand_id, first_name, last_name, username, profile_image, token, rank, experience FROM ${TABLE_NAME_PREFIX}_user WHERE id = ?`, [req.params.id]);
+            const [users] = await connection.execute(`SELECT developerId, brandId, firstName, lastName, username, profileImage, token, rank, experience FROM ${TABLE_NAME_PREFIX}_user WHERE id = ?`, [req.params.id]);
             if (users.length === 0) {
                 res.status(404).json({ error: `User with id ${req.params.id} not found` });
                 return;

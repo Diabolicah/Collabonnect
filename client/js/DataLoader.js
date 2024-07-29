@@ -39,7 +39,7 @@ async function getBrandsData() {
     const domain = await Settings.domain();
     const brands = await fetch(`${domain}/api/brand/`).then((response) => response.json());
     for (let brand of brands) {
-        brand.image = `${domain}/assets/brand_images/${brand.image_name}`;
+        brand.image = `${domain}/assets/brandImages/${brand.imageName}`;
     }
     Data._brands = brands.reduce((acc, brand) => {
         acc[brand.id] = brand;
@@ -54,7 +54,7 @@ async function getDevelopersData() {
     const domain = await Settings.domain();
     const developers = await fetch(`${domain}/api/developer/`).then((response) => response.json());
     for (let developer of developers) {
-        developer.image = `${domain}/assets/developer_images/${developer.image_name}`;
+        developer.image = `${domain}/assets/developerImages/${developer.imageName}`;
     }
     Data._developers = developers.reduce((acc, developer) => {
         acc[developer.id] = developer;

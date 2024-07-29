@@ -18,9 +18,9 @@ Settings.domain = async function() {
     return Settings._domain
 }
 
-Settings.user_id = async function() {
+Settings.userId = async function() {
     if (!Settings.isReady) {
         await getSettingsData();
     }
-    return Settings._user_id
+    return Settings._userId
 }

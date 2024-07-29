@@ -1,7 +1,7 @@
 async function getCollaborationLogos(collaboration) {
     const BrandData = await Data.brands();
     const DeveloperData = await Data.developers();
-    return {"brandLogo": BrandData[collaboration.brand_id].image, "developerLogo": DeveloperData[collaboration.developer_id].image};
+    return {"brandLogo": BrandData[collaboration.brandId].image, "developerLogo": DeveloperData[collaboration.developerId].image};
 }
 
 async function getCollaborationDetails(collaborationId) {
@@ -14,7 +14,7 @@ async function getCollaborationDetails(collaborationId) {
 
 async function getCollaborationThresholdPercentage(collaboration) {
     const brandData = await Data.brands();
-    let threshold = brandData[collaboration.brand_id].threshold;
+    let threshold = brandData[collaboration.brandId].threshold;
     if(threshold == 0)
         return 0;
     return Math.floor(((collaboration.upvote - collaboration.downvote) / threshold) * 100);
@@ -23,37 +23,37 @@ async function getCollaborationThresholdPercentage(collaboration) {
 async function getCollaborationWriterProfileImage(collaboration){
     const domain = await Settings.domain();
     let writerProfileImage = '#';
-    await fetch(`${domain}/api/user/${collaboration.writer_id}`)
+    await fetch(`${domain}/api/user/${collaboration.writerId}`)
         .then(response => {
             if(response.status == 200)
                 return response.json();
         })
-        .then(data => writerProfileImage = `${domain}/assets/profile_images/${data.profile_image}`);
+        .then(data => writerProfileImage = `${domain}/assets/profileImages/${data.profileImage}`);
 
     return writerProfileImage;
 }
 
 async function getCollaborationCoWritersProfileImages(collaboration){
     const domain = await Settings.domain();
-    let co_writers = null;
-    await fetch(`${domain}/api/collaboration/${collaboration.id}/co_writers_images`)
+    let coWriters = null;
+    await fetch(`${domain}/api/collaboration/${collaboration.id}/coWritersImages`)
         .then(response => {
             if(response.status == 200)
                 return response.json();
         })
         .then(data => {
             data.forEach(element => {
-                element.profile_image = `${domain}/assets/profile_images/${element.profile_image}`;
+                element.profileImage = `${domain}/assets/profileImages/${element.profileImage}`;
             });
-            co_writers = data;
+            coWriters = data;
         });
 
-    return co_writers;
+    return coWriters;
 }
 
 async function getCollaborationEditLogs(collaboration){
     const domain = await Settings.domain();
-    let edit_logs = null;
+    let editLogs = null;
     await fetch(`${domain}/api/collaboration/${collaboration.id}/logs`)
         .then(response => {
             if(response.status == 200)
@@ -64,10 +64,10 @@ async function getCollaborationEditLogs(collaboration){
                 const date = new Date(element.date);
                 element.date = `${date.getDate().toString().padStart(2, '0')}-${(date.getMonth()+1).toString().padStart(2, '0')}-${date.getFullYear()}`;
             })
-            edit_logs = data;
+            editLogs = data;
         })
 
-    return edit_logs;
+    return editLogs;
 }
 
 async function getCollaborationParagraphs(collaboration) {

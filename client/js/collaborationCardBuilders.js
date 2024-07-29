@@ -1,63 +1,63 @@
 function createCollaborationCardTitle(title) {
-    const collaboration_card_title = document.createElement("h2");
-    collaboration_card_title.textContent = title;
-    return collaboration_card_title;
+    const collaborationCardTitle = document.createElement("h2");
+    collaborationCardTitle.textContent = title;
+    return collaborationCardTitle;
 }
 
 function createCollaborationCardLogo(logo, altName) {
-    const collaboration_card_logo = document.createElement("img");
-    collaboration_card_logo.src = logo;
-    collaboration_card_logo.alt = altName;
-    return collaboration_card_logo;
+    const collaborationCardLogo = document.createElement("img");
+    collaborationCardLogo.src = logo;
+    collaborationCardLogo.alt = altName;
+    return collaborationCardLogo;
 }
 
 function createCollaborationCardLogos(developerLogo, brandLogo) {
-    const collaboration_card_logos = document.createElement("section");
-    collaboration_card_logos.appendChild(createCollaborationCardLogo(developerLogo, "developer_image"));
-    collaboration_card_logos.appendChild(createCollaborationCardLogo(brandLogo, "brand_image"));
-    return collaboration_card_logos;
+    const collaborationCardLogos = document.createElement("section");
+    collaborationCardLogos.appendChild(createCollaborationCardLogo(developerLogo, "developer_image"));
+    collaborationCardLogos.appendChild(createCollaborationCardLogo(brandLogo, "brand_image"));
+    return collaborationCardLogos;
 }
 
-function createCollaborationCardDetails(upvoteAmount, downvoteAmount, ai_readabilityPercentage) {
-    const collaboration_card_details = document.createElement("section");
-    collaboration_card_details.className = "collaboration_card_details";
+function createCollaborationCardDetails(upvoteAmount, downvoteAmount, aiReadabilityPercentage) {
+    const collaborationCardDetails = document.createElement("section");
+    collaborationCardDetails.className = "collaboration_card_details";
     if (upvoteAmount || upvoteAmount === 0) {
-        const collaboration_card_upvote = document.createElement("section");
+        const collaborationCardUpvote = document.createElement("section");
         const img = document.createElement("img");
         img.src = "./images/thumbs_up_black.svg";
         img.alt = "upvote_icon";
-        collaboration_card_upvote.appendChild(img);
+        collaborationCardUpvote.appendChild(img);
         const span = document.createElement("span");
         span.textContent = upvoteAmount;
-        collaboration_card_upvote.appendChild(span);
-        collaboration_card_details.appendChild(collaboration_card_upvote);
+        collaborationCardUpvote.appendChild(span);
+        collaborationCardDetails.appendChild(collaborationCardUpvote);
     }
 
     if (downvoteAmount || downvoteAmount === 0) {
-        const collaboration_card_downvote = document.createElement("section");
+        const collaborationCardDownvote = document.createElement("section");
         const img = document.createElement("img");
         img.src = "./images/thumbs_down_black.svg";
         img.alt = "downvote_icon";
-        collaboration_card_downvote.appendChild(img);
+        collaborationCardDownvote.appendChild(img);
         const span = document.createElement("span");
         span.textContent = downvoteAmount;
-        collaboration_card_downvote.appendChild(span);
-        collaboration_card_details.appendChild(collaboration_card_downvote);
+        collaborationCardDownvote.appendChild(span);
+        collaborationCardDetails.appendChild(collaborationCardDownvote);
     }
 
-    if (ai_readabilityPercentage || ai_readabilityPercentage === 0) {
-        const collaboration_card_ai_readability = document.createElement("section");
+    if (aiReadabilityPercentage || aiReadabilityPercentage === 0) {
+        const collaborationCardAiReadability = document.createElement("section");
         const img = document.createElement("img");
         img.src = "./images/ai_icon.svg";
         img.alt = "ai_icon";
-        collaboration_card_ai_readability.appendChild(img);
+        collaborationCardAiReadability.appendChild(img);
         const span = document.createElement("span");
-        span.textContent = `${ai_readabilityPercentage}%`;
-        collaboration_card_ai_readability.appendChild(span);
-        collaboration_card_details.appendChild(collaboration_card_ai_readability);
+        span.textContent = `${collaborationCardAiReadability}%`;
+        collaborationCardAiReadability.appendChild(span);
+        collaborationCardDetails.appendChild(collaborationCardAiReadability);
     }
 
-    return collaboration_card_details;
+    return collaborationCardDetails;
 }
 
 function createCollaborationCardCircularProgressBar(percentage) {
@@ -78,100 +78,99 @@ function createCollaborationCardCircularProgressBar(percentage) {
 }
 
 function createCollaborationCardBrandButtons() {
-    const brand_buttons = document.createElement("section");
-    brand_buttons.className = "brand_buttons";
+    const brandButtons = document.createElement("section");
+    brandButtons.className = "brand_buttons";
 
-    const reject_button = document.createElement("button");
-    reject_button.className = "brand_reject_button";
-    reject_button.textContent = "Reject";
-    brand_buttons.appendChild(reject_button);
+    const rejectButton = document.createElement("button");
+    rejectButton.className = "brand_reject_button";
+    rejectButton.textContent = "Reject";
+    brandButtons.appendChild(rejectButton);
 
-    const approve_button = document.createElement("button");
-    approve_button.className = "brand_approve_button";
-    approve_button.textContent = "Approve";
-    brand_buttons.appendChild(approve_button);
+    const approveButton = document.createElement("button");
+    approveButton.className = "brand_approve_button";
+    approveButton.textContent = "Approve";
+    brandButtons.appendChild(approveButton);
 
-    return brand_buttons;
-
+    return brandButtons;
 }
 
 async function homePageCollaborationCardBuilder(details) {
-    const { id, title, description, upvote, downvote, status, ai_readability } = details;
-    const collaboration_card = document.createElement("section");
-    collaboration_card.className = "collaboration_card";
+    const { id, title, description, upvote, downvote, status, aiReadability } = details;
+    const collaborationCard = document.createElement("section");
+    collaborationCard.className = "collaboration_card";
 
-    const first_section = document.createElement("section");
-    first_section.appendChild(createCollaborationCardTitle(title));
-    getCollaborationLogos({brand_id: details.brand_id, developer_id: details.developer_id})
+    const firstSection = document.createElement("section");
+    firstSection.appendChild(createCollaborationCardTitle(title));
+    getCollaborationLogos({brandId: details.brandId, developerId: details.developerId})
         .then(({developerLogo, brandLogo}) => {
-            first_section.appendChild(createCollaborationCardLogos(developerLogo, brandLogo));
+            firstSection.appendChild(createCollaborationCardLogos(developerLogo, brandLogo));
         });
-    collaboration_card.appendChild(first_section);
+        collaborationCard.appendChild(firstSection);
 
-    collaboration_card.appendChild(createCollaborationCardDetails(upvote, downvote, ai_readability));
+        collaborationCard.appendChild(createCollaborationCardDetails(upvote, downvote, aiReadability));
 
-    const third_section = document.createElement("section");
+    const thirdSection = document.createElement("section");
     const descriptionParagraph = document.createElement("p");
     descriptionParagraph.textContent = description;
-    third_section.appendChild(descriptionParagraph);
-    collaboration_card.appendChild(third_section);
+    thirdSection.appendChild(descriptionParagraph);
+    collaborationCard.appendChild(thirdSection);
 
-    const fourth_section = document.createElement("section");
-    const collaboration_card_status = document.createElement("section");
-    const status_span = document.createElement("span");
-    status_span.textContent = `Status: ${status}`;
-    collaboration_card_status.appendChild(status_span);
-    fourth_section.appendChild(collaboration_card_status);
+    const fourthSection = document.createElement("section");
+    const collaborationCardStatus = document.createElement("section");
+    const statusSpan = document.createElement("span");
+    statusSpan.textContent = `Status: ${status}`;
+    collaborationCardStatus.appendChild(statusSpan);
+    fourthSection.appendChild(collaborationCardStatus);
 
     getCollaborationThresholdPercentage(details)
         .then(percentage => {
-            const circular_progress_bar = createCollaborationCardCircularProgressBar(percentage);
-            fourth_section.appendChild(circular_progress_bar);
+            const circularProgressBar = createCollaborationCardCircularProgressBar(percentage);
+            fourthSection.appendChild(circularProgressBar);
         });
-    collaboration_card.appendChild(fourth_section);
+    collaborationCard.appendChild(fourthSection);
 
-    const fifth_section = document.createElement("section");
-    const last_edit_span = document.createElement("span");
+    const fifthSection = document.createElement("section");
+    const lastEditSpan = document.createElement("span");
     getCollaborationEditLogs(details)
         .then(logs => {
             if (logs.length > 0)
-                last_edit_span.textContent = `Last Edit: ${logs[logs.length - 1].date}`;
-            else 
-                last_edit_span.textContent = `Last Edit: Never`;
+                lastEditSpan.textContent = `Last Edit: ${logs[logs.length - 1].date}`;
+            else
+            lastEditSpan.textContent = `Last Edit: Never`;
         });
-    fifth_section.appendChild(last_edit_span);
+        fifthSection.appendChild(lastEditSpan);
 
-    const lower_button_section = document.createElement("section");
-    const delete_img = document.createElement("img");
-    delete_img.src = "./images/delete_icon_black.svg";
-    delete_img.alt = "delete_icon";
-    lower_button_section.appendChild(delete_img);
+    const lowerButtonSection = document.createElement("section");
+    const deleteImg = document.createElement("img");
+    deleteImg.src = "./images/delete_icon_black.svg";
+    deleteImg.alt = "delete_icon";
+    lowerButtonSection.appendChild(deleteImg);
 
-    const edit_img = document.createElement("img");
-    edit_img.src = "./images/edit_icon_black.svg";
-    edit_img.alt = "edit_icon";
-    lower_button_section.appendChild(edit_img);
+    const editImg = document.createElement("img");
+    editImg.src = "./images/edit_icon_black.svg";
+    editImg.alt = "edit_icon";
+    lowerButtonSection.appendChild(editImg);
 
-    fifth_section.appendChild(lower_button_section);
-    collaboration_card.appendChild(fifth_section);
+    fifthSection.appendChild(lowerButtonSection);
+    collaborationCard.appendChild(fifthSection);
 
-    collaboration_card.addEventListener("click", () => {
+    collaborationCard.addEventListener("click", () => {
         window.location.href = `./objectDetails.html?id=${id}`;
     });
 
-    edit_img.addEventListener("click", (event) => {
+    editImg.addEventListener("click", (event) => {
         event.stopPropagation();
         window.location.href = `./objectDetails.html?id=${id}&edit=true`;
     });
 
-    delete_img.addEventListener("click", (event) => {
+    deleteImg.addEventListener("click", (event) => {
         event.stopPropagation();
         const deleteModal = new bootstrap.Modal('#deleteCollaborationModal', {})
         deleteModal.show();
         document.querySelector("#deleteCollaborationModal .modal-body").textContent = `Are you sure you want to delete\n ${title} collaboration`;
         const deleteCollaborationFunc = async () => {
             await deleteCollaboration(id);
-            collaboration_card.remove();
+            collaborationCard.remove();
             deleteModal.hide();
         }
         document.getElementById("deleteCollaborationButton").addEventListener("click", deleteCollaborationFunc);
@@ -181,93 +180,93 @@ async function homePageCollaborationCardBuilder(details) {
         });
     });
 
-    return collaboration_card;
+    return collaborationCard;
 }
 
 async function votePageCollaborationCardBuilder(details) {
-    const { id, title, description, upvote, downvote, status, ai_readability } = details;
-    const collaboration_card = document.createElement("section");
-    collaboration_card.className = "collaboration_card";
+    const { id, title, description, upvote, downvote, status, aiReadability } = details;
+    const collaborationCard = document.createElement("section");
+    collaborationCard.className = "collaboration_card";
 
-    const first_section = document.createElement("section");
-    first_section.appendChild(createCollaborationCardTitle(title));
-    getCollaborationLogos({brand_id: details.brand_id, developer_id: details.developer_id})
+    const firstSection = document.createElement("section");
+    firstSection.appendChild(createCollaborationCardTitle(title));
+    getCollaborationLogos({brandId: details.brandId, developerId: details.developerId})
         .then(({developerLogo, brandLogo}) => {
-            first_section.appendChild(createCollaborationCardLogos(developerLogo, brandLogo));
+            firstSection.appendChild(createCollaborationCardLogos(developerLogo, brandLogo));
         });
-    collaboration_card.appendChild(first_section);
+        collaborationCard.appendChild(firstSection);
 
-    collaboration_card.appendChild(createCollaborationCardDetails(upvote, downvote));
+        collaborationCard.appendChild(createCollaborationCardDetails(upvote, downvote));
 
-    const third_section = document.createElement("section");
+    const thirdSection = document.createElement("section");
     const descriptionParagraph = document.createElement("p");
     descriptionParagraph.textContent = description;
-    third_section.appendChild(descriptionParagraph);
-    collaboration_card.appendChild(third_section);
+    thirdSection.appendChild(descriptionParagraph);
+    collaborationCard.appendChild(thirdSection);
 
-    const fourth_section = document.createElement("section");
-    collaboration_card.appendChild(fourth_section);
+    const fourthSection = document.createElement("section");
+    collaborationCard.appendChild(fourthSection);
 
-    const fifth_section = document.createElement("section");
-    collaboration_card.appendChild(fifth_section);
+    const fifthSection = document.createElement("section");
+    collaborationCard.appendChild(fifthSection);
 
-    collaboration_card.addEventListener("click", () => {
+    collaborationCard.addEventListener("click", () => {
         window.location.href = `./objectDetails.html?id=${id}&fromPage=Vote&vote=true`;
     });
 
-    return collaboration_card;
+    return collaborationCard;
 }
 
 async function brandPageCollaborationCardBuilder(details) {
-    const { id, title, description, upvote, downvote, status, ai_readability } = details;
-    const collaboration_card = document.createElement("section");
-    collaboration_card.className = "collaboration_card";
+    const { id, title, description, upvote, downvote, status, aiReadability } = details;
+    const collaborationCard = document.createElement("section");
+    collaborationCard.className = "collaboration_card";
 
-    const first_section = document.createElement("section");
-    first_section.appendChild(createCollaborationCardTitle(title));
-    getCollaborationLogos({brand_id: details.brand_id, developer_id: details.developer_id})
+    const firstSection = document.createElement("section");
+    firstSection.appendChild(createCollaborationCardTitle(title));
+    getCollaborationLogos({brandId: details.brandId, developerId: details.developerId})
         .then(({developerLogo, brandLogo}) => {
-            first_section.appendChild(createCollaborationCardLogos(developerLogo, brandLogo));
+            firstSection.appendChild(createCollaborationCardLogos(developerLogo, brandLogo));
         });
-    collaboration_card.appendChild(first_section);
+        collaborationCard.appendChild(firstSection);
 
-    const second_section = createCollaborationCardDetails(upvote, downvote)
-    collaboration_card.appendChild(second_section);
+    const secondSection = createCollaborationCardDetails(upvote, downvote)
+    collaborationCard.appendChild(secondSection);
 
     getCollaborationThresholdPercentage(details)
     .then(percentage => {
-        const circular_progress_bar = createCollaborationCardCircularProgressBar(percentage);
-        if (circular_progress_bar)
-            second_section.appendChild(circular_progress_bar);
+        const circularProgressBar = createCollaborationCardCircularProgressBar(percentage);
+        if (circularProgressBar)
+            secondSection.appendChild(circularProgressBar);
     });
 
-    const third_section = document.createElement("section");
+    const thirdSection = document.createElement("section");
     const descriptionParagraph = document.createElement("p");
     descriptionParagraph.textContent = description;
-    third_section.appendChild(descriptionParagraph);
-    collaboration_card.appendChild(third_section);
+    thirdSection.appendChild(descriptionParagraph);
+    collaborationCard.appendChild(thirdSection);
 
-    const fourth_section = createCollaborationCardBrandButtons();
-    collaboration_card.appendChild(fourth_section);
+    const fourthSection = createCollaborationCardBrandButtons();
+    collaborationCard.appendChild(fourthSection);
 
-    const fifth_section = document.createElement("section");
-    collaboration_card.appendChild(fifth_section);
+    const fifthSection = document.createElement("section");
+    collaborationCard.appendChild(fifthSection);
 
-    collaboration_card.addEventListener("click", () => {
+    collaborationCard.addEventListener("click", () => {
         window.location.href = `./objectDetails.html?id=${id}&fromPage=Brand`;
     });
 
     //Add event listeners to the buttons
-    const reject_button = collaboration_card.querySelector(".brand_reject_button");
-    const approve_button = collaboration_card.querySelector(".brand_approve_button");
-    reject_button.addEventListener("click", async (event) => {
+    const rejectButton = collaborationCard.querySelector(".brand_reject_button");
+    const approveButton = collaborationCard.querySelector(".brand_approve_button");
+    rejectButton.addEventListener("click", async (event) => {
         event.stopPropagation();
         const updateCollaborationStatusModal = new bootstrap.Modal('#updateCollaborationStatusModal', {})
         updateCollaborationStatusModal.show();
         document.querySelector("#updateCollaborationStatusModal .modal-body").textContent = `Are you sure you want to reject\n "${title}"`;
         const rejectCollaborationFunc = async () => {
             await rejectCollaboration(id);
-            collaboration_card.remove();
+            collaborationCard.remove();
             updateCollaborationStatusModal.hide();
         }
         document.getElementById("updateCollaborationStatusButton").addEventListener("click", rejectCollaborationFunc);
@@ -276,14 +275,14 @@ async function brandPageCollaborationCardBuilder(details) {
         });
     });
 
-    approve_button.addEventListener("click", async (event) => {
+    approveButton.addEventListener("click", async (event) => {
         event.stopPropagation();
         const updateCollaborationStatusModal = new bootstrap.Modal('#updateCollaborationStatusModal', {})
         updateCollaborationStatusModal.show();
         document.querySelector("#updateCollaborationStatusModal .modal-body").textContent = `Are you sure you want to approve\n "${title}"`;
         const approveCollaborationFunc = async () => {
             await approveCollaboration(id);
-            collaboration_card.remove();
+            collaborationCard.remove();
             updateCollaborationStatusModal.hide();
         }
         document.getElementById("updateCollaborationStatusButton").addEventListener("click", approveCollaborationFunc);
@@ -292,5 +291,5 @@ async function brandPageCollaborationCardBuilder(details) {
         });
     });
 
-    return collaboration_card;
+    return collaborationCard;
 }

@@ -38,7 +38,7 @@ const collaborationController = {
         const connection = await dbConnection.createConnection();
 
         try {
-            const [paragraphs] = await connection.execute(`SELECT id, title, status, text, image, video FROM ${TABLE_NAME_PREFIX}_collaboration_paragraph inner join ${TABLE_NAME_PREFIX}_paragraph on ${TABLE_NAME_PREFIX}_paragraph.id = ${TABLE_NAME_PREFIX}_collaboration_paragraph.paragraph_id WHERE collaboration_id = ?`, [req.params.id]);
+            const [paragraphs] = await connection.execute(`SELECT id, title, status, text, image, video FROM ${TABLE_NAME_PREFIX}_collaboration_paragraph inner join ${TABLE_NAME_PREFIX}_paragraph on ${TABLE_NAME_PREFIX}_paragraph.id = ${TABLE_NAME_PREFIX}_collaboration_paragraph.paragraphId WHERE collaborationId = ?`, [req.params.id]);
             res.status(200).json(paragraphs);
         } catch (error) {
             res.status(500).json({ error: error.message });
@@ -51,7 +51,7 @@ const collaborationController = {
         const connection = await dbConnection.createConnection();
 
         try {
-            const [paragraphs] = await connection.execute(`SELECT id, title, status, text, image, video FROM ${TABLE_NAME_PREFIX}_collaboration_paragraph inner join ${TABLE_NAME_PREFIX}_paragraph on ${TABLE_NAME_PREFIX}_paragraph.id = ${TABLE_NAME_PREFIX}_collaboration_paragraph.paragraph_id WHERE collaboration_id = ? and paragraph_id = ?`, [req.params.id, req.params.paragraphId]);
+            const [paragraphs] = await connection.execute(`SELECT id, title, status, text, image, video FROM ${TABLE_NAME_PREFIX}_collaboration_paragraph inner join ${TABLE_NAME_PREFIX}_paragraph on ${TABLE_NAME_PREFIX}_paragraph.id = ${TABLE_NAME_PREFIX}_collaboration_paragraph.paragraphId WHERE collaborationId = ? and paragraphId = ?`, [req.params.id, req.params.paragraphId]);
             if (paragraphs.length === 0) {
                 res.status(404).json({ error: `Paragraph with id ${req.params.paragraphId} for collaboration id ${req.params.id} not found` });
                 return;
@@ -68,7 +68,7 @@ const collaborationController = {
         const connection = await dbConnection.createConnection();
 
         try {
-            const [logs] = await connection.execute(`SELECT * FROM ${TABLE_NAME_PREFIX}_collaboration_logs WHERE collaboration_id = ?`, [req.params.id]);
+            const [logs] = await connection.execute(`SELECT * FROM ${TABLE_NAME_PREFIX}_collaboration_logs WHERE collaborationId = ?`, [req.params.id]);
             res.status(200).json(logs);
         } catch (error) {
             res.status(500).json({ error: error.message });
@@ -81,7 +81,7 @@ const collaborationController = {
         const connection = await dbConnection.createConnection();
 
         try {
-            const [coWriters] = await connection.execute(`SELECT profile_image FROM ${TABLE_NAME_PREFIX}_collaboration_cowriter inner join ${TABLE_NAME_PREFIX}_user on ${TABLE_NAME_PREFIX}_user.id = ${TABLE_NAME_PREFIX}_collaboration_cowriter.user_id WHERE collaboration_id = ?`, [req.params.id]);
+            const [coWriters] = await connection.execute(`SELECT profileImage FROM ${TABLE_NAME_PREFIX}_collaboration_cowriter inner join ${TABLE_NAME_PREFIX}_user on ${TABLE_NAME_PREFIX}_user.id = ${TABLE_NAME_PREFIX}_collaboration_cowriter.userId WHERE collaborationId = ?`, [req.params.id]);
             res.status(200).json(coWriters);
         } catch (error) {
             res.status(500).json({ error: error.message });
@@ -93,7 +93,7 @@ const collaborationController = {
     async getCollaborationParagraphImages(req, res) {
         const fs = require('fs');
         const path = require('path');
-        const directoryPath = path.join(__dirname, '../public/collaboration_paragraph_images');
+        const directoryPath = path.join(__dirname, '../public/collaborationParagraphImages');
         const files = fs.readdirSync(directoryPath);
         res.status(200).json(files);
     },
@@ -104,11 +104,11 @@ const collaborationController = {
     },
     // POST /api/collaboration
     async createCollaboration(req, res) {
-        const { user_id, title, description, developer_id, brand_id } = req.body;
-        if (!user_id || !title || !developer_id || !brand_id || !description) {
+        const { userId, title, description, developerId, brand_id } = req.body;
+        if (!userId || !title || !developerId || !brandId || !description) {
             res.status(400).json({
                 error: "All fields are required",
-                fields: ["user_id", "title", "developer_id", "brand_id", "description"]
+                fields: ["userId", "title", "developerId", "brandId", "description"]
             });
             return;
         }
@@ -116,7 +116,7 @@ const collaborationController = {
         const connection = await dbConnection.createConnection();
 
         try {
-            const [collaborations] = await connection.execute(`INSERT INTO ${TABLE_NAME_PREFIX}_collaboration (writer_id, title, description, developer_id, brand_id, upvote, downvote, status, ai_readability) VALUES (?, ?, ?, ?, ?, 0, 0, "pending", 0)`, [user_id, title, description, developer_id, brand_id]);
+            const [collaborations] = await connection.execute(`INSERT INTO ${TABLE_NAME_PREFIX}_collaboration (writerId, title, description, developerId, brandId, upvote, downvote, status, aiReadability) VALUES (?, ?, ?, ?, ?, 0, 0, "pending", 0)`, [userId, title, description, developerId, brandId]);
             res.status(201).json({ message: `Collaboration with id ${collaborations.insertId} created` });
         } catch (error) {
             res.status(500).json({ error: error.message });
@@ -129,7 +129,7 @@ const collaborationController = {
         const connection = await dbConnection.createConnection();
 
         try {
-            const [paragraphs] = await connection.execute(`INSERT INTO ${TABLE_NAME_PREFIX}_collaboration_paragraph (collaboration_id, title, status, text, image, video) VALUES (?, "", "up to date", "", "", "")`, [req.params.id]);
+            const [paragraphs] = await connection.execute(`INSERT INTO ${TABLE_NAME_PREFIX}_collaboration_paragraph (collaborationId, title, status, text, image, video) VALUES (?, "", "up to date", "", "", "")`, [req.params.id]);
             res.status(201).json({ message: `Paragraph with id ${paragraphs.insertId} for collaboration id ${req.params.id} created` });
         } catch (error) {
             res.status(500).json({ error: error.message });
@@ -140,9 +140,9 @@ const collaborationController = {
     // POST /api/collaboration/:id/co_writers/:coWriterId
     async addCollaborationCoWriter(req, res) {
         const connection = await dbConnection.createConnection();
-        
+
         try {
-            const [coWriters] = await connection.execute(`INSERT INTO ${TABLE_NAME_PREFIX}_collaboration_cowriter (collaboration_id, co_writer_id) VALUES (?, ?)`, [req.params.id, req.params.coWriterId]);
+            const [coWriters] = await connection.execute(`INSERT INTO ${TABLE_NAME_PREFIX}_collaboration_cowriter (collaborationId, coWriterId) VALUES (?, ?)`, [req.params.id, req.params.coWriterId]);
             res.status(201).json({ message: `Co-writer with id ${req.params.coWriterId} for collaboration id ${req.params.id} created` });
         } catch (error) {
             res.status(500).json({ error: error.message });
@@ -242,7 +242,7 @@ const collaborationController = {
         const connection = await dbConnection.createConnection();
 
         try {
-            const [collaborations] = await connection.execute(`UPDATE ${TABLE_NAME_PREFIX}_collaboration SET ai_readability = ? WHERE id = ?`, [readability, req.params.id]);
+            const [collaborations] = await connection.execute(`UPDATE ${TABLE_NAME_PREFIX}_collaboration SET aiReadability = ? WHERE id = ?`, [readability, req.params.id]);
             if (collaborations.affectedRows === 0) {
                 res.status(404).json({ error: `Collaboration with id ${req.params.id} not found` });
                 return;
@@ -315,12 +315,12 @@ const collaborationController = {
             connection.end();
         }
     },
-    // DELETE /api/collaboration/:id/co_writers/:coWriterId
+    // DELETE /api/collaboration/:id/coWriters/:coWriterId
     async deleteCollaborationCoWriter(req, res) {
         const connection = await dbConnection.createConnection();
 
         try {
-            const [coWriters] = await connection.execute(`DELETE FROM ${TABLE_NAME_PREFIX}_collaboration_cowriter WHERE collaboration_id = ? and co_writer_id = ?`, [req.params.id, req.params.coWriterId]);
+            const [coWriters] = await connection.execute(`DELETE FROM ${TABLE_NAME_PREFIX}_collaboration_cowriter WHERE collaborationId = ? and coWriterId = ?`, [req.params.id, req.params.coWriterId]);
             if (coWriters.affectedRows === 0) {
                 res.status(404).json({ error: `Co-writer with id ${req.params.coWriterId} for collaboration id ${req.params.id} not found` });
                 return;

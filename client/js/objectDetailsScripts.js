@@ -1,8 +1,8 @@
 function updateThresholdProgressBar(progressBar, threshold) {
-    const progress_color = threshold < 25 ? "#DC3545" : threshold < 50 ? "#FD7E14" : threshold < 75 ? "#FFC107" : "#20C997"
+    const progressColor = threshold < 25 ? "#DC3545" : threshold < 50 ? "#FD7E14" : threshold < 75 ? "#FFC107" : "#20C997"
     progressBar.textContent = `${threshold}%`
     progressBar.style.width = `${threshold}%`;
-    progressBar.style.backgroundColor = progress_color;
+    progressBar.style.backgroundColor = progressColor;
 }
 
 function populateCollaborationCoWriters(coWriters) {
@@ -10,8 +10,8 @@ function populateCollaborationCoWriters(coWriters) {
 
     coWriters.forEach(element => {
         const imgCoWriter = document.createElement("img");
-        imgCoWriter.src = element.profile_image;
-        imgCoWriter.alt = "user_image";
+        imgCoWriter.src = element.profileImage;
+        imgCoWriter.alt = "userImage";
         containerCoWriters.appendChild(imgCoWriter);
     });
 }
@@ -22,15 +22,15 @@ async function createCollaborationLog(editLog) {
     const spanDate = document.createElement("span");
     spanDate.textContent = editLog.date;
     sectionLog.appendChild(spanDate)
-    fetch(`${domain}/api/user/${editLog.user_id}`)
+    fetch(`${domain}/api/user/${editLog.userId}`)
         .then(response => {
             if(response.status == 200)
                 return response.json();
         })
         .then(data => {
             const imgUser = document.createElement("img");
-            imgUser.src = `${domain}/assets/profile_images/${data.profile_image}`;
-            imgUser.alt = "user_image";
+            imgUser.src = `${domain}/assets/profileImages/${data.profileImage}`;
+            imgUser.alt = "userImage";
             spanDate.before(imgUser);
         })
     return sectionLog;
@@ -70,8 +70,8 @@ async function initObjectDetails(objectData){
     document.querySelector("#collaboration_status").textContent = `Status: ${objectData.status}`;
     document.querySelectorAll("#collaboration_upvotes_downvotes span")[0].textContent = objectData.upvote;
     document.querySelectorAll("#collaboration_upvotes_downvotes span")[1].textContent = objectData.downvote;
-    document.querySelector(".circular_progress_bar span").textContent = objectData.ai_readability;
-    updateCircularProgressBar(document.querySelector(".circular_progress_bar"), objectData.ai_readability, "#2E2C2C");
+    document.querySelector(".circular_progress_bar span").textContent = objectData.aiReadability;
+    updateCircularProgressBar(document.querySelector(".circular_progress_bar"), objectData.aiReadability, "#2E2C2C");
 
     getCollaborationCoWritersProfileImages(objectData)
         .then(populateCollaborationCoWriters);

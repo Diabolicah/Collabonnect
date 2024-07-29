@@ -1,6 +1,6 @@
 const {dbConnection} = require('../db_connection');
 
-const TABLE_NAME_PREFIX = "tbl_112"
+const TABLE_NAME_PREFIX = "tbl_112";
 
 const brandController = {
     // GET /api/brand/
@@ -8,7 +8,7 @@ const brandController = {
         const connection = await dbConnection.createConnection();
 
         try {
-            const [users] = await connection.execute(`SELECT id, name, threshold, image_name FROM ${TABLE_NAME_PREFIX}_brand`);
+            const [users] = await connection.execute(`SELECT id, name, threshold, imageName FROM ${TABLE_NAME_PREFIX}_brand`);
             res.status(200).json(users);
         } catch (error) {
             res.status(500).json({ error: error.message });
@@ -21,7 +21,7 @@ const brandController = {
         const connection = await dbConnection.createConnection();
 
         try {
-            const [users] = await connection.execute(`SELECT name, threshold, image_name FROM ${TABLE_NAME_PREFIX}_brand WHERE id = ?`, [req.params.id]);
+            const [users] = await connection.execute(`SELECT name, threshold, imageName FROM ${TABLE_NAME_PREFIX}_brand WHERE id = ?`, [req.params.id]);
             if (users.length === 0) {
                 res.status(404).json({ error: `Brand with id ${req.params.id} not found` });
                 return;

@@ -1,28 +1,28 @@
 function updateNavbarDetails(details) {
-    const user_details_image = document.getElementById("user_details_image");
-    user_details_image.src = details.profile_image;
-    const user_details_userName = document.getElementById("user_details_userName");
-    user_details_userName.textContent = details.first_name;
-    const user_details_rank = document.getElementById("user_details_rank");
-    user_details_rank.textContent = details.rank;
-    const user_details_token = document.getElementById("user_details_token");
-    user_details_token.textContent = details.token;
-    const progress_bar = document.querySelector("#user_details .progress-bar.bg-light");
-    progress_bar.style.width = `${Math.min(Math.max(details.experience, 0), 100)}%`;
+    const userDetailsImage = document.getElementById("user_details_image");
+    userDetailsImage.src = details.profile_image;
+    const userDetailsUserName = document.getElementById("user_details_userName");
+    userDetailsUserName.textContent = details.first_name;
+    const userDetailsRank = document.getElementById("user_details_rank");
+    userDetailsRank.textContent = details.rank;
+    const userDetailsToken = document.getElementById("user_details_token");
+    userDetailsToken.textContent = details.token;
+    const progressBar = document.querySelector("#user_details .progress-bar.bg-light");
+    progressBar.style.width = `${Math.min(Math.max(details.experience, 0), 100)}%`;
 }
 
 function updateActiveNavbarTab(tabList) {
-    const active_tabs = document.querySelectorAll(".active_nav");
-    active_tabs.forEach((active_tab) => active_tab.classList.remove("active_nav"));
+    const activeTabs = document.querySelectorAll(".active_nav");
+    activeTabs.forEach((activeTabs) => activeTabs.classList.remove("active_nav"));
     tabList.forEach((tab) => tab.classList.add("active_nav"));
 }
 
 (async function() {
     const domain = await Settings.domain();
-    const user_id = await Settings.user_id();
-    const nav_bar_user_details = await fetch(`${domain}/api/user/${user_id}`).then(response => response.json());
-    nav_bar_user_details.profile_image = `${domain}/assets/profile_images/${nav_bar_user_details.profile_image}`;
-    updateNavbarDetails(nav_bar_user_details);
+    const userId = await Settings.user_id();
+    const navBarUserDetails = await fetch(`${domain}/api/user/${userId}`).then(response => response.json());
+    navBarUserDetails.profileImage = `${domain}/assets/profileImages/${navBarUserDetails.profileImage}`;
+    updateNavbarDetails(navBarUserDetails);
 
     const searchParams = new URLSearchParams(window.location.search);
     if (searchParams.get("fromPage") == "Vote") {

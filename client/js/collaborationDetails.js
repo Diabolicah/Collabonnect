@@ -4,14 +4,6 @@ async function getCollaborationLogos(collaboration) {
     return {"brandLogo": BrandData[collaboration.brandId].image, "developerLogo": DeveloperData[collaboration.developerId].image};
 }
 
-async function getCollaborationDetails(collaborationId) {
-    const domain = await Settings.domain();
-    const response = await fetch(`${domain}/api/collaborations/${collaborationId}`);
-    if(response.status == 200)
-        return await response.json();
-    return null;
-}
-
 async function getCollaborationThresholdPercentage(collaboration) {
     const brandData = await Data.brands();
     let threshold = brandData[collaboration.brandId].threshold;

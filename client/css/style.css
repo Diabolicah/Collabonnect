@@ -392,7 +392,7 @@ ol.breadcrumb {
     position: absolute;
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 8px;
 }
 
 #container_paragraphs .paragraph_title_and_status h2 {
@@ -418,7 +418,6 @@ ol.breadcrumb {
 #container_paragraphs .paragraph_title_and_status .status {
     background-color: rgba(32, 203, 152, 0.5);
     opacity: 0.5;
-    align-self: flex-end;
     width: 89px;
     border-radius: 5px;
     color: #000;

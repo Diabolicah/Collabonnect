@@ -83,8 +83,8 @@ function updateBrandPageLogo(logo){
 
 window.onload = async () => {
     const userId = await Settings.userId();
-    const BrandData = await Data.brands();
-    const currentBrand = BrandData[userId];
+    const brandData = await Data.brands();
+    const currentBrand = brandData[userId];
     populateBadgeImagesSelection();
     populateBadgeContainer();
 

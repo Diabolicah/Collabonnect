@@ -62,7 +62,7 @@ const collaborationController = {
     async createCollaboration(req, res) {
         const { userId, title, description, developerId, brandId } = req.body;
         if (!userId || !title || !developerId || !brandId || !description) {
-            res.status(400).json({
+            return res.status(400).json({
                 error: "All fields are required",
                 fields: ["userId", "title", "developerId", "brandId", "description"]
             });
@@ -72,9 +72,9 @@ const collaborationController = {
 
         try {
             const [collaborations] = await connection.execute(`INSERT INTO ${TABLE_NAME_PREFIX}_collaboration (writerId, title, description, developerId, brandId, upvote, downvote, status, aiReadability) VALUES (?, ?, ?, ?, ?, 0, 0, "pending", 0)`, [userId, title, description, developerId, brandId]);
-            res.status(201).json({ message: `Collaboration with id ${collaborations.insertId} created` });
+            return res.status(201).json({ message: `Collaboration with id ${collaborations.insertId} created` });
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            return res.status(500).json({ error: error.message });
         } finally {
             connection.end();
         }
@@ -85,9 +85,9 @@ const collaborationController = {
 
         try {
             const [coWriters] = await connection.execute(`INSERT INTO ${TABLE_NAME_PREFIX}_collaboration_cowriter (collaborationId, coWriterId) VALUES (?, ?)`, [req.params.id, req.params.coWriterId]);
-            res.status(201).json({ message: `Co-writer with id ${req.params.coWriterId} for collaboration id ${req.params.id} created` });
+            return res.status(201).json({ message: `Co-writer with id ${req.params.coWriterId} for collaboration id ${req.params.id} created` });
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            return res.status(500).json({ error: error.message });
         } finally {
             connection.end();
         }
@@ -96,7 +96,7 @@ const collaborationController = {
     async updateCollaborationStatus(req, res) {
         const { status } = req.body;
         if (!status) {
-            res.status(400).json({
+            return res.status(400).json({
                 error: "All fields are required",
                 fields: ["status"]
             });
@@ -107,11 +107,11 @@ const collaborationController = {
         try {
             const [collaborations] = await connection.execute(`UPDATE ${TABLE_NAME_PREFIX}_collaboration SET status = ? WHERE id = ?`, [status, req.params.id]);
             if (collaborations.affectedRows === 0) {
-                res.status(404).json({ error: `Collaboration with id ${req.params.id} not found` });
+                return res.status(404).json({ error: `Collaboration with id ${req.params.id} not found` });
             }
-            res.status(200).json({ message: `Collaboration with id ${req.params.id} updated` });
+            return res.status(200).json({ message: `Collaboration with id ${req.params.id} updated` });
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            return res.status(500).json({ error: error.message });
         } finally {
             connection.end();
         }
@@ -120,7 +120,7 @@ const collaborationController = {
     async updateCollaborationUpvote(req, res) {
         const { amount } = req.body;
         if (!amount) {
-            res.status(400).json({
+            return res.status(400).json({
                 error: "All fields are required",
                 fields: ["amount"]
             });
@@ -131,11 +131,11 @@ const collaborationController = {
         try {
             const [collaborations] = await connection.execute(`UPDATE ${TABLE_NAME_PREFIX}_collaboration SET upvote = upvote + ? WHERE id = ?`, [amount, req.params.id]);
             if (collaborations.affectedRows === 0) {
-                res.status(404).json({ error: `Collaboration with id ${req.params.id} not found` });
+                return res.status(404).json({ error: `Collaboration with id ${req.params.id} not found` });
             }
-            res.status(200).json({ message: `Collaboration with id ${req.params.id} updated` });
+            return res.status(200).json({ message: `Collaboration with id ${req.params.id} updated` });
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            return res.status(500).json({ error: error.message });
         } finally {
             connection.end();
         }
@@ -144,7 +144,7 @@ const collaborationController = {
     async updateCollaborationDownvote(req, res) {
         const { amount } = req.body;
         if (!amount) {
-            res.status(400).json({
+            return res.status(400).json({
                 error: "All fields are required",
                 fields: ["amount"]
             });
@@ -155,11 +155,11 @@ const collaborationController = {
         try {
             const [collaborations] = await connection.execute(`UPDATE ${TABLE_NAME_PREFIX}_collaboration SET downvote = downvote + ? WHERE id = ?`, [amount, req.params.id]);
             if (collaborations.affectedRows === 0) {
-                res.status(404).json({ error: `Collaboration with id ${req.params.id} not found` });
+                return res.status(404).json({ error: `Collaboration with id ${req.params.id} not found` });
             }
-            res.status(200).json({ message: `Collaboration with id ${req.params.id} updated` });
+            return res.status(200).json({ message: `Collaboration with id ${req.params.id} updated` });
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            return res.status(500).json({ error: error.message });
         } finally {
             connection.end();
         }
@@ -168,7 +168,7 @@ const collaborationController = {
     async updateCollaborationReadability(req, res) {
         const { readability } = req.body;
         if (!readability) {
-            res.status(400).json({
+            return res.status(400).json({
                 error: "All fields are required",
                 fields: ["readability"]
             });
@@ -179,11 +179,11 @@ const collaborationController = {
         try {
             const [collaborations] = await connection.execute(`UPDATE ${TABLE_NAME_PREFIX}_collaboration SET aiReadability = ? WHERE id = ?`, [readability, req.params.id]);
             if (collaborations.affectedRows === 0) {
-                res.status(404).json({ error: `Collaboration with id ${req.params.id} not found` });
+                return res.status(404).json({ error: `Collaboration with id ${req.params.id} not found` });
             }
-            res.status(200).json({ message: `Collaboration with id ${req.params.id} updated` });
+            return res.status(200).json({ message: `Collaboration with id ${req.params.id} updated` });
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            return res.status(500).json({ error: error.message });
         } finally {
             connection.end();
         }
@@ -195,11 +195,11 @@ const collaborationController = {
         try {
             const [collaborations] = await connection.execute(`DELETE FROM ${TABLE_NAME_PREFIX}_collaboration WHERE id = ?`, [req.params.id]);
             if (collaborations.affectedRows === 0) {
-                res.status(404).json({ error: `Collaboration with id ${req.params.id} not found` });
+                return res.status(404).json({ error: `Collaboration with id ${req.params.id} not found` });
             }
-            res.status(200).json({ message: `Collaboration with id ${req.params.id} deleted` });
+            return res.status(200).json({ message: `Collaboration with id ${req.params.id} deleted` });
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            return res.status(500).json({ error: error.message });
         } finally {
             connection.end();
         }
@@ -211,11 +211,11 @@ const collaborationController = {
         try {
             const [coWriters] = await connection.execute(`DELETE FROM ${TABLE_NAME_PREFIX}_collaboration_cowriter WHERE collaborationId = ? and coWriterId = ?`, [req.params.id, req.params.coWriterId]);
             if (coWriters.affectedRows === 0) {
-                res.status(404).json({ error: `Co-writer with id ${req.params.coWriterId} for collaboration id ${req.params.id} not found` });
+                return res.status(404).json({ error: `Co-writer with id ${req.params.coWriterId} for collaboration id ${req.params.id} not found` });
             }
-            res.status(200).json({ message: `Co-writer with id ${req.params.coWriterId} for collaboration id ${req.params.id} deleted` });
+            return res.status(200).json({ message: `Co-writer with id ${req.params.coWriterId} for collaboration id ${req.params.id} deleted` });
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            return res.status(500).json({ error: error.message });
         } finally {
             connection.end();
         }

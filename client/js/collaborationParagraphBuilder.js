@@ -126,9 +126,13 @@ async function addImageAndVideo(paragraph, paragraphDetails, isEditMode){
 async function approveParagraph(paragraph, paragraphDetails){
     const urlParams = new URLSearchParams(window.location.search);
     const collaborationId = urlParams.get("id");
-    paragraphDetails.title = paragraph.querySelector("input").value;
+
+    paragraphDetails.newTitle = paragraph.querySelector("input").value;
+    paragraphDetails.oldTitle = paragraphDetails.newTitle;
     paragraphDetails.status = "Up to date";
-    paragraphDetails.text = paragraph.querySelector("textarea").value;
+    paragraphDetails.newText = paragraph.querySelector("textarea").value;
+    paragraphDetails.oldText = paragraphDetails.newText;
+
     if(await approveCollaborationParagraph(collaborationId, paragraphDetails.id, paragraphDetails)){
         paragraph.querySelector(".pending").textContent = "Up to date";
         paragraph.querySelector(".pending").classList.remove("pending");

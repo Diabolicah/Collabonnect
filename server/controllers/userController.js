@@ -10,11 +10,11 @@ const userController = {
         try {
             const [users] = await connection.execute(`SELECT developerId, brandId, firstName, lastName, username, profileImage, token, rank, experience FROM ${TABLE_NAME_PREFIX}_user WHERE id = ?`, [req.params.id]);
             if (users.length === 0) {
-                res.status(404).json({ error: `User with id ${req.params.id} not found` });
+                return res.status(404).json({ error: `User with id ${req.params.id} not found` });
             }
-            res.status(200).json(users[0]);
+            return res.status(200).json(users[0]);
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            return res.status(500).json({ error: error.message });
         } finally {
             connection.end();
         }

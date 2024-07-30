@@ -9,9 +9,9 @@ const brandController = {
 
         try {
             const [users] = await connection.execute(`SELECT id, name, threshold, imagePath FROM ${TABLE_NAME_PREFIX}_brand`);
-            res.status(200).json(users);
+            return res.status(200).json(users);
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            return res.status(500).json({ error: error.message });
         } finally {
             connection.end();
         }
@@ -23,11 +23,11 @@ const brandController = {
         try {
             const [users] = await connection.execute(`SELECT name, threshold, imagePath FROM ${TABLE_NAME_PREFIX}_brand WHERE id = ?`, [req.params.id]);
             if (users.length === 0) {
-                res.status(404).json({ error: `Brand with id ${req.params.id} not found` });
+                return res.status(404).json({ error: `Brand with id ${req.params.id} not found` });
             }
-            res.status(200).json(users[0]);
+            return res.status(200).json(users[0]);
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            return res.status(500).json({ error: error.message });
         } finally {
             connection.end();
         }
@@ -36,7 +36,7 @@ const brandController = {
     async updateBrandThresholdById(req, res) {
         const { threshold } = req.body;
         if (!threshold) {
-            res.status(400).json({
+            return res.status(400).json({
                 error: "All fields are required",
                 fields: ["threshold"]
             });
@@ -47,11 +47,11 @@ const brandController = {
         try {
             const [users] = await connection.execute(`UPDATE ${TABLE_NAME_PREFIX}_brand SET threshold = ? WHERE id = ?`, [threshold, req.params.id]);
             if (users.affectedRows === 0) {
-                res.status(404).json({ error: `Brand with id ${req.params.id} not found` });
+                return res.status(404).json({ error: `Brand with id ${req.params.id} not found` });
             }
-            res.status(200).json({ message: `Brand with id ${req.params.id} updated successfully` });
+            return res.status(200).json({ message: `Brand with id ${req.params.id} updated successfully` });
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            return res.status(500).json({ error: error.message });
         } finally {
             connection.end();
         }

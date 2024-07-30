@@ -17,7 +17,7 @@ function updateActiveNavbarTab(tabList) {
     tabList.forEach((tab) => tab.classList.add("active_nav"));
 }
 
-(async function() {
+(async () => {
     const domain = await Settings.domain();
     const userId = await Settings.userId();
     const navBarUserDetails = await fetch(`${domain}/api/users/${userId}`).then(response => response.json());

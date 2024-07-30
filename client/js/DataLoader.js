@@ -5,7 +5,7 @@ let Data = {
     "isDeveloperProcessing" : false,
 };
 
-Data.brands = async function() {
+Data.brands = async () => {
     if (!Data.isBrandReady) {
         if (!Data.isBrandProcessing) {
             await getBrandsData();
@@ -19,7 +19,7 @@ Data.brands = async function() {
     return Data._brands;
 }
 
-Data.developers = async function() {
+Data.developers = async () => {
     if (!Data.isDeveloperReady) {
         if (!Data.isDeveloperProcessing) {
             await getDevelopersData();

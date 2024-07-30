@@ -705,7 +705,7 @@ ol.breadcrumb {
     display: flex;
     flex-wrap: wrap;
     gap: 16px;
-    justify-content: first;
+    justify-content: start;
 }
 
 #collaboration_cards_container #object_adder {

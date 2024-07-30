@@ -24,7 +24,6 @@ const brandController = {
             const [users] = await connection.execute(`SELECT name, threshold, imageName FROM ${TABLE_NAME_PREFIX}_brand WHERE id = ?`, [req.params.id]);
             if (users.length === 0) {
                 res.status(404).json({ error: `Brand with id ${req.params.id} not found` });
-                return;
             }
             res.status(200).json(users[0]);
         } catch (error) {
@@ -34,14 +33,13 @@ const brandController = {
         }
     },
     // PUT /api/brand/:id/threshold
-    async updateBrandById(req, res) {
+    async updateBrandThresholdById(req, res) {
         const { threshold } = req.body;
         if (!threshold) {
             res.status(400).json({
                 error: "All fields are required",
                 fields: ["threshold"]
             });
-            return;
         }
 
         const connection = await dbConnection.createConnection();
@@ -50,7 +48,6 @@ const brandController = {
             const [users] = await connection.execute(`UPDATE ${TABLE_NAME_PREFIX}_brand SET threshold = ? WHERE id = ?`, [threshold, req.params.id]);
             if (users.affectedRows === 0) {
                 res.status(404).json({ error: `Brand with id ${req.params.id} not found` });
-                return;
             }
             res.status(200).json({ message: `Brand with id ${req.params.id} updated successfully` });
         } catch (error) {

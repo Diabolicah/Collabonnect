@@ -24,7 +24,6 @@ const badgeController = {
             const [badges] = await connection.execute(`SELECT name, imageName FROM ${TABLE_NAME_PREFIX}_badge WHERE id = ?`, [req.params.id]);
             if (badges.length === 0) {
                 res.status(404).json({ error: `Badge with id ${req.params.id} not found` });
-                return;
             }
             res.status(200).json(badges[0]);
         } catch (error) {
@@ -49,7 +48,6 @@ const badgeController = {
                 error: "All fields are required",
                 fields: ["name", "imageName", "description"]
             });
-            return;
         }
 
         const connection = await dbConnection.createConnection();
@@ -71,7 +69,6 @@ const badgeController = {
                 error: "All fields are required",
                 fields: ["name", "imageName", "description"]
             });
-            return;
         }
 
         const connection = await dbConnection.createConnection();
@@ -80,7 +77,6 @@ const badgeController = {
             const [badges] = await connection.execute(`UPDATE ${TABLE_NAME_PREFIX}_badge SET name = ?, description = ?, imageName = ? WHERE id = ?`, [name, description, imageName, req.params.id]);
             if (badges.affectedRows === 0) {
                 res.status(404).json({ error: `Badge with id ${req.params.id} not found` });
-                return;
             }
             res.status(200).json({ message: `Badge with id ${req.params.id} updated successfully` });
         } catch (error) {
@@ -97,7 +93,6 @@ const badgeController = {
             const [badges] = await connection.execute(`DELETE FROM ${TABLE_NAME_PREFIX}_badge WHERE id = ?`, [req.params.id]);
             if (badges.affectedRows === 0) {
                 res.status(404).json({ error: `Badge with id ${req.params.id} not found` });
-                return;
             }
             res.status(200).json({ message: `Badge with id ${req.params.id} deleted successfully` });
         } catch (error) {

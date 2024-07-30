@@ -54,33 +54,34 @@ function populateCollaborationParagraphs(paragraphs, isEditMode) {
     })
 }
 
-async function initCollaborationDetails(objectData){
-    getCollaborationLogos(objectData)
+async function initCollaborationDetails(collaborationData){
+    getCollaborationLogos(collaborationData)
         .then(({brandLogo, developerLogo}) => {
             document.querySelector("#collaboration_brand_logo").src = `${brandLogo}`;
             document.querySelector("#collaboration_developer_logo").src = `${developerLogo}`;
         });
-    getCollaborationWriterProfileImage(objectData)
+    getCollaborationWriterProfileImage(collaborationData)
         .then(writerProfileImage => document.querySelector("#collaboration_co_writers img").src = `${writerProfileImage}`);
-    getCollaborationThresholdPercentage(objectData)
+    getCollaborationThresholdPercentage(collaborationData)
         .then(threshold => updateThresholdProgressBar(document.querySelector("#container_object_details .progress .progress-bar"), threshold));
 
-    document.querySelector("#collaboration_title").textContent = objectData.title;
-    document.querySelector(".breadcrumb-item.active").textContent = objectData.title;
-    document.querySelector("#collaboration_status").textContent = `Status: ${objectData.status}`;
-    document.querySelectorAll("#collaboration_upvotes_downvotes span")[0].textContent = objectData.upvote;
-    document.querySelectorAll("#collaboration_upvotes_downvotes span")[1].textContent = objectData.downvote;
-    document.querySelector(".circular_progress_bar span").textContent = objectData.aiReadability;
-    updateCircularProgressBar(document.querySelector(".circular_progress_bar"), objectData.aiReadability, "#2E2C2C");
+    document.querySelector("#collaboration_title").textContent = collaborationData.title;
+    document.querySelector(".breadcrumb-item.active").textContent = collaborationData.title;
+    document.querySelector("#collaboration_status").textContent = `Status: ${collaborationData.status}`;
+    document.querySelectorAll("#collaboration_upvotes_downvotes span")[0].textContent = collaborationData.upvote;
+    document.querySelectorAll("#collaboration_upvotes_downvotes span")[1].textContent = collaborationData.downvote;
+    document.querySelector(".circular_progress_bar span").textContent = collaborationData.aiReadability;
+    updateCircularProgressBar(document.querySelector(".circular_progress_bar"), collaborationData.aiReadability, "#2E2C2C");
 
-    getCollaborationCoWritersProfileImages(objectData)
+    getCollaborationCoWritersProfileImages(collaborationData)
         .then(populateCollaborationCoWriters);
 
-    getCollaborationEditLogs(objectData)
+    getCollaborationEditLogs(collaborationData)
         .then(populateCollaborationEditLogs);
 
-    const paragraphs = await getCollaborationParagraphs(objectData);
-    populateCollaborationParagraphs(paragraphs, false);
+    const urlParams = new URLSearchParams(window.location.search);
+    const editMode = urlParams.get("edit") == "true" ? true : false;
+    changeMode(editMode);
 }
 
 function updateBreadCrumbs(fromPage){
@@ -98,10 +99,14 @@ async function getCollaborationDetailsFromServer(){
     const urlParams = new URLSearchParams(window.location.search);
     const collaborationId = urlParams.get("id");
     const fromPage = urlParams.get("fromPage");
+
     updateBreadCrumbs(fromPage);
-    const collaboration = await getCollaborationDetails(collaborationId);
-    if(collaboration)
-        initCollaborationDetails(collaboration);
+
+    const collaborationData = await Data.collaborations();
+    const currentCollaboration = collaborationData[collaborationId];
+
+    if(currentCollaboration)
+        initCollaborationDetails(currentCollaboration);
     else document.location.replace("./index.html");
 }
 
@@ -164,17 +169,33 @@ async function addNewParagraphs(){
         });
 }
 
-async function changeToEditMode() {
-    document.querySelectorAll("#collaboration_edit_delete > img")[1].removeEventListener("click", changeToEditMode);
+async function changeMode(isEditMode){
+    const editButton = document.querySelectorAll("#collaboration_edit_delete > img")[1];
+    editButton.src = isEditMode ? "./images/edit_mode_icon.svg" : "./images/edit_icon.svg";
+    document.querySelector("#container_paragraphs").innerHTML = isEditMode ? `<section id="object_adder"><img src="./images/add_object_icon.svg" alt="plus_circle_icon"></section>` : "";
+
+    editButton.removeEventListener("click", isEditMode ? changeToEditMode : changeToViewMode);
+
+    if(isEditMode)
+        document.querySelector("#object_adder").addEventListener("click", addNewParagraphs);
+
     const urlParams = new URLSearchParams(window.location.search);
     const collaborationId = urlParams.get("id");
-    const collaboration = await getCollaborationDetails(collaborationId);
 
-    document.querySelectorAll("#collaboration_edit_delete > img")[1].src = "./images/edit_mode_icon.svg";
-    document.querySelector("#container_paragraphs").innerHTML = `<section id="object_adder"><img src="./images/add_object_icon.svg" alt="plus_circle_icon"></section>`;
-    populateCollaborationParagraphs(await getCollaborationParagraphs(collaboration), true);
+    const collaborationData = await Data.collaborations();
+    const currentCollaboration = collaborationData[collaborationId];
 
-    document.querySelector("#object_adder").addEventListener("click", addNewParagraphs);
+    populateCollaborationParagraphs(await getCollaborationParagraphs(currentCollaboration), isEditMode);
+
+    editButton.addEventListener("click", isEditMode ? changeToViewMode : changeToEditMode);
+}
+
+function changeToEditMode() {
+    changeMode(true);
+}
+
+function changeToViewMode(){
+    changeMode(false);
 }
 
 function addListeners(){

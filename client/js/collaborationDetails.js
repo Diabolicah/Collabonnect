@@ -6,7 +6,7 @@ async function getCollaborationLogos(collaboration) {
 
 async function getCollaborationDetails(collaborationId) {
     const domain = await Settings.domain();
-    const response = await fetch(`${domain}/api/collaboration/${collaborationId}`);
+    const response = await fetch(`${domain}/api/collaborations/${collaborationId}`);
     if(response.status == 200)
         return await response.json();
     return null;
@@ -23,7 +23,7 @@ async function getCollaborationThresholdPercentage(collaboration) {
 async function getCollaborationWriterProfileImage(collaboration){
     const domain = await Settings.domain();
     let writerProfileImage = '#';
-    await fetch(`${domain}/api/user/${collaboration.writerId}`)
+    await fetch(`${domain}/api/users/${collaboration.writerId}`)
         .then(response => {
             if(response.status == 200)
                 return response.json();
@@ -36,7 +36,7 @@ async function getCollaborationWriterProfileImage(collaboration){
 async function getCollaborationCoWritersProfileImages(collaboration){
     const domain = await Settings.domain();
     let coWriters = null;
-    await fetch(`${domain}/api/collaboration/${collaboration.id}/coWritersImages`)
+    await fetch(`${domain}/api/collaborations/${collaboration.id}/coWritersImages`)
         .then(response => {
             if(response.status == 200)
                 return response.json();
@@ -54,7 +54,7 @@ async function getCollaborationCoWritersProfileImages(collaboration){
 async function getCollaborationEditLogs(collaboration){
     const domain = await Settings.domain();
     let editLogs = null;
-    await fetch(`${domain}/api/collaboration/${collaboration.id}/logs`)
+    await fetch(`${domain}/api/collaborations/${collaboration.id}/logs`)
         .then(response => {
             if(response.status == 200)
                 return response.json();
@@ -73,7 +73,7 @@ async function getCollaborationEditLogs(collaboration){
 async function getCollaborationParagraphs(collaboration) {
     const domain = await Settings.domain();
     let paragraphs = null;
-    await fetch(`${domain}/api/collaboration/${collaboration.id}/paragraphs`)
+    await fetch(`${domain}/api/collaborations/${collaboration.id}/paragraphs`)
         .then(response => {
             if(response.status == 200)
                 return response.json();
@@ -87,7 +87,7 @@ async function getCollaborationParagraphs(collaboration) {
 
 async function getCollaborationsList() {
     const domain = await Settings.domain();
-    const response = await fetch(`${domain}/api/collaboration`);
+    const response = await fetch(`${domain}/api/collaborations`);
     if(response.status == 200)
         return await response.json();
     return null;
@@ -95,7 +95,7 @@ async function getCollaborationsList() {
 
 async function deleteCollaboration(collaborationId) {
     const domain = await Settings.domain();
-    const response = await fetch(`${domain}/api/collaboration/${collaborationId}`, {
+    const response = await fetch(`${domain}/api/collaborations/${collaborationId}`, {
         method: 'DELETE'
     });
     if(response.status == 200)
@@ -105,7 +105,7 @@ async function deleteCollaboration(collaborationId) {
 
 async function approveCollaboration(collaborationId) {
     const domain = await Settings.domain();
-    const response = await fetch(`${domain}/api/collaboration/${collaborationId}/status`, {
+    const response = await fetch(`${domain}/api/collaborations/${collaborationId}/status`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -119,7 +119,7 @@ async function approveCollaboration(collaborationId) {
 
 async function rejectCollaboration(collaborationId) {
     const domain = await Settings.domain();
-    const response = await fetch(`${domain}/api/collaboration/${collaborationId}/status`, {
+    const response = await fetch(`${domain}/api/collaborations/${collaborationId}/status`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -133,7 +133,7 @@ async function rejectCollaboration(collaborationId) {
 
 async function approveCollaborationParagraph(collaborationId, paragraphId, paragraph) {
     const domain = await Settings.domain();
-    const response = await fetch(`${domain}/api/collaboration/${collaborationId}/paragraphs/${paragraphId}`, {
+    const response = await fetch(`${domain}/api/collaborations/${collaborationId}/paragraphs/${paragraphId}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -147,7 +147,7 @@ async function approveCollaborationParagraph(collaborationId, paragraphId, parag
 
 async function deleteCollaborationParagraph(collaborationId, paragraphId){
     const domain = await Settings.domain();
-    const response = await fetch(`${domain}/api/collaboration/${collaborationId}/paragraphs/${paragraphId}`, {
+    const response = await fetch(`${domain}/api/collaborations/${collaborationId}/paragraphs/${paragraphId}`, {
         method: 'DELETE'
     });
     if(response.status == 200)

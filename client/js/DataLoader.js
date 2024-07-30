@@ -5,7 +5,6 @@ let Data = {
     "isDeveloperProcessing" : false,
 };
 
-//Add prototype where if trying to access data before it is ready, it will fetch the data
 Data.brands = async function() {
     if (!Data.isBrandReady) {
         if (!Data.isBrandProcessing) {
@@ -37,7 +36,7 @@ Data.developers = async function() {
 async function getBrandsData() {
     Data.isBrandProcessing = true;
     const domain = await Settings.domain();
-    const brands = await fetch(`${domain}/api/brand/`).then((response) => response.json());
+    const brands = await fetch(`${domain}/api/brands/`).then((response) => response.json());
     for (let brand of brands) {
         brand.image = `${domain}/assets/brandImages/${brand.imagePath}`;
     }
@@ -52,7 +51,7 @@ async function getBrandsData() {
 async function getDevelopersData() {
     Data.isDeveloperProcessing = true;
     const domain = await Settings.domain();
-    const developers = await fetch(`${domain}/api/developer/`).then((response) => response.json());
+    const developers = await fetch(`${domain}/api/developers/`).then((response) => response.json());
     for (let developer of developers) {
         developer.image = `${domain}/assets/developerImages/${developer.imagePath}`;
     }

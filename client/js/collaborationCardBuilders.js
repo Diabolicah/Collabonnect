@@ -155,12 +155,12 @@ async function homePageCollaborationCardBuilder(details) {
     collaborationCard.appendChild(fifthSection);
 
     collaborationCard.addEventListener("click", () => {
-        window.location.href = `./objectDetails.html?id=${id}`;
+        window.location.href = `./collaborationDetails.html?id=${id}`;
     });
 
     editImg.addEventListener("click", (event) => {
         event.stopPropagation();
-        window.location.href = `./objectDetails.html?id=${id}&edit=true`;
+        window.location.href = `./collaborationDetails.html?id=${id}&edit=true`;
     });
 
     deleteImg.addEventListener("click", (event) => {
@@ -211,7 +211,7 @@ async function votePageCollaborationCardBuilder(details) {
     collaborationCard.appendChild(fifthSection);
 
     collaborationCard.addEventListener("click", () => {
-        window.location.href = `./objectDetails.html?id=${id}&fromPage=Vote&vote=true`;
+        window.location.href = `./collaborationDetails.html?id=${id}&fromPage=Vote&vote=true`;
     });
 
     return collaborationCard;
@@ -253,7 +253,7 @@ async function brandPageCollaborationCardBuilder(details) {
     collaborationCard.appendChild(fifthSection);
 
     collaborationCard.addEventListener("click", () => {
-        window.location.href = `./objectDetails.html?id=${id}&fromPage=Brand`;
+        window.location.href = `./collaborationDetails.html?id=${id}&fromPage=Brand`;
     });
 
     //Add event listeners to the buttons

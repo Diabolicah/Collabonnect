@@ -1,8 +1,8 @@
 function updateNavbarDetails(details) {
     const userDetailsImage = document.getElementById("user_details_image");
-    userDetailsImage.src = details.profile_image;
+    userDetailsImage.src = details.profileImage;
     const userDetailsUserName = document.getElementById("user_details_userName");
-    userDetailsUserName.textContent = details.first_name;
+    userDetailsUserName.textContent = details.firstName;
     const userDetailsRank = document.getElementById("user_details_rank");
     userDetailsRank.textContent = details.rank;
     const userDetailsToken = document.getElementById("user_details_token");

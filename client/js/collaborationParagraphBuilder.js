@@ -1,27 +1,4 @@
-function createDefaultParagraph(paragraphDetails, isEditMode){
-    isEditMode = isEditMode || false;
-    const paragraph = document.createElement("section");
-    paragraph.classList.add("paragraph");
-
-    const paragraphTitleStatus = document.createElement("section");
-    paragraphTitleStatus.classList.add("paragraph_title_and_status");
-    let title;
-    if(isEditMode) {
-        title = document.createElement("input");
-        title.value = paragraphDetails.title;
-    }else {
-        title = document.createElement("h2");
-        title.textContent = paragraphDetails.title;
-    }
-    const status = document.createElement("section");
-    status.classList.add("status");
-    if(paragraphDetails.status == "Pending"){
-        status.classList.add("pending");
-        status.textContent = paragraphDetails.status;
-    }else {
-        status.textContent = "Up to date";
-    }
-
+function createTextParagraph(paragraphDetails, isEditMode, status){
     let paragraphText;
     if(isEditMode) {
         paragraphText = document.createElement("textarea");
@@ -30,6 +7,62 @@ function createDefaultParagraph(paragraphDetails, isEditMode){
         paragraphText = document.createElement("p");
         paragraphText.textContent = paragraphDetails.text;
     }
+
+    paragraphText.addEventListener("click", () => {
+        if(!status.classList.contains("Pending")){
+            status.textContent = "Pending";
+            status.classList.add("pending");
+        }
+    });
+
+    return paragraphText;
+}
+
+function createTitleParagraph(paragraphDetails, isEditMode, status){
+    let title;
+    if(isEditMode) {
+        title = document.createElement("input");
+        title.value = paragraphDetails.title;
+    }else {
+        title = document.createElement("h2");
+        title.textContent = paragraphDetails.title;
+    }
+
+    title.addEventListener("click", () => {
+        if(!status.classList.contains("Pending")){
+            status.textContent = "Pending";
+            status.classList.add("pending");
+        }
+    });
+
+    return title;
+}
+
+function createStatusParagraph(paragraphDetails){
+    const status = document.createElement("section");
+    status.classList.add("status");
+    if(paragraphDetails.status == "Pending"){
+        status.classList.add("pending");
+        status.textContent = paragraphDetails.status;
+    }else {
+        status.textContent = "Up to date";
+    }
+    return status;
+}
+
+function createDefaultParagraph(paragraphDetails, isEditMode){
+    isEditMode = isEditMode || false;
+    const paragraph = document.createElement("section");
+    paragraph.classList.add("paragraph");
+
+    const paragraphTitleStatus = document.createElement("section");
+    paragraphTitleStatus.classList.add("paragraph_title_and_status");
+
+    const status = createStatusParagraph(paragraphDetails);
+
+    let title = createTitleParagraph(paragraphDetails, isEditMode, status);
+
+    let paragraphText = createTextParagraph(paragraphDetails, isEditMode, status);
 
     paragraph.appendChild(paragraphTitleStatus);
     paragraphTitleStatus.appendChild(title);
@@ -92,6 +125,36 @@ async function addImageAndVideo(paragraph, paragraphDetails, isEditMode){
     return addVideo(currParagraph, paragraphDetails, isEditMode);
 }
 
+async function approveParagraph(paragraph, paragraphDetails){
+    const urlParams = new URLSearchParams(window.location.search);
+    const collaborationId = urlParams.get("id");
+    paragraphDetails.title = paragraph.querySelector("input").value;
+    paragraphDetails.status = "Up to date";
+    paragraphDetails.text = paragraph.querySelector("textarea").value;
+    if(await approveCollaborationParagraph(collaborationId, paragraphDetails.id, paragraphDetails)){
+        paragraph.querySelector(".pending").textContent = "Up to date";
+        paragraph.querySelector(".pending").classList.remove("pending");
+    }
+}
+
+async function deleteParagraph(paragraph, paragraphDetails){
+    const urlParams = new URLSearchParams(window.location.search);
+    const collaborationId = urlParams.get("id");
+    const title = paragraph.querySelector(".paragraph_title_and_status input").value;
+    const deleteModal = new bootstrap.Modal('#deleteCollaborationModal', {})
+    deleteModal.show();
+    document.querySelector("#deleteCollaborationModal .modal-body").textContent = `Are you sure you want to delete\n ${title} paragraph`;
+    const deleteCollaborationFunc = async () => {
+        await deleteCollaborationParagraph(collaborationId, paragraphDetails.id);
+        paragraph.remove();
+        deleteModal.hide();
+    }
+    document.getElementById("deleteCollaborationButton").addEventListener("click", deleteCollaborationFunc);
+
+    deleteModal._element.addEventListener("hide.bs.modal", () => {
+        document.getElementById("deleteCollaborationButton").removeEventListener("click", deleteCollaborationFunc);
+    });
+}
 
 function addEditButtons(paragraph, paragraphDetails){
     const paragraphApproveDelete = document.createElement("section");
@@ -109,36 +172,8 @@ function addEditButtons(paragraph, paragraphDetails){
     paragraphApproveDelete.appendChild(paragraphDeleteIcon);
     paragraph.querySelector(".paragraph_title_and_status").appendChild(paragraphApproveDelete);
 
-    paragraphDeleteIcon.addEventListener("click", () => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const collaborationId = urlParams.get("id");
-        const title = paragraph.querySelector(".paragraph_title_and_status input").value;
-        const deleteModal = new bootstrap.Modal('#deleteCollaborationModal', {})
-        deleteModal.show();
-        document.querySelector("#deleteCollaborationModal .modal-body").textContent = `Are you sure you want to delete\n ${title} paragraph`;
-        const deleteCollaborationFunc = async () => {
-            await deleteCollaborationParagraph(collaborationId, paragraphDetails.id);
-            paragraph.remove();
-            deleteModal.hide();
-        }
-        document.getElementById("deleteCollaborationButton").addEventListener("click", deleteCollaborationFunc);
-
-        deleteModal._element.addEventListener("hide.bs.modal", () => {
-            document.getElementById("deleteCollaborationButton").removeEventListener("click", deleteCollaborationFunc);
-        });
-    })
-
-    paragraphApproveIcon.addEventListener("click", async () => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const collaborationId = urlParams.get("id");
-        paragraphDetails.title = paragraph.querySelector("input").value;
-        paragraphDetails.status = "Up to date";
-        paragraphDetails.text = paragraph.querySelector("textarea").value;
-        if(await approveCollaborationParagraph(collaborationId, paragraphDetails.id, paragraphDetails)){
-            paragraph.querySelector(".pending").textContent = "Up to date";
-            paragraph.querySelector(".pending").classList.remove("pending");
-        }
-    })
+    paragraphDeleteIcon.addEventListener("click", () => deleteParagraph(paragraph, paragraphDetails));
+    paragraphApproveIcon.addEventListener("click", () => approveParagraph(paragraph, paragraphDetails));
 
     return paragraph;
 }

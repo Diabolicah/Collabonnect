@@ -49,7 +49,7 @@ window.onload = async () => {
 
     const informationButton = document.querySelector("#search_bar_container > img");
     informationButton.addEventListener("click", () => {
-        const newCollaborationModal = new bootstrap.Modal('#cardInformationModal', {})
+        const newCollaborationModal = new bootstrap.Modal('#card_information_modal', {})
         newCollaborationModal.show();
     });
 }

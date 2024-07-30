@@ -143,18 +143,18 @@ async function deleteParagraph(paragraph, paragraphDetails){
     const urlParams = new URLSearchParams(window.location.search);
     const collaborationId = urlParams.get("id");
     const title = paragraph.querySelector(".paragraph_title_and_status input").value;
-    const deleteModal = new bootstrap.Modal('#deleteCollaborationModal', {})
+    const deleteModal = new bootstrap.Modal('#delete_collaboration_modal', {})
     deleteModal.show();
-    document.querySelector("#deleteCollaborationModal .modal-body").textContent = `Are you sure you want to delete\n ${title} paragraph`;
+    document.querySelector("#delete_collaboration_modal .modal-body").textContent = `Are you sure you want to delete\n ${title} paragraph`;
     const deleteCollaborationFunc = async () => {
         await deleteCollaborationParagraph(collaborationId, paragraphDetails.id);
         paragraph.remove();
         deleteModal.hide();
     }
-    document.getElementById("deleteCollaborationButton").addEventListener("click", deleteCollaborationFunc);
+    document.getElementById("delete_collaboration_button").addEventListener("click", deleteCollaborationFunc);
 
     deleteModal._element.addEventListener("hide.bs.modal", () => {
-        document.getElementById("deleteCollaborationButton").removeEventListener("click", deleteCollaborationFunc);
+        document.getElementById("delete_collaboration_button").removeEventListener("click", deleteCollaborationFunc);
     });
 }
 

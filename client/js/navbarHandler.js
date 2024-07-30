@@ -1,7 +1,7 @@
 function updateNavbarDetails(details) {
     const userDetailsImage = document.getElementById("user_details_image");
     userDetailsImage.src = details.profileImage;
-    const userDetailsUserName = document.getElementById("user_details_userName");
+    const userDetailsUserName = document.getElementById("user_details_user_name");
     userDetailsUserName.textContent = details.firstName;
     const userDetailsRank = document.getElementById("user_details_rank");
     userDetailsRank.textContent = details.rank;

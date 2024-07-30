@@ -7,7 +7,7 @@ function createOptionElement(value, text) {
 
 async function populateFormBrandSelection() {
     const brandsData = await Data.brands();
-    const brandSelect = document.getElementById("collaborationBrandDataList");
+    const brandSelect = document.getElementById("collaboration_brand_data_list");
     const defaultOption = createOptionElement("", "Select a brand");
     defaultOption.selected = true;
     defaultOption.disabled = true;
@@ -20,7 +20,7 @@ async function populateFormBrandSelection() {
 
 async function populateFormDeveloperSelection() {
     const developersData = await Data.developers();
-    const developerSelect = document.getElementById("collaborationDeveloperDataList");
+    const developerSelect = document.getElementById("collaboration_developer_data_list");
     const defaultOption = createOptionElement("", "Select a developer");
     defaultOption.selected = true;
     defaultOption.disabled = true;
@@ -55,38 +55,38 @@ window.onload = async () => {
     populateFormBrandSelection();
     populateFormDeveloperSelection();
 
-    const brandSelect = document.getElementById("collaborationBrandDataList");
+    const brandSelect = document.getElementById("collaboration_brand_data_list");
     brandSelect.addEventListener("change", async () => {
         const brandId = brandSelect.value;
-        const brandImage = document.getElementById("collaborationBrandLogo");
+        const brandImage = document.getElementById("collaboration_brand_logo");
         brandImage.src = BrandData[brandId].image;
     });
 
-    const developerSelect = document.getElementById("collaborationDeveloperDataList");
+    const developerSelect = document.getElementById("collaboration_developer_data_list");
     developerSelect.addEventListener("change", async () => {
         const developerId = developerSelect.value;
-        const developerImage = document.getElementById("collaborationDeveloperLogo");
+        const developerImage = document.getElementById("collaboration_developer_logo");
         developerImage.src = DeveloperData[developerId].image;
     });
 
     const object_adder = document.getElementById("object_adder");
     object_adder.addEventListener("click", () => {
-        const newCollaborationModal = new bootstrap.Modal('#newCollaborationModal', {})
+        const newCollaborationModal = new bootstrap.Modal('#new_collaboration_modal', {})
         newCollaborationModal.show();
     });
 
     const information_button = document.querySelector("#search_bar_container > img");
     information_button.addEventListener("click", () => {
-        const newCollaborationModal = new bootstrap.Modal('#cardInformationModal', {})
+        const newCollaborationModal = new bootstrap.Modal('#card_information_modal', {})
         newCollaborationModal.show();
     });
 
-    const newCollaborationForm = document.querySelector("#newCollaborationModal form");
-    const createCollaborationButton = document.getElementById("createCollaborationButton");
-    const cancelCollaborationCreationButton = document.getElementById("cancelCollaborationCreationButton");
+    const newCollaborationForm = document.querySelector("#new_collaboration_modal form");
+    const createCollaborationButton = document.getElementById("create_collaboration_button");
+    const cancelCollaborationCreationButton = document.getElementById("cancel_collaboration_creation_button");
 
     createCollaborationButton.addEventListener("click", async () => {
-        document.querySelector("#newCollaborationModal form > input").click();
+        document.querySelector("#new_collaboration_modal form > input").click();
     });
 
     newCollaborationForm.addEventListener("submit", async (event) => {

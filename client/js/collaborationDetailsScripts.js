@@ -114,17 +114,17 @@ function deleteObjectDetails(){
     const urlParams = new URLSearchParams(window.location.search);
     const collaborationId = urlParams.get("id");
     const title = document.querySelector("#collaboration_title").textContent;
-    const deleteModal = new bootstrap.Modal('#deleteCollaborationModal', {})
+    const deleteModal = new bootstrap.Modal('#delete_collaboration_modal', {})
     deleteModal.show();
-    document.querySelector("#deleteCollaborationModal .modal-body").textContent = `Are you sure you want to delete\n ${title} collaboration`;
+    document.querySelector("#delete_collaboration_modal .modal-body").textContent = `Are you sure you want to delete\n ${title} collaboration`;
     const deleteCollaborationFunc = async () => {
         await deleteCollaboration(collaborationId);
         document.location.replace("./index.html");
     }
-    document.getElementById("deleteCollaborationButton").addEventListener("click", deleteCollaborationFunc);
+    document.getElementById("delete_collaboration_button").addEventListener("click", deleteCollaborationFunc);
 
     deleteModal._element.addEventListener("hide.bs.modal", () => {
-        document.getElementById("deleteCollaborationButton").removeEventListener("click", deleteCollaborationFunc);
+        document.getElementById("delete_collaboration_button").removeEventListener("click", deleteCollaborationFunc);
     });
 }
 
@@ -152,7 +152,7 @@ async function addParagraphTypeListeners(){
 }
 
 async function addNewParagraphs(){
-    const addParagraphModal = new bootstrap.Modal('#addParagraphModal', {})
+    const addParagraphModal = new bootstrap.Modal('#add_paragraph_modal', {})
         addParagraphModal.show();
         const paragraphTypeFunc = await addParagraphTypeListeners();
 

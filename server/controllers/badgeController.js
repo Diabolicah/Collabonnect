@@ -44,7 +44,7 @@ const badgeController = {
     async createBadge(req, res) {
         const { name, description, imageName, brandId } = req.body;
         if (!name || !imageName || !description || !brandId) {
-            res.status(400).json({
+            return res.status(400).json({
                 error: "All fields are required",
                 fields: ["name", "imageName", "description", "brandId"]
             });
@@ -56,7 +56,7 @@ const badgeController = {
             const [badges] = await connection.execute(`INSERT INTO ${TABLE_NAME_PREFIX}_badge (name, description, imageName) VALUES (?, ?, ?)`, [name, description, imageName]);
             if (badges.affectedRows !== 0) {
                 await connection.execute(`INSERT INTO ${TABLE_NAME_PREFIX}_brand_badge (brandId, badgeId) VALUES (?,?)`, [req.body.brandId, badges.insertId]);
-                res.status(201).json({ id: badges.insertId, message: "Badge created successfully" });
+                return res.status(201).json({ id: badges.insertId, message: "Badge created successfully" });
             }
         } catch (error) {
             return res.status(500).json({ error: error.message });

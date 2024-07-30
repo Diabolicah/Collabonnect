@@ -8,7 +8,7 @@ function createOptionElement(value, text) {
 async function populateBadgeImagesSelection() {
     const domain = await Settings.domain();
     const badgesData = await fetch(`${domain}/api/badges/images`).then((response) => response.json());
-    const brandSelect = document.getElementById("collaborationBrandDataList");
+    const brandSelect = document.getElementById("collaboration_brand_data_list");
     const defaultOption = createOptionElement("", "Select a brand");
     defaultOption.selected = true;
     defaultOption.disabled = true;
@@ -96,22 +96,22 @@ window.onload = async () => {
 
     const objectAdder = document.getElementById("object_adder");
     objectAdder.addEventListener("click", () => {
-        const newBadgeModal = new bootstrap.Modal('#newBadgeModal', {})
+        const newBadgeModal = new bootstrap.Modal('#new_badge_modal', {})
         newBadgeModal.show();
     });
 
     const informationButton = document.querySelector("#search_bar_container > img");
     informationButton.addEventListener("click", () => {
-        const cardInformationModal = new bootstrap.Modal('#cardInformationModal', {})
+        const cardInformationModal = new bootstrap.Modal('#card_information_modal', {})
         cardInformationModal.show();
     });
 
-    const newCollaborationForm = document.querySelector("#newBadgeModal form");
-    const createCollaborationButton = document.getElementById("createCollaborationButton");
-    const cancelCollaborationCreationButton = document.getElementById("cancelCollaborationCreationButton");
+    const newCollaborationForm = document.querySelector("#new_badge_modal form");
+    const createCollaborationButton = document.getElementById("create_collaboration_button");
+    const cancelCollaborationCreationButton = document.getElementById("cancel_collaboration_creation_button");
 
     createCollaborationButton.addEventListener("click", async () => {
-        document.querySelector("#newBadgeModal form > input").click();
+        document.querySelector("#new_badge_modal form > input").click();
     });
 
     newCollaborationForm.addEventListener("submit", async (event) => {
@@ -119,6 +119,9 @@ window.onload = async () => {
         const formData = new FormData(newCollaborationForm);
         const { domain, userId} = await fetch("./data/settings.json").then((response) => response.json());
         formData.append("userId", userId)
+        formData.append("imageName", formData.get("image_name"));
+        formData.delete("image_name");
+        formData.append("brandId", userId);
         const requestData = JSON.stringify(Object.fromEntries(formData));
         const response = await fetch(`${domain}/api/badges/`, {
             method: "POST",

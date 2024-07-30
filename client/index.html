@@ -47,7 +47,7 @@
                         <img id="user_details_image" src="#" alt="User Profile">
                     </a>
                     <section>
-                        <span id="user_details_userName"></span>
+                        <span id="user_details_user_name"></span>
                         <section>
                             <span id="user_details_rank"></span>
                             <img src="images/rank_icon.svg" alt="rankIcon">
@@ -96,22 +96,22 @@
                 </section>
             </div>
         </main>
-        <div class="modal fade" id="deleteCollaborationModal" tabindex="-1" aria-labelledby="deleteCollaborationModalLabel" aria-hidden="true">
+        <div class="modal fade" id="delete_collaboration_modal" tabindex="-1" aria-labelledby="delete_collaboration_modal_label" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="deleteCollaborationModalLabel">Delete</h1>
+                  <h1 class="modal-title fs-5" id="delete_collaboration_modal_label">Delete</h1>
                 </div>
                 <div class="modal-body">
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn" data-bs-dismiss="modal">Cancel</button>
-                  <button id="deleteCollaborationButton" type="button" class="btn">Delete</button>
+                  <button id="delete_collaboration_button" type="button" class="btn">Delete</button>
                 </div>
               </div>
             </div>
         </div>
-        <div class="modal fade" id="cardInformationModal" tabindex="-1" aria-labelledby="cardInformationModal" aria-hidden="true">
+        <div class="modal fade" id="card_information_modal" tabindex="-1" aria-labelledby="card_information_modal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg">
               <div class="modal-content">
                 <div class="modal-body">
@@ -120,44 +120,44 @@
               </div>
             </div>
         </div>
-        <div class="modal fade" id="newCollaborationModal" tabindex="-1" aria-labelledby="newCollaborationModal" aria-hidden="true">
+        <div class="modal fade" id="new_collaboration_modal" tabindex="-1" aria-labelledby="new_collaboration_modal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="newCollaborationModalTitle">New Collaboration</h1>
+                  <h1 class="modal-title fs-5" id="new_collaboration_modal_title">New Collaboration</h1>
                 </div>
                 <div class="modal-body">
                     <form>
                         <div class="mb-3">
-                            <label for="collaborationName" class="form-label">Collaboration Name</label>
-                            <input type="text" class="form-control" id="collaborationName" maxlength="24" required name="title">
+                            <label for="collaboration_name" class="form-label">Collaboration Name</label>
+                            <input type="text" class="form-control" id="collaboration_name" maxlength="24" required name="title">
                         </div>
                         <div class="mb-3">
-                            <label for="collaborationDescription" class="form-label">Collaboration Description</label>
-                            <input type="text" class="form-control" id="collaborationDescription" maxlength="80" required name="description">
+                            <label for="collaboration_description" class="form-label">Collaboration Description</label>
+                            <input type="text" class="form-control" id="collaboration_description" maxlength="80" required name="description">
                         </div>
                         <div class="mb-3">
-                            <label for="collaborationBrandDataList" class="form-label">Brand</label>
+                            <label for="collaboration_brand_data_list" class="form-label">Brand</label>
                             <div class="input-group">
-                                <select class="form-control form-select" id="collaborationBrandDataList" required name="brand_id">
+                                <select class="form-control form-select" id="collaboration_brand_data_list" required name="brand_id">
                                 </select>
-                                <img src="images/image_placeholder.svg" alt="plus_circle_icon" id="collaborationBrandLogo" class="input-group-text">
+                                <img src="images/image_placeholder.svg" alt="plus_circle_icon" id="collaboration_brand_logo" class="input-group-text">
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label for="collaborationDeveloperDataList" class="form-label">Developer</label>
+                            <label for="collaboration_developer_data_list" class="form-label">Developer</label>
                             <div class="input-group">
-                                <select class="form-control form-select" id="collaborationDeveloperDataList" required name="developer_id">
+                                <select class="form-control form-select" id="collaboration_developer_data_list" required name="developer_id">
                                 </select>
-                                <img src="images/image_placeholder.svg" alt="plus_circle_icon" id="collaborationDeveloperLogo" class="input-group-text">
+                                <img src="images/image_placeholder.svg" alt="plus_circle_icon" id="collaboration_developer_logo" class="input-group-text">
                             </div>
                         </div>
                         <input type="submit">
                     </form>
                 </div>
                 <div class="modal-footer">
-                  <button id="cancelCollaborationCreationButton" type="button" class="btn" data-bs-dismiss="modal">Cancel</button>
-                  <button id="createCollaborationButton" type="button" class="btn">Create</button>
+                  <button id="cancel_collaboration_creation_button" type="button" class="btn" data-bs-dismiss="modal">Cancel</button>
+                  <button id="create_collaboration_button" type="button" class="btn">Create</button>
                 </div>
               </div>
             </div>

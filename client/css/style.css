@@ -173,7 +173,7 @@ header nav a:not(.active_nav):hover {
     padding: 12px 0px;
 }
 
-#breadCrumb {
+#bread_crumb {
     --bs-breadcrumb-divider: '>';
 }
 
@@ -572,17 +572,17 @@ ol.breadcrumb {
     line-height: normal;
 }
 
-#addParagraphModal .modal-header {
+#add_paragraph_modal .modal-header {
     display: flex;
     justify-content:  center;
 }
 
-#addParagraphModal .modal-body {
+#add_paragraph_modal .modal-body {
     display: flex;
     flex-direction: column;
 }
 
-#addParagraphModalLabel {
+#add_paragraph_modal_label {
     color: #000;
     font-family: Lora;
     font-size: 26px;
@@ -812,7 +812,7 @@ ol.breadcrumb {
     line-height: normal !important;
 }
 
-#deleteCollaborationModal .modal-body {
+#delete_collaboration_modal .modal-body {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -828,12 +828,12 @@ ol.breadcrumb {
     line-height: normal;
 }
 
-#deleteCollaborationModal .modal-footer {
+#delete_collaboration_modal .modal-footer {
     display: flex;
     justify-content: space-around;
 }
 
-#deleteCollaborationModal .modal-footer button {
+#delete_collaboration_modal .modal-footer button {
     width: 100px;
     height: 50px;
     border-radius: 15px;
@@ -847,11 +847,11 @@ ol.breadcrumb {
     line-height: normal;
 }
 
-#deleteCollaborationButton {
+#delete_collaboration_button {
     background-color: #DC3545 !important;
 }
 
-#cardInformationModal .modal-body img {
+#card_information_modal .modal-body img {
     width: 100%;
     height: 100%;
 }
@@ -927,12 +927,12 @@ ol.breadcrumb {
     height: 48px;
 }
 
-#newCollaborationModal .modal-footer {
+#new_collaboration_modal .modal-footer {
     display: flex;
     justify-content: space-around;
 }
 
-#newCollaborationModal .modal-footer button {
+#new_collaboration_modal .modal-footer button {
     width: 100px;
     height: 50px;
     border-radius: 15px;
@@ -946,11 +946,11 @@ ol.breadcrumb {
     line-height: normal;
 }
 
-#newCollaborationModal form > input {
+#new_collaboration_modal form > input {
     display: none;
 }
 
-#createCollaborationButton {
+#create_collaboration_button {
     background-color: #20CB98 !important;
 }
 
@@ -1045,12 +1045,12 @@ ol.breadcrumb {
 
 }
 
-#updateCollaborationStatusModal .modal-footer {
+#update_collaboration_status_modal .modal-footer {
     display: flex;
     justify-content: space-around;
 }
 
-#updateCollaborationStatusModal .modal-footer button {
+#update_collaboration_status_modal .modal-footer button {
     width: 100px;
     height: 50px;
     border-radius: 15px;
@@ -1064,16 +1064,16 @@ ol.breadcrumb {
     line-height: normal;
 }
 
-#updateCollaborationStatusButton {
+#update_collaboration_status_button {
     background-color: #35addc !important;
 }
 
-#newBadgeModal .modal-footer {
+#new_badge_modal .modal-footer {
     display: flex;
     justify-content: space-around;
 }
 
-#newBadgeModal .modal-footer button {
+#new_badge_modal .modal-footer button {
     width: 100px;
     height: 50px;
     border-radius: 15px;
@@ -1087,7 +1087,7 @@ ol.breadcrumb {
     line-height: normal;
 }
 
-#newBadgeModal form > input {
+#new_badge_modal form > input {
     display: none;
 }
 
@@ -1133,7 +1133,7 @@ ol.breadcrumb {
         display: none;
     }
 
-    #breadCrumb {
+    #bread_crumb {
         display: none;
     }
 

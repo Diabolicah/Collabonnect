@@ -165,18 +165,18 @@ async function homePageCollaborationCardBuilder(details) {
 
     deleteImg.addEventListener("click", (event) => {
         event.stopPropagation();
-        const deleteModal = new bootstrap.Modal('#deleteCollaborationModal', {})
+        const deleteModal = new bootstrap.Modal('#delete_collaboration_modal', {})
         deleteModal.show();
-        document.querySelector("#deleteCollaborationModal .modal-body").textContent = `Are you sure you want to delete\n ${title} collaboration`;
+        document.querySelector("#delete_collaboration_modal .modal-body").textContent = `Are you sure you want to delete\n ${title} collaboration`;
         const deleteCollaborationFunc = async () => {
             await deleteCollaboration(id);
             collaborationCard.remove();
             deleteModal.hide();
         }
-        document.getElementById("deleteCollaborationButton").addEventListener("click", deleteCollaborationFunc);
+        document.getElementById("delete_collaboration_button").addEventListener("click", deleteCollaborationFunc);
 
         deleteModal._element.addEventListener("hide.bs.modal", () => {
-            document.getElementById("deleteCollaborationButton").removeEventListener("click", deleteCollaborationFunc);
+            document.getElementById("delete_collaboration_button").removeEventListener("click", deleteCollaborationFunc);
         });
     });
 
@@ -261,33 +261,33 @@ async function brandPageCollaborationCardBuilder(details) {
     const approveButton = collaborationCard.querySelector(".brand_approve_button");
     rejectButton.addEventListener("click", async (event) => {
         event.stopPropagation();
-        const updateCollaborationStatusModal = new bootstrap.Modal('#updateCollaborationStatusModal', {})
+        const updateCollaborationStatusModal = new bootstrap.Modal('#update_collaboration_status_modal', {})
         updateCollaborationStatusModal.show();
-        document.querySelector("#updateCollaborationStatusModal .modal-body").textContent = `Are you sure you want to reject\n "${title}"`;
+        document.querySelector("#update_collaboration_status_modal .modal-body").textContent = `Are you sure you want to reject\n "${title}"`;
         const rejectCollaborationFunc = async () => {
             await rejectCollaboration(id);
             collaborationCard.remove();
             updateCollaborationStatusModal.hide();
         }
-        document.getElementById("updateCollaborationStatusButton").addEventListener("click", rejectCollaborationFunc);
+        document.getElementById("update_collaboration_status_button").addEventListener("click", rejectCollaborationFunc);
         updateCollaborationStatusModal._element.addEventListener("hide.bs.modal", () => {
-            document.getElementById("updateCollaborationStatusButton").removeEventListener("click", rejectCollaborationFunc);
+            document.getElementById("update_collaboration_status_button").removeEventListener("click", rejectCollaborationFunc);
         });
     });
 
     approveButton.addEventListener("click", async (event) => {
         event.stopPropagation();
-        const updateCollaborationStatusModal = new bootstrap.Modal('#updateCollaborationStatusModal', {})
+        const updateCollaborationStatusModal = new bootstrap.Modal('#update_collaboration_status_modal', {})
         updateCollaborationStatusModal.show();
-        document.querySelector("#updateCollaborationStatusModal .modal-body").textContent = `Are you sure you want to approve\n "${title}"`;
+        document.querySelector("#update_collaboration_status_modal .modal-body").textContent = `Are you sure you want to approve\n "${title}"`;
         const approveCollaborationFunc = async () => {
             await approveCollaboration(id);
             collaborationCard.remove();
             updateCollaborationStatusModal.hide();
         }
-        document.getElementById("updateCollaborationStatusButton").addEventListener("click", approveCollaborationFunc);
+        document.getElementById("update_collaboration_status_button").addEventListener("click", approveCollaborationFunc);
         updateCollaborationStatusModal._element.addEventListener("hide.bs.modal", () => {
-            document.getElementById("updateCollaborationStatusButton").removeEventListener("click", approveCollaborationFunc);
+            document.getElementById("update_collaboration_status_button").removeEventListener("click", approveCollaborationFunc);
         });
     });
 

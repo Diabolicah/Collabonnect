@@ -11,14 +11,14 @@ async function getSettingsData() {
     return Settings;
 }
 
-Settings.domain = async function() {
+Settings.domain = async () => {
     if (!Settings.isReady) {
         await getSettingsData();
     }
     return Settings._domain
 }
 
-Settings.userId = async function() {
+Settings.userId = async () => {
     if (!Settings.isReady) {
         await getSettingsData();
     }

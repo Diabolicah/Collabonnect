@@ -22,7 +22,7 @@ async function createCollaborationLog(editLog) {
     const spanDate = document.createElement("span");
     spanDate.textContent = editLog.date;
     sectionLog.appendChild(spanDate)
-    fetch(`${domain}/api/user/${editLog.userId}`)
+    fetch(`${domain}/api/users/${editLog.userId}`)
         .then(response => {
             if(response.status == 200)
                 return response.json();

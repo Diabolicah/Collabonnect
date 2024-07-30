@@ -94,7 +94,7 @@ window.onload = async () => {
         const formData = new FormData(newCollaborationForm);
         formData.append("userId", userId)
         const requestData = JSON.stringify(Object.fromEntries(formData));
-        const response = await fetch(`${domain}/api/collaboration/`, {
+        const response = await fetch(`${domain}/api/collaborations/`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

@@ -7,7 +7,7 @@ function createOptionElement(value, text) {
 
 async function populateBadgeImagesSelection() {
     const domain = await Settings.domain();
-    const badgesData = await fetch(`${domain}/api/badge/images`).then((response) => response.json());
+    const badgesData = await fetch(`${domain}/api/badges/images`).then((response) => response.json());
     const brandSelect = document.getElementById("collaborationBrandDataList");
     const defaultOption = createOptionElement("", "Select a brand");
     defaultOption.selected = true;
@@ -39,7 +39,7 @@ async function populateBadgeContainer(){
     badgeCards.forEach((card, index) => card.remove());
 
     const badgeContainer = document.getElementById("milestones_container");
-    const badges = await fetch(`${domain}/api/badge/`).then((response) => response.json());
+    const badges = await fetch(`${domain}/api/badges/`).then((response) => response.json());
     badges.forEach(async (badge) => {
         const section = document.createElement("section");
         section.classList.add("badge_card");
@@ -120,7 +120,7 @@ window.onload = async () => {
         const { domain, userId} = await fetch("./data/settings.json").then((response) => response.json());
         formData.append("userId", userId)
         const requestData = JSON.stringify(Object.fromEntries(formData));
-        const response = await fetch(`${domain}/api/badge/`, {
+        const response = await fetch(`${domain}/api/badges/`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

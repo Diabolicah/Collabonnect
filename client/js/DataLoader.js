@@ -83,7 +83,10 @@ async function getCollaborationsData() {
     Data.isCollaborationProcessing = true;
     const domain = await Settings.domain();
     const collaborations = await fetch(`${domain}/api/collaborations/`).then((response) => response.json());
-    Data._collaborations = collaborations;
+    Data._collaborations = collaborations.reduce((acc, collaboration) => {
+        acc[collaboration.id] = collaboration;
+        return acc;
+    }, {});
     Data.isCollaborationReady = true;
     return Data;
 }

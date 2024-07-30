@@ -52,7 +52,7 @@ function createCollaborationCardDetails(upvoteAmount, downvoteAmount, aiReadabil
         img.alt = "ai_icon";
         collaborationCardAiReadability.appendChild(img);
         const span = document.createElement("span");
-        span.textContent = `${collaborationCardAiReadability}%`;
+        span.textContent = `${aiReadabilityPercentage}%`;
         collaborationCardAiReadability.appendChild(span);
         collaborationCardDetails.appendChild(collaborationCardAiReadability);
     }

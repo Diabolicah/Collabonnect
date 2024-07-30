@@ -54,7 +54,7 @@ function populateCollaborationParagraphs(paragraphs, isEditMode) {
     })
 }
 
-async function initObjectDetails(objectData){
+async function initMyCollaborationDetails(objectData){
     getCollaborationLogos(objectData)
         .then(({brandLogo, developerLogo}) => {
             document.querySelector("#collaboration_brand_logo").src = `${brandLogo}`;
@@ -94,14 +94,14 @@ function updateBreadCrumbs(fromPage){
     }
 }
 
-async function getObjectDetailsFromServer(){
+async function getMyCollaborationDetailsFromServer(){
     const urlParams = new URLSearchParams(window.location.search);
     const collaborationId = urlParams.get("id");
     const fromPage = urlParams.get("fromPage");
     updateBreadCrumbs(fromPage);
     const collaboration = await getCollaborationDetails(collaborationId);
     if(collaboration)
-        initObjectDetails(collaboration);
+        initMyCollaborationDetails(collaboration);
     else document.location.replace("./index.html");
 }
 
@@ -183,6 +183,6 @@ function addListeners(){
 }
 
 window.onload = async () => {
-    getObjectDetailsFromServer();
+    getMyCollaborationDetailsFromServer();
     addListeners();
 }

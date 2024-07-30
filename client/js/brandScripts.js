@@ -44,7 +44,7 @@ async function populateBadgeContainer(){
         const section = document.createElement("section");
         section.classList.add("badge_card");
         const img = document.createElement("img");
-        img.src = `${domain}/assets/badge_images/${badge.image_name}`;
+        img.src = `${domain}/assets/badgeImages/${badge.image_name}`;
         img.alt = badge.name;
         section.appendChild(img);
         badgeContainer.appendChild(section);

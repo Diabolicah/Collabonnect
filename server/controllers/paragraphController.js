@@ -8,7 +8,7 @@ const paragraphController = {
         const connection = await dbConnection.createConnection();
 
         try {
-            const [paragraphs] = await connection.execute(`SELECT id, title, status, newText, oldText, image, video FROM ${TABLE_NAME_PREFIX}_collaboration_paragraph inner join ${TABLE_NAME_PREFIX}_paragraph on ${TABLE_NAME_PREFIX}_paragraph.id = ${TABLE_NAME_PREFIX}_collaboration_paragraph.paragraphId WHERE collaborationId = ?`, [req.params.id]);
+            const [paragraphs] = await connection.execute(`SELECT id, newTitle, oldTitle, status, newText, oldText, image, video FROM ${TABLE_NAME_PREFIX}_collaboration_paragraph inner join ${TABLE_NAME_PREFIX}_paragraph on ${TABLE_NAME_PREFIX}_paragraph.id = ${TABLE_NAME_PREFIX}_collaboration_paragraph.paragraphId WHERE collaborationId = ?`, [req.params.id]);
             res.status(200).json(paragraphs);
         } catch (error) {
             res.status(500).json({ error: error.message });
@@ -21,7 +21,7 @@ const paragraphController = {
         const connection = await dbConnection.createConnection();
 
         try {
-            const [paragraphs] = await connection.execute(`SELECT id, title, status, newText, oldText, image, video FROM ${TABLE_NAME_PREFIX}_collaboration_paragraph inner join ${TABLE_NAME_PREFIX}_paragraph on ${TABLE_NAME_PREFIX}_paragraph.id = ${TABLE_NAME_PREFIX}_collaboration_paragraph.paragraphId WHERE collaborationId = ? and paragraphId = ?`, [req.params.id, req.params.paragraphId]);
+            const [paragraphs] = await connection.execute(`SELECT id, newTitle, oldTitle, status, newText, oldText, image, video FROM ${TABLE_NAME_PREFIX}_collaboration_paragraph inner join ${TABLE_NAME_PREFIX}_paragraph on ${TABLE_NAME_PREFIX}_paragraph.id = ${TABLE_NAME_PREFIX}_collaboration_paragraph.paragraphId WHERE collaborationId = ? and paragraphId = ?`, [req.params.id, req.params.paragraphId]);
             if (paragraphs.length === 0) {
                 res.status(404).json({ error: `Paragraph with id ${req.params.paragraphId} for collaboration id ${req.params.id} not found` });
             }
@@ -50,7 +50,7 @@ const paragraphController = {
         const connection = await dbConnection.createConnection();
 
         try {
-            const [paragraphs] = await connection.execute(`INSERT INTO ${TABLE_NAME_PREFIX}_collaboration_paragraph (collaborationId, title, status, text, image, video) VALUES (?, "", "up to date", "", "", "")`, [req.params.id]);
+            const [paragraphs] = await connection.execute(`INSERT INTO ${TABLE_NAME_PREFIX}_collaboration_paragraph (collaborationId, newTitle, oldTitle, status, newText, oldText, image, video) VALUES (?, "", "up to date", "", "", "")`, [req.params.id]);
             res.status(201).json({ message: `Paragraph with id ${paragraphs.insertId} for collaboration id ${req.params.id} created` });
         } catch (error) {
             res.status(500).json({ error: error.message });
@@ -61,8 +61,8 @@ const paragraphController = {
     // PUT /api/collaboration/:id/paragraphs/:paragraphId
     async updateCollaborationParagraph(req, res) {
         console.log(req.body)
-        const { title, status, text, image, video } = req.body;
-        if (!title || !status || !text) {
+        const { newTitle, oldTitle, status, newText, oldText, image, video } = req.body;
+        if (!newTitle || !oldTitle || !status || !newText || !oldText || !image || !video) {
             res.status(400).json({
                 error: "All fields are required",
                 fields: ["title", "status", "text"]
@@ -71,7 +71,7 @@ const paragraphController = {
 
         const connection = await dbConnection.createConnection();
         try {
-            const [paragraphs] = await connection.execute(`UPDATE ${TABLE_NAME_PREFIX}_paragraph SET title = ?, status = ?, text = ? WHERE id = ?`, [title, status, text, req.params.paragraphId]);
+            const [paragraphs] = await connection.execute(`UPDATE ${TABLE_NAME_PREFIX}_paragraph SET newTitle = ?, oldTitle = ? status = ?, newText = ?, oldText = ?, image = ?, video = ? WHERE id = ?`, [newTitle, oldTitle, status, newText, oldText, image, video, req.params.paragraphId]);
             if (paragraphs.affectedRows === 0) {
                 res.status(404).json({ error: `Paragraph with id ${req.params.paragraphId} for collaboration id ${req.params.id} not found` });
             }

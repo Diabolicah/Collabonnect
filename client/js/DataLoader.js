@@ -3,6 +3,8 @@ let Data = {
     "isBrandProcessing" : false,
     "isDeveloperReady" : false,
     "isDeveloperProcessing" : false,
+    "isCollaborationReady" : false,
+    "isCollaborationProcessing" : false,
 };
 
 Data.brands = async () => {
@@ -33,6 +35,20 @@ Data.developers = async () => {
     return Data._developers;
 }
 
+Data.collaborations = async () => {
+    if (!Data.isCollaborationReady) {
+        if (!Data.isCollaborationProcessing) {
+            await getCollaborationsData();
+        }
+        else {
+            while (!Data.isCollaborationReady) {
+                await new Promise(resolve => setTimeout(resolve, 100));
+            }
+        }
+    }
+    return Data._collaborations;
+}
+
 async function getBrandsData() {
     Data.isBrandProcessing = true;
     const domain = await Settings.domain();
@@ -60,6 +76,15 @@ async function getDevelopersData() {
         return acc;
     }, {});
     Data.isDeveloperReady = true;
+    return Data;
+}
+
+async function getCollaborationsData() {
+    Data.isCollaborationProcessing = true;
+    const domain = await Settings.domain();
+    const collaborations = await fetch(`${domain}/api/collaborations/`).then((response) => response.json());
+    Data._collaborations = collaborations;
+    Data.isCollaborationReady = true;
     return Data;
 }
 

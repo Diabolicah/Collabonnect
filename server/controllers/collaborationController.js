@@ -60,7 +60,7 @@ const collaborationController = {
     },
     // POST /api/collaboration
     async createCollaboration(req, res) {
-        const { userId, title, description, developerId, brand_id } = req.body;
+        const { userId, title, description, developerId, brandId } = req.body;
         if (!userId || !title || !developerId || !brandId || !description) {
             res.status(400).json({
                 error: "All fields are required",

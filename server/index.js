@@ -26,7 +26,7 @@ app.use('/api/collaborations', collaborationRouter);
 app.use('/api/users', userRouter);
 app.use('/api/developers', developerRouter);
 app.use('/api/brands', brandRouter);
-app.use('/api/badges', badgeRouter)
+app.use('/api/badges', badgeRouter);
 
 app.listen(port, () => {
     console.log(`App is listening on port ${port}`);

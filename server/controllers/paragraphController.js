@@ -60,7 +60,6 @@ const paragraphController = {
     },
     // PUT /api/collaboration/:id/paragraphs/:paragraphId
     async updateCollaborationParagraph(req, res) {
-        console.log(req.body)
         const { newTitle, oldTitle, status, newText, oldText, image, video } = req.body;
         if (!newTitle || !oldTitle || !status || !newText || !oldText || !image || !video) {
             res.status(400).json({
@@ -77,7 +76,6 @@ const paragraphController = {
             }
             res.status(200).json({ message: `Paragraph with id ${req.params.paragraphId} for collaboration id ${req.params.id} updated` });
         } catch (error) {
-            console.log(error)
             res.status(500).json({ error: error.message });
         } finally {
             connection.end();

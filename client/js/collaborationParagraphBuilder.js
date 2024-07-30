@@ -2,10 +2,10 @@ function createTextParagraph(paragraphDetails, isEditMode, status){
     let paragraphText;
     if(isEditMode) {
         paragraphText = document.createElement("textarea");
-        paragraphText.value = paragraphDetails.text;
+        paragraphText.value = paragraphDetails.oldText;
     }else {
         paragraphText = document.createElement("p");
-        paragraphText.textContent = paragraphDetails.text;
+        paragraphText.textContent = paragraphDetails.newText;
     }
 
     paragraphText.addEventListener("click", () => {
@@ -22,10 +22,10 @@ function createTitleParagraph(paragraphDetails, isEditMode, status){
     let title;
     if(isEditMode) {
         title = document.createElement("input");
-        title.value = paragraphDetails.title;
+        title.value = paragraphDetails.oldTitle;
     }else {
         title = document.createElement("h2");
-        title.textContent = paragraphDetails.title;
+        title.textContent = paragraphDetails.newTitle;
     }
 
     title.addEventListener("click", () => {
@@ -41,12 +41,10 @@ function createTitleParagraph(paragraphDetails, isEditMode, status){
 function createStatusParagraph(paragraphDetails){
     const status = document.createElement("section");
     status.classList.add("status");
-    if(paragraphDetails.status == "Pending"){
+    if(!(paragraphDetails.newText == paragraphDetails.oldText && paragraphDetails.newTitle == paragraphDetails.oldTitle)){
         status.classList.add("pending");
-        status.textContent = paragraphDetails.status;
-    }else {
-        status.textContent = "Up to date";
     }
+    status.textContent = paragraphDetails.status;
     return status;
 }
 

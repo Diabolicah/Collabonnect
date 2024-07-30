@@ -22,7 +22,7 @@ window.onload = async () => {
         votePageCollaborationCardBuilder(collaboration)
             .then(collaborationCard => {
                 if (index < 5) {
-                    addObjectToCarousel(collaborationCrd, index == 0);
+                    addObjectToCarousel(collaborationCard, index == 0);
                 } else
                     document.getElementById("collaboration_cards_container").appendChild(collaborationCard);
                 index++;

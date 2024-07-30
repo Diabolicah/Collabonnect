@@ -8,7 +8,7 @@ const developerController = {
         const connection = await dbConnection.createConnection();
 
         try {
-            const [users] = await connection.execute(`SELECT id, name, imageName FROM ${TABLE_NAME_PREFIX}_developer`);
+            const [users] = await connection.execute(`SELECT id, name, imagePath FROM ${TABLE_NAME_PREFIX}_developer`);
             res.status(200).json(users);
         } catch (error) {
             res.status(500).json({ error: error.message });
@@ -21,7 +21,7 @@ const developerController = {
         const connection = await dbConnection.createConnection();
 
         try {
-            const [users] = await connection.execute(`SELECT name, imageName FROM ${TABLE_NAME_PREFIX}_developer WHERE id = ?`, [req.params.id]);
+            const [users] = await connection.execute(`SELECT name, imagePath FROM ${TABLE_NAME_PREFIX}_developer WHERE id = ?`, [req.params.id]);
             if (users.length === 0) {
                 res.status(404).json({ error: `Developer with id ${req.params.id} not found` });
             }

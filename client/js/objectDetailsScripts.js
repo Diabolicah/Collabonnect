@@ -123,6 +123,47 @@ function deleteObjectDetails(){
     });
 }
 
+async function addParagraphTypeListeners(){
+    const paragraphJsonTypes =[{"image": null, "status": "Up to date", "newText": "", "oldText": "", "newTitle": "", "oldTitle": "", "video": null},
+        {"image": " ", "status": "Up to date", "newText": "", "oldText": "", "newTitle": "", "oldTitle": "", "video": null},
+        {"image": null, "status": "Up to date", "newText": "", "oldText": "", "newTitle": "", "oldTitle": "", "video": " "},
+        {"image": " ", "status": "Up to date", "newText": "", "oldText": "", "newTitle": "", "oldTitle": "", "video": " "}
+    ];
+
+    const defaultParagraph = async () => {
+        document.querySelector("#container_paragraphs").appendChild(await createParagraph(paragraphJsonTypes[0], true));
+    }
+    const imageParagraph = async () => {
+        document.querySelector("#container_paragraphs").appendChild(await createParagraph(paragraphJsonTypes[1], true));
+    }
+    const videoParagraph = async () => {
+        document.querySelector("#container_paragraphs").appendChild(await createParagraph(paragraphJsonTypes[2], true));
+    }
+    const imageVideoParagraph = async () => {
+        document.querySelector("#container_paragraphs").appendChild(await createParagraph(paragraphJsonTypes[3], true));
+    }
+
+    return [defaultParagraph, imageParagraph, videoParagraph, imageVideoParagraph];
+}
+
+async function addNewParagraphs(){
+    const addParagraphModal = new bootstrap.Modal('#addParagraphModal', {})
+        addParagraphModal.show();
+        const paragraphTypeFunc = await addParagraphTypeListeners();
+
+        document.querySelectorAll(".paragraph_type")[0].addEventListener("click", paragraphTypeFunc[0]);
+        document.querySelectorAll(".paragraph_type")[1].addEventListener("click", paragraphTypeFunc[1]);
+        document.querySelectorAll(".paragraph_type")[2].addEventListener("click", paragraphTypeFunc[2]);
+        document.querySelectorAll(".paragraph_type")[3].addEventListener("click", paragraphTypeFunc[3]);
+
+        addParagraphModal._element.addEventListener("hide.bs.modal", () => {
+            document.querySelectorAll(".paragraph_type")[0].removeEventListener("click", paragraphTypeFunc[0]);
+            document.querySelectorAll(".paragraph_type")[1].removeEventListener("click", paragraphTypeFunc[1]);
+            document.querySelectorAll(".paragraph_type")[2].removeEventListener("click", paragraphTypeFunc[2]);
+            document.querySelectorAll(".paragraph_type")[3].removeEventListener("click", paragraphTypeFunc[3]);
+        });
+}
+
 async function changeToEditMode() {
     document.querySelectorAll("#collaboration_edit_delete > img")[1].removeEventListener("click", changeToEditMode);
     const urlParams = new URLSearchParams(window.location.search);
@@ -133,23 +174,7 @@ async function changeToEditMode() {
     document.querySelector("#container_paragraphs").innerHTML = `<section id="object_adder"><img src="./images/add_object_icon.svg" alt="plus_circle_icon"></section>`;
     populateCollaborationParagraphs(await getCollaborationParagraphs(collaboration), true);
 
-
-
-    document.querySelector("#object_adder").addEventListener("click", () => {
-        const addParagraphModal = new bootstrap.Modal('#addParagraphModal', {})
-        addParagraphModal.show();
-        let paragraphJson;
-        document.querySelectorAll(".paragraph_type")[0].addEventListener("click", async () => {
-            paragraphJson = {
-                "image": null,
-                "status": "Pending",
-                "text": "",
-                "title": "",
-                "video": null,
-            }
-            document.querySelector("#container_paragraphs").appendChild(await createParagraph(paragraphJson, true));
-        })
-    })
+    document.querySelector("#object_adder").addEventListener("click", addNewParagraphs);
 }
 
 function addListeners(){

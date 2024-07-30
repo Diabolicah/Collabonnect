@@ -91,7 +91,7 @@ async function addImage(paragraph, paragraphDetails, isEditMode) {
     isEditMode = isEditMode || false;
     let paragraphImageVideo = getElementParagraphImageVideo(paragraph, isEditMode);
     const paragraphImg = document.createElement("img");
-    paragraphImg.src = isEditMode ? "./images/upload_placeholder_image.svg": `${domain}/assets/paragraph_image/${paragraphDetails.image}`;
+    paragraphImg.src = isEditMode ? "./images/upload_placeholder_image.svg": `${domain}/assets/paragraphImage/${paragraphDetails.image}`;
     paragraphImg.alt = "image_placeholder";
     paragraphImg.classList.add("paragraph_image");
     if(isEditMode)

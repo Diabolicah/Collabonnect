@@ -1,0 +1,6 @@
+{
+    "DefaultParagraph": {"oldImage": "", "oldVideo": ""},
+    "ImageParagraph": {"oldImage": " ", "oldVideo": ""},
+    "VideoParagraph": {"oldImage": "", "oldVideo": " "},
+    "ImageVideoParagraph": {"oldImage": " ", "oldVideo": " "}
+}

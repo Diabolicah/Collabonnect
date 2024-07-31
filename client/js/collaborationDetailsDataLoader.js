@@ -173,7 +173,7 @@ async function addCollaborationParagraph(collaborationId, paragraphDetails){
     });
     if(response.status == 201){
         const res = await response.json();
-        return res.paragraphId;
+        return res.paragraph[0];
     }
     return false;
 }

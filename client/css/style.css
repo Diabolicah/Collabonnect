@@ -987,6 +987,7 @@ ol.breadcrumb {
 #milestones_container {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     width: 100%;
     min-height: 148px;
     border-radius: 15px;

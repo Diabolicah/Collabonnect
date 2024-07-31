@@ -4,8 +4,8 @@ const rs = require('readability-score');
 const TABLE_NAME_PREFIX = "tbl_112"
 
 function checkParagraphReadability(title, text) {
-    const titleReadability = rs(title);
-    const textReadability = rs(text);
+    const titleReadability = rs.fleschReadingEase(title);
+    const textReadability = rs.fleschReadingEase(text);
     return Math.round((titleReadability + textReadability) / 2);
 }
 
@@ -98,6 +98,7 @@ const paragraphController = {
         }
         const connection = await dbConnection.createConnection();
         try {
+            let sum = 0;
             paragraphs.forEach(async (paragraph) => {
                 const { newTitle, oldTitle, status, newText, oldText, newImage, oldImage, newVideo, oldVideo } = paragraph;
                 if (!status || !paragraph.id) {
@@ -106,11 +107,20 @@ const paragraphController = {
                         fields: ["status", "id"]
                     });
                 }
+                let paragraphReadability = checkParagraphReadability(newTitle, newText);
+                sum += paragraphReadability < 0 ? 0 : paragraphReadability;
+
                 const [paragraphs] = await connection.execute(`UPDATE ${TABLE_NAME_PREFIX}_paragraph SET newTitle = ?, oldTitle = ?, status = ?, newText = ?, oldText = ?, newImage = ?, oldImage = ?, newVideo = ?, oldVideo = ? WHERE id = ?`, [newTitle, oldTitle, status, newText, oldText, newImage, oldImage, newVideo, oldVideo, paragraph.id]);
                 if (paragraphs.affectedRows === 0) {
                     return res.status(404).json({ error: `Paragraph with id ${paragraph.id} for collaboration id ${req.params.id} not found` });
                 }
             });
+
+            const avg = Math.round(sum / paragraphs.length);
+            const [collaborations] = await connection.execute(`UPDATE ${TABLE_NAME_PREFIX}_collaboration SET aiReadability = ? WHERE id = ?`, [avg, req.params.id]);
+            if (collaborations.affectedRows === 0) {
+                return res.status(404).json({ error: `Couldn't update ai readability for Collaboration with id ${req.params.id}, Collaboration not found` });
+            }
 
             const date = new Date().toISOString().slice(0, 19).replace('T', ' ');
             const [editLog] = await connection.execute(`SELECT * FROM ${TABLE_NAME_PREFIX}_collaboration_logs WHERE date = ?`, [date]);
@@ -138,7 +148,8 @@ const paragraphController = {
             });
         }
 
-        const paragraphReadability = checkParagraphReadability(newTitle, newText);
+        let paragraphReadability = checkParagraphReadability(newTitle, newText);
+        paragraphReadability = paragraphReadability < 0 ? 0 : paragraphReadability;
 
         const connection = await dbConnection.createConnection();
         try {

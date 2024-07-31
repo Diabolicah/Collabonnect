@@ -48,6 +48,25 @@ const usersController = {
             await connection.end();
         }
     },
+    // GET /api/users
+    async getUseByAccessToken(req, res) {
+        const { userAccessToken } = req.body;
+        if (!userAccessToken) {
+            return res.status(400).json({ error: 'Please provide userAccessToken' });
+        }
+        const connection = await dbConnection.createConnection();
+        try {
+            const [users] = await connection.execute(`SELECT id, developerId, brandId, firstName, lastName, username, profileImage, token, rank, experience FROM ${TABLE_NAME_PREFIX}_user WHERE userAccessToken = ?`, [userAccessToken]);
+            if (users.length === 0) {
+                return res.status(404).json({ error: 'User not found' });
+            }
+            return res.status(200).json(users[0]);
+        } catch (error) {
+            return res.status(500).json({ error: error.message });
+        } finally {
+            await connection.end();
+        }
+    },
     // POST /api/users/register
     async registerUser(req, res) {
         const { username, password, firstName, lastName, developerId, brandId, profileImage} = req.body;

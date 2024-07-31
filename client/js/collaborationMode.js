@@ -61,13 +61,16 @@ async function addParagraphTypeListeners(){
     }
     const imageParagraph = async () => {
         const paragraph = await addCollaborationParagraph(collaborationId, {paragraphType: "ImageParagraph"});
-        document.querySelector("#container_paragraphs").appendChild(await createParagraph(paragraph, true));    }
+        document.querySelector("#container_paragraphs").appendChild(await createParagraph(paragraph, true));
+    }
     const videoParagraph = async () => {
         const paragraph = await addCollaborationParagraph(collaborationId, {paragraphType: "VideoParagraph"});
-        document.querySelector("#container_paragraphs").appendChild(await createParagraph(paragraph, true));    }
+        document.querySelector("#container_paragraphs").appendChild(await createParagraph(paragraph, true));
+    }
     const imageVideoParagraph = async () => {
         const paragraph = await addCollaborationParagraph(collaborationId, {paragraphType: "ImageVideoParagraph"});
-        document.querySelector("#container_paragraphs").appendChild(await createParagraph(paragraph, true));    }
+        document.querySelector("#container_paragraphs").appendChild(await createParagraph(paragraph, true));
+    }
 
     return [defaultParagraph, imageParagraph, videoParagraph, imageVideoParagraph];
 }
@@ -144,11 +147,10 @@ async function changeToViewMode(){
     });
 
     await updateCollaborationParagraphs(collaborationId, {paragraphs: newParagraphs, userId: 1});
-    // if edit mode is in parameter, reload the page to remove it
-    // if(window.location.search.includes("edit")){
-    //     const url = window.location.href.split("?")[0];
-    //     window.history.pushState({}, document.title, url + "?id=" + collaborationId);
-    // }
-    // window.location.reload();
+    if(window.location.search.includes("edit")){
+        const url = window.location.href.split("?")[0];
+        window.history.pushState({}, document.title, url + "?id=" + collaborationId);
+    }
+    window.location.reload();
     changeMode(false);
 }

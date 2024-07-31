@@ -375,6 +375,15 @@ ol.breadcrumb {
     display: flex;
     flex-direction: column;
 }
+#container_images .paragraph_image {
+    align-self: center;
+    width: 68px;
+    height: 64px;
+    border-radius: 15px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
 .paragraph_image_video .paragraph_image {
     align-self: center;
     width: 136px;
@@ -384,9 +393,16 @@ ol.breadcrumb {
     margin-bottom: 10px;
 }
 
+#container_images .paragraph_video {
+    align-self: center;
+    width: 138px;
+    height: 64px;
+    border-radius: 15px;
+}
+
 .paragraph_image_video .paragraph_video {
     align-self: center;
-    width: 277px;
+    width: 276px;
     height: 128px;
     border-radius: 15px;
 }

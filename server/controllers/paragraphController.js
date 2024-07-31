@@ -49,7 +49,10 @@ const paragraphController = {
     async createCollaborationParagraph(req, res) {
         const { paragraphType } = req.body;
         const paragraphTypesJson = require('../Data/paragraphTypes.json');
-
+        console.log(paragraphTypesJson);
+        console.log(paragraphType);
+        console.log(Object.keys(paragraphTypesJson).includes(paragraphType));
+        console.log(paragraphTypesJson[paragraphType]);
         if (!paragraphType || Object.keys(paragraphTypesJson).includes(paragraphType) === false) {
             return res.status(400).json({
                 error: "All fields are required",
@@ -72,6 +75,7 @@ const paragraphController = {
            if(paragraph.length === 0){
                 return res.status(404).json({ error: `Couldn't create paragraph for collaboration id ${req.params.id}` });
            }
+           console.log(paragraph);
            return res.status(201).json({ message: `Paragraph with id ${paragraphs.insertId} for collaboration id ${rows.insertId} created`, paragraph: paragraph });
         } catch (error) {
             return res.status(500).json({ error: error.message });

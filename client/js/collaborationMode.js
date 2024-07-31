@@ -1,7 +1,3 @@
-let collaborationMode = {
-    "isEditModeReady": true,
-}
-
 function createOptionElement(value, text) {
     const option = document.createElement("option");
     option.value = value;
@@ -65,13 +61,16 @@ async function addParagraphTypeListeners(){
     }
     const imageParagraph = async () => {
         const paragraph = await addCollaborationParagraph(collaborationId, {paragraphType: "ImageParagraph"});
-        document.querySelector("#container_paragraphs").appendChild(await createParagraph(paragraph, true));    }
+        document.querySelector("#container_paragraphs").appendChild(await createParagraph(paragraph, true));
+    }
     const videoParagraph = async () => {
         const paragraph = await addCollaborationParagraph(collaborationId, {paragraphType: "VideoParagraph"});
-        document.querySelector("#container_paragraphs").appendChild(await createParagraph(paragraph, true));    }
+        document.querySelector("#container_paragraphs").appendChild(await createParagraph(paragraph, true));
+    }
     const imageVideoParagraph = async () => {
         const paragraph = await addCollaborationParagraph(collaborationId, {paragraphType: "ImageVideoParagraph"});
-        document.querySelector("#container_paragraphs").appendChild(await createParagraph(paragraph, true));    }
+        document.querySelector("#container_paragraphs").appendChild(await createParagraph(paragraph, true));
+    }
 
     return [defaultParagraph, imageParagraph, videoParagraph, imageVideoParagraph];
 }
@@ -132,8 +131,6 @@ function getParagraphDetails(paragraph, paragraphDetailsFromServer){
 }
 
 function changeToEditMode() {
-    if(!collaborationMode.isEditModeReady)
-        return;
     changeMode(true);
 }
 
@@ -149,7 +146,11 @@ async function changeToViewMode(){
         newParagraphs.push(paragraph);
     });
 
-    updateCollaborationParagraphs(collaborationId, {paragraphs: newParagraphs}, collaborationMode);
-    collaborationMode.isEditMode = false;
+    await updateCollaborationParagraphs(collaborationId, {paragraphs: newParagraphs, userId: 1});
+    if(window.location.search.includes("edit")){
+        const url = window.location.href.split("?")[0];
+        window.history.pushState({}, document.title, url + "?id=" + collaborationId);
+    }
+    window.location.reload();
     changeMode(false);
 }

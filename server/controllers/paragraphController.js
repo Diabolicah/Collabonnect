@@ -1,6 +1,13 @@
 const {dbConnection} = require('../db_connection');
+const rs = require('readability-score');
 
 const TABLE_NAME_PREFIX = "tbl_112"
+
+function checkParagraphReadability(title, text) {
+    const titleReadability = rs(title);
+    const textReadability = rs(text);
+    return Math.round((titleReadability + textReadability) / 2);
+}
 
 const paragraphController = {
     // GET /api/collaboration/:id/paragraphs
@@ -60,7 +67,7 @@ const paragraphController = {
         const connection = await dbConnection.createConnection();
 
         try {
-            const [paragraphs] = await connection.execute(`INSERT INTO ${TABLE_NAME_PREFIX}_paragraph (newTitle, oldTitle, status, newText, oldText, newImage, oldImage, newVideo, oldVideo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`, ["", "", "Up to date", "", "", "", paragraphTypesJson[paragraphType].oldImage, "", paragraphTypesJson[paragraphType].oldVideo]);
+            const [paragraphs] = await connection.execute(`INSERT INTO ${TABLE_NAME_PREFIX}_paragraph (newTitle, oldTitle, status, newText, oldText, newImage, oldImage, newVideo, oldVideo, readability) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, ["", "", "Up to date", "", "", "", paragraphTypesJson[paragraphType].oldImage, "", paragraphTypesJson[paragraphType].oldVideo, "0"]);
            if(paragraphs.affectedRows === 0){
                 return res.status(404).json({ error: `Couldn't create paragraph for collaboration id ${req.params.id}` });
            }
@@ -82,11 +89,11 @@ const paragraphController = {
 
     // PUT /api/collaboration/:id/paragraphs
     async updateCollaborationParagraphs(req, res) {
-        const { paragraphs } = req.body;
-        if (!paragraphs || paragraphs.length === 0) {
+        const { paragraphs, userId } = req.body;
+        if (!paragraphs || !userId || paragraphs.length === 0) {
             return res.status(400).json({
                 error: "All fields are required",
-                fields: ["paragraphs"]
+                fields: ["paragraphs", "userId"]
             });
         }
         const connection = await dbConnection.createConnection();
@@ -104,7 +111,17 @@ const paragraphController = {
                     return res.status(404).json({ error: `Paragraph with id ${paragraph.id} for collaboration id ${req.params.id} not found` });
                 }
             });
-            return res.status(200).json({ message: `Paragraphs for collaboration id ${req.params.id} updated` });
+
+            const date = new Date().toISOString().slice(0, 19).replace('T', ' ');
+            const [editLog] = await connection.execute(`SELECT * FROM ${TABLE_NAME_PREFIX}_collaboration_logs WHERE date = ?`, [date]);
+            if (editLog.length === 0) {
+                return res.status(409).json({ error: `Edit log for collaboration id ${req.params.id} already exists` });
+            }
+            const [editLogs] = await connection.execute(`INSERT INTO ${TABLE_NAME_PREFIX}_collaboration_logs (userId, collaborationId, date) VALUES (?, ?, ?)`, [userId, req.params.id, date]);
+            if (editLogs.affectedRows === 0) {
+                return res.status(404).json({ error: `Couldn't create log for collaboration id ${req.params.id}` });
+            }
+            return res.status(200).json({ message: `Paragraphs for collaboration id ${req.params.id} updated`});
         } catch (error) {
             return res.status(500).json({ error: error.message });
         } finally {
@@ -120,9 +137,12 @@ const paragraphController = {
                 fields: ["status"]
             });
         }
+
+        const paragraphReadability = checkParagraphReadability(newTitle, newText);
+
         const connection = await dbConnection.createConnection();
         try {
-            const [paragraphs] = await connection.execute(`UPDATE ${TABLE_NAME_PREFIX}_paragraph SET newTitle = ?, oldTitle = ?, status = ?, newText = ?, oldText = ?, newImage = ?, oldImage = ?, newVideo = ?, oldVideo = ? WHERE id = ?`, [newTitle, oldTitle, status, newText, oldText, newImage, oldImage, newVideo, oldVideo, req.params.paragraphId]);
+            const [paragraphs] = await connection.execute(`UPDATE ${TABLE_NAME_PREFIX}_paragraph SET newTitle = ?, oldTitle = ?, status = ?, newText = ?, oldText = ?, newImage = ?, oldImage = ?, newVideo = ?, oldVideo = ?, readability = ? WHERE id = ?`, [newTitle, oldTitle, status, newText, oldText, newImage, oldImage, newVideo, oldVideo, paragraphReadability, req.params.paragraphId]);
             if (paragraphs.affectedRows === 0) {
                 return res.status(404).json({ error: `Paragraph with id ${req.params.paragraphId} for collaboration id ${req.params.id} not found` });
             }

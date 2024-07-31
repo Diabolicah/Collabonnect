@@ -134,7 +134,6 @@ async function addListeners(){
 
 }
 
-//function to be executed when page size changes
 function onResize(){
     if(window.innerWidth > 992){
         document.querySelectorAll(".containerr .row > section").forEach((section, idx) => {

@@ -150,6 +150,7 @@ async function addImage(paragraph, paragraphDetails, isEditMode) {
         });
     }
     paragraphImageVideo.appendChild(paragraphImage);
+    document.querySelector("#collaboration_assets #container_images").appendChild(paragraphImage.cloneNode(true));
 
     return paragraph;
 }
@@ -193,6 +194,7 @@ function addVideo(paragraph, paragraphDetails, isEditMode) {
         });
     }
     paragraphImageVideo.appendChild(paragraphVideo);
+    document.querySelector("#collaboration_assets #container_images").appendChild(paragraphVideo.cloneNode(true));
 
     return paragraph;
 }
@@ -274,11 +276,11 @@ async function createParagraph(paragraphDetails, isEditMode){
     if(isEditMode) {
         paragraph = addEditButtons(paragraph, paragraphDetails);
     }
-    if(paragraphDetails.newImage && paragraphDetails.newVideo){
+    if(paragraphDetails.oldImage && paragraphDetails.oldVideo){
         return paragraph = await addImageAndVideo(paragraph, paragraphDetails, isEditMode);
-    }else if(paragraphDetails.newImage){
+    }else if(paragraphDetails.oldImage){
         return paragraph = await addImage(paragraph, paragraphDetails, isEditMode);
-    }else if(paragraphDetails.newVideo){
+    }else if(paragraphDetails.oldVideo){
         return paragraph = addVideo(paragraph, paragraphDetails, isEditMode);
     }
 

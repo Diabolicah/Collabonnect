@@ -288,6 +288,47 @@ ol.breadcrumb {
     margin-right: 0;
 }
 
+
+#container_object_details .dropdown {
+    display: none;
+}
+
+#container_object_details .dropdown .btn {
+    background-color: #444;
+    color: #FFF;
+    border: none;
+    margin-right: 10px;
+    margin-bottom: 4px;
+    font-family: Lora;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+#container_object_details .dropdown-menu {
+    background-color: #444;
+    color: #FFF;
+    border: none;
+}
+
+#container_object_details .dropdown-menu li {
+    background-color: #444;
+    color: #FFF;
+    border: none;
+    font-family: Lora;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+
+}
+
+#container_object_details .dropdown-menu .active {
+    background-color: #9c9797;
+    color: #FFF;
+}
+
 #container_edit_mode, #container_paragraphs {
     display: flex;
     flex-direction: column;
@@ -295,7 +336,7 @@ ol.breadcrumb {
 }
 
 #container_edit_mode {
-    margin-top: 144px;
+    margin-top: 165px;
 }
 
 #collaboration_edit_delete {
@@ -315,47 +356,6 @@ ol.breadcrumb {
     border: 1px solid;
     margin: 0px 0px 2px 0px;
     border-color: #FFF;
-}
-
-#container_edit_mode .dropdown {
-    display: none;
-}
-
-#container_edit_mode .dropdown .btn {
-    background-color: #444;
-    color: #FFF;
-    border: none;
-    margin-right: 10px;
-    margin-bottom: 4px;
-    font-family: Lora;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-
-}
-
-#container_edit_mode .dropdown-menu {
-    background-color: #444;
-    color: #FFF;
-    border: none;
-}
-
-#container_edit_mode .dropdown-menu li {
-    background-color: #444;
-    color: #FFF;
-    border: none;
-    font-family: Lora;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-
-}
-
-#container_edit_mode .dropdown-menu .active {
-    background-color: #9c9797;
-    color: #FFF;
 }
 
 #container_paragraphs .paragraph{
@@ -1178,8 +1178,9 @@ ol.breadcrumb {
     #bread_crumb {
         display: none;
     }
-    
-    #container_edit_mode .dropdown {
+
+    #container_object_details .dropdown {
+        margin-top: 7px;
         display: block;
     }
 
@@ -1221,6 +1222,11 @@ ol.breadcrumb {
 
     #wrapper .containerr .col-auto:not(:first-child) {
         display: none;
+    }
+
+    #wrapper .containerr .col-lg:not(:first-child){
+        justify-content: flex-start;
+        margin-top: 200px;
     }
 
     #left_card_carousel, #right_card_carousel {
@@ -1287,6 +1293,10 @@ ol.breadcrumb {
 
     #container_object_details .progress .progress-bar {
         font-size: 10px;
+    }
+
+    #wrapper .containerr .col-lg:not(:first-child){
+        margin-top: 180px;
     }
 
     #container_edit_mode img {

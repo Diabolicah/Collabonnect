@@ -210,6 +210,17 @@ function changeToViewMode(){
 function addListeners(){
     document.querySelector("#collaboration_edit_delete img").addEventListener("click", deleteObjectDetails);
     document.querySelectorAll("#collaboration_edit_delete > img")[1].addEventListener("click", changeToEditMode);
+    document.querySelectorAll("#container_object_details .dropdown-menu li").forEach((element, idx) => {
+        element.addEventListener("click", () => {
+            document.querySelector("#container_object_details .dropdown-menu .active").classList.remove("active");
+            element.classList.add("active");
+            document.querySelectorAll(".containerr .row > section").forEach(section => section.style.display = "none");
+            if(idx == 0)
+                document.querySelectorAll(".containerr .row > section")[0].style.display = "block";
+            else document.querySelectorAll(".containerr .row > section")[idx].style.display = "flex";
+        });
+    });
+
 }
 
 window.onload = async () => {

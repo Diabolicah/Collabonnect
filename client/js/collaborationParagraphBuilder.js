@@ -97,7 +97,7 @@ async function addImage(paragraph, paragraphDetails, isEditMode) {
     isEditMode = isEditMode || false;
     let paragraphImageVideo = getElementParagraphImageVideo(paragraph, isEditMode);
     const paragraphImg = document.createElement("img");
-    paragraphImg.src = isEditMode ? "./images/upload_placeholder_image.svg": `${domain}/assets/paragraphImage/${paragraphDetails.image}`;
+    paragraphImg.src = isEditMode ? "./images/upload_placeholder_image.svg": `${domain}/assets/paragraphImage/${paragraphDetails.newImage}`;
     paragraphImg.alt = "image_placeholder";
     paragraphImg.classList.add("paragraph_image");
     if(isEditMode)
@@ -112,7 +112,7 @@ function addVideo(paragraph, paragraphDetails, isEditMode) {
     isEditMode = isEditMode || false;
     let paragraphImageVideo = getElementParagraphImageVideo(paragraph, isEditMode);
     const paragraphVideo = document.createElement(`${isEditMode ? "img" : "iframe"}`);
-    paragraphVideo.src = isEditMode ? "./images/upload_placeholder_video.svg": `${paragraphDetails.video}`;
+    paragraphVideo.src = isEditMode ? "./images/upload_placeholder_video.svg": `${paragraphDetails.newVideo}`;
     paragraphVideo.alt = "video_placeholder";
     paragraphVideo.classList.add("paragraph_video");
     if(isEditMode)
@@ -193,11 +193,11 @@ async function createParagraph(paragraphDetails, isEditMode){
     if(isEditMode) {
         paragraph = addEditButtons(paragraph, paragraphDetails);
     }
-    if(paragraphDetails.image && paragraphDetails.video){
+    if(paragraphDetails.newImage && paragraphDetails.newVideo){
         return paragraph = await addImageAndVideo(paragraph, paragraphDetails, isEditMode);
-    }else if(paragraphDetails.image){
+    }else if(paragraphDetails.newImage){
         return paragraph = await addImage(paragraph, paragraphDetails, isEditMode);
-    }else if(paragraphDetails.video){
+    }else if(paragraphDetails.newVideo){
         return paragraph = addVideo(paragraph, paragraphDetails, isEditMode);
     }
 

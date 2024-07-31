@@ -82,6 +82,38 @@ function updateBrandPageLogo(logo){
     brandPageLogo.src = logo;
 }
 
+function setupAddBadgeModal(){
+    const newBadgeForm = document.querySelector("#new_badge_modal form");
+    const createBadgeButton = document.getElementById("create_badge_button");
+    const cancelBadgeCreationButton = document.getElementById("cancel_badge_creation_button");
+
+    createBadgeButton.addEventListener("click", async () => {
+        document.querySelector("#new_badge_modal form > input").click();
+    });
+
+    newBadgeForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const formData = new FormData(newBadgeForm);
+        const { domain, userId} = await fetch("./data/settings.json").then((response) => response.json());
+        formData.append("userId", userId);
+        formData.append("brandId", userId);
+        const requestData = JSON.stringify(Object.fromEntries(formData));
+        const response = await fetch(`${domain}/api/badges/`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: requestData
+        });
+
+        if(response.status == 201){
+            cancelBadgeCreationButton.click();
+            newBadgeForm.reset();
+            populateBadgeContainer();
+        }
+    });
+}
+
 window.onload = async () => {
     const userId = await Settings.userId();
     const brandData = await Data.brands();
@@ -111,33 +143,5 @@ window.onload = async () => {
         cardInformationModal.show();
     });
 
-    const newCollaborationForm = document.querySelector("#new_badge_modal form");
-    const createCollaborationButton = document.getElementById("create_collaboration_button");
-    const cancelCollaborationCreationButton = document.getElementById("cancel_collaboration_creation_button");
-
-    createCollaborationButton.addEventListener("click", async () => {
-        document.querySelector("#new_badge_modal form > input").click();
-    });
-
-    newCollaborationForm.addEventListener("submit", async (event) => {
-        event.preventDefault();
-        const formData = new FormData(newCollaborationForm);
-        const { domain, userId} = await fetch("./data/settings.json").then((response) => response.json());
-        formData.append("userId", userId);
-        formData.append("brandId", userId);
-        const requestData = JSON.stringify(Object.fromEntries(formData));
-        const response = await fetch(`${domain}/api/badges/`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: requestData
-        });
-
-        if(response.status == 201){
-            cancelCollaborationCreationButton.click();
-            newCollaborationForm.reset();
-            populateBadgeContainer();
-        }
-    });
+    setupAddBadgeModal();
 }

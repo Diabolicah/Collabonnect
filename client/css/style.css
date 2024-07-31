@@ -989,6 +989,10 @@ ol.breadcrumb {
     display: none;
 }
 
+#create_badge_button {
+    background-color: #20CB98 !important;
+}
+
 #create_collaboration_button {
     background-color: #20CB98 !important;
 }

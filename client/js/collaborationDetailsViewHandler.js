@@ -45,16 +45,6 @@ function populateCollaborationEditLogs(editLogs) {
     });
 }
 
-async function populateCollaborationParagraphs(paragraphs, isEditMode) {
-    const containerParagraphs = document.querySelector("#container_paragraphs");
-    const arrayParagraphs = new Array(paragraphs.length);
-    for (let i = 0; i < paragraphs.length; i++) {
-        const paragraph = await createParagraph(paragraphs[i], isEditMode);
-        arrayParagraphs[paragraphs[i].id] = paragraph;
-    }
-    arrayParagraphs.forEach(paragraph => containerParagraphs.appendChild(paragraph));
-}
-
 async function initCollaborationDetails(collaborationData){
     getCollaborationLogos(collaborationData)
         .then(({brandLogo, developerLogo}) => {
@@ -154,6 +144,12 @@ function onResize(){
         });
         document.querySelector("#container_object_details .dropdown-menu .active").classList.remove("active");
         document.querySelector("#container_object_details .dropdown-menu li").classList.add("active");
+    }else {
+        document.querySelectorAll(".containerr .row > section").forEach((section, idx) => {
+            if(idx == 0)
+                document.querySelectorAll(".containerr .row > section")[0].style.display = "block";
+            else document.querySelectorAll(".containerr .row > section")[idx].style.display = "none";
+        });
     }
 }
 

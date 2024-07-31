@@ -21,6 +21,7 @@ collaborationRouter.put('/:id/status', collaborationController.updateCollaborati
 collaborationRouter.put('/:id/upvote', collaborationController.updateCollaborationUpvote);
 collaborationRouter.put('/:id/downvote', collaborationController.updateCollaborationDownvote);
 collaborationRouter.put('/:id/readability', collaborationController.updateCollaborationReadability);
+collaborationRouter.put('/:id/paragraphs', paragraphController.updateCollaborationParagraphs);
 collaborationRouter.put('/:id/paragraphs/:paragraphId', paragraphController.updateCollaborationParagraph);
 
 collaborationRouter.delete('/:id', collaborationController.deleteCollaboration);

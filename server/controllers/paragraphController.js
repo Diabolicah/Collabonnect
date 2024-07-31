@@ -82,14 +82,14 @@ const paragraphController = {
         const connection = await dbConnection.createConnection();
         try {
             paragraphs.forEach(async (paragraph) => {
-                const { newTitle, oldTitle, status, newText, oldText, image, video } = paragraph;
+                const { newTitle, oldTitle, status, newText, oldText, newImage, oldImage, newVideo, oldVideo } = paragraph;
                 if (!status || !paragraph.id) {
                     return res.status(400).json({
                         error: "All fields are required",
                         fields: ["status", "id"]
                     });
                 }
-                const [paragraphs] = await connection.execute(`UPDATE ${TABLE_NAME_PREFIX}_paragraph SET newTitle = ?, oldTitle = ?, status = ?, newText = ?, oldText = ?, image = ?, video = ? WHERE id = ?`, [newTitle, oldTitle, status, newText, oldText, image, video, paragraph.id]);
+                const [paragraphs] = await connection.execute(`UPDATE ${TABLE_NAME_PREFIX}_paragraph SET newTitle = ?, oldTitle = ?, status = ?, newText = ?, oldText = ?, newImage = ?, oldImage = ?, newVideo = ?, oldVideo = ? WHERE id = ?`, [newTitle, oldTitle, status, newText, oldText, newImage, oldImage, newVideo, oldVideo, paragraph.id]);
                 if (paragraphs.affectedRows === 0) {
                     return res.status(404).json({ error: `Paragraph with id ${paragraph.id} for collaboration id ${req.params.id} not found` });
                 }

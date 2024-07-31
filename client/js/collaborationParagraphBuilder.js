@@ -59,6 +59,10 @@ function createDefaultParagraph(paragraphDetails, isEditMode){
     const paragraph = document.createElement("section");
     paragraph.classList.add("paragraph");
 
+    const paragraphDetailsId = document.createAttribute("paragraphId");
+    paragraphDetailsId.value = paragraphDetails.id;
+    paragraph.setAttributeNode(paragraphDetailsId);
+
     const paragraphTitleStatus = document.createElement("section");
     paragraphTitleStatus.classList.add("paragraph_title_and_status");
 

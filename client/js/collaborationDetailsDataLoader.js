@@ -123,16 +123,15 @@ async function rejectCollaboration(collaborationId) {
     return false;
 }
 
-async function updateCollaborationParagraphs(collaborationId, paragraphs, collaborationMode) {
+async function updateCollaborationParagraphs(collaborationId, paragraphs) {
     const domain = await Settings.domain();
     const response = await fetch(`${domain}/api/collaborations/${collaborationId}/paragraphs`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(paragraphs)
+        body: JSON.stringify(paragraphs),
     });
-    collaborationMode.isEditModeReady = true;
     if(response.status == 200)
         return true;
     return false;

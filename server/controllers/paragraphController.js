@@ -82,11 +82,11 @@ const paragraphController = {
 
     // PUT /api/collaboration/:id/paragraphs
     async updateCollaborationParagraphs(req, res) {
-        const { paragraphs } = req.body;
-        if (!paragraphs || paragraphs.length === 0) {
+        const { paragraphs, userId } = req.body;
+        if (!paragraphs || !userId || paragraphs.length === 0) {
             return res.status(400).json({
                 error: "All fields are required",
-                fields: ["paragraphs"]
+                fields: ["paragraphs", "userId"]
             });
         }
         const connection = await dbConnection.createConnection();
@@ -104,7 +104,17 @@ const paragraphController = {
                     return res.status(404).json({ error: `Paragraph with id ${paragraph.id} for collaboration id ${req.params.id} not found` });
                 }
             });
-            return res.status(200).json({ message: `Paragraphs for collaboration id ${req.params.id} updated` });
+
+            const date = new Date().toISOString().slice(0, 19).replace('T', ' ');
+            const [editLog] = await connection.execute(`SELECT * FROM ${TABLE_NAME_PREFIX}_collaboration_logs WHERE date = ?`, [date]);
+            if (editLog.length === 0) {
+                return res.status(409).json({ error: `Edit log for collaboration id ${req.params.id} already exists` });
+            }
+            const [editLogs] = await connection.execute(`INSERT INTO ${TABLE_NAME_PREFIX}_collaboration_logs (userId, collaborationId, date) VALUES (?, ?, ?)`, [userId, req.params.id, date]);
+            if (editLogs.affectedRows === 0) {
+                return res.status(404).json({ error: `Couldn't create log for collaboration id ${req.params.id}` });
+            }
+            return res.status(200).json({ message: `Paragraphs for collaboration id ${req.params.id} updated`});
         } catch (error) {
             return res.status(500).json({ error: error.message });
         } finally {

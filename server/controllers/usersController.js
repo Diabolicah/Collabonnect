@@ -66,7 +66,18 @@ const usersController = {
             if (usernames.length > 0) {
                 return res.status(400).json({ error: 'Username already exists' });
             }
-
+            if (developerId) {
+                const [developers] = await connection.execute(`SELECT * FROM ${TABLE_NAME_PREFIX}_developer WHERE id = ?`, [developerId]);
+                if (developers.length === 0) {
+                    return res.status(404).json({ error: 'Developer not found' });
+                }
+            }
+            if (brandId) {
+                const [brands] = await connection.execute(`SELECT * FROM ${TABLE_NAME_PREFIX}_brand WHERE id = ?`, [brandId]);
+                if (brands.length === 0) {
+                    return res.status(404).json({ error: 'Brand not found' });
+                }
+            }
             const userAccessToken = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
             const [rows] = await connection.execute(`INSERT INTO ${TABLE_NAME_PREFIX}_user (username, password, userAccessToken, firstName, lastName, profileImage, developerId, brandId, token, rank) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, [username, password, userAccessToken, firstName, lastName, profileImage, developerId || null, brandId || null, 3, 1]);
             console.log(userAccessToken);

@@ -223,6 +223,19 @@ function addListeners(){
 
 }
 
+//function to be executed when page size changes
+function onResize(){
+    if(window.innerWidth > 992){
+        document.querySelectorAll(".containerr .row > section").forEach((section, idx) => {
+            if(idx == 0)
+                document.querySelectorAll(".containerr .row > section")[0].style.display = "block";
+            else document.querySelectorAll(".containerr .row > section")[idx].style.display = "flex";
+        });
+    }
+}
+
+window.addEventListener("resize", onResize);
+
 window.onload = async () => {
     getCollaborationDetailsFromServer();
     addListeners();

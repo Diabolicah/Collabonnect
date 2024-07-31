@@ -1,6 +1,13 @@
 const {dbConnection} = require('../db_connection');
+const rs = require('readability-score');
 
 const TABLE_NAME_PREFIX = "tbl_112"
+
+function checkParagraphReadability(title, text) {
+    const titleReadability = rs(title);
+    const textReadability = rs(text);
+    return Math.round((titleReadability + textReadability) / 2);
+}
 
 const paragraphController = {
     // GET /api/collaboration/:id/paragraphs
@@ -49,10 +56,7 @@ const paragraphController = {
     async createCollaborationParagraph(req, res) {
         const { paragraphType } = req.body;
         const paragraphTypesJson = require('../Data/paragraphTypes.json');
-        console.log(paragraphTypesJson);
-        console.log(paragraphType);
-        console.log(Object.keys(paragraphTypesJson).includes(paragraphType));
-        console.log(paragraphTypesJson[paragraphType]);
+
         if (!paragraphType || Object.keys(paragraphTypesJson).includes(paragraphType) === false) {
             return res.status(400).json({
                 error: "All fields are required",
@@ -63,7 +67,7 @@ const paragraphController = {
         const connection = await dbConnection.createConnection();
 
         try {
-            const [paragraphs] = await connection.execute(`INSERT INTO ${TABLE_NAME_PREFIX}_paragraph (newTitle, oldTitle, status, newText, oldText, newImage, oldImage, newVideo, oldVideo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`, ["", "", "Up to date", "", "", "", paragraphTypesJson[paragraphType].oldImage, "", paragraphTypesJson[paragraphType].oldVideo]);
+            const [paragraphs] = await connection.execute(`INSERT INTO ${TABLE_NAME_PREFIX}_paragraph (newTitle, oldTitle, status, newText, oldText, newImage, oldImage, newVideo, oldVideo, readability) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, ["", "", "Up to date", "", "", "", paragraphTypesJson[paragraphType].oldImage, "", paragraphTypesJson[paragraphType].oldVideo, "0"]);
            if(paragraphs.affectedRows === 0){
                 return res.status(404).json({ error: `Couldn't create paragraph for collaboration id ${req.params.id}` });
            }
@@ -75,7 +79,6 @@ const paragraphController = {
            if(paragraph.length === 0){
                 return res.status(404).json({ error: `Couldn't create paragraph for collaboration id ${req.params.id}` });
            }
-           console.log(paragraph);
            return res.status(201).json({ message: `Paragraph with id ${paragraphs.insertId} for collaboration id ${rows.insertId} created`, paragraph: paragraph });
         } catch (error) {
             return res.status(500).json({ error: error.message });
@@ -134,9 +137,12 @@ const paragraphController = {
                 fields: ["status"]
             });
         }
+
+        const paragraphReadability = checkParagraphReadability(newTitle, newText);
+
         const connection = await dbConnection.createConnection();
         try {
-            const [paragraphs] = await connection.execute(`UPDATE ${TABLE_NAME_PREFIX}_paragraph SET newTitle = ?, oldTitle = ?, status = ?, newText = ?, oldText = ?, newImage = ?, oldImage = ?, newVideo = ?, oldVideo = ? WHERE id = ?`, [newTitle, oldTitle, status, newText, oldText, newImage, oldImage, newVideo, oldVideo, req.params.paragraphId]);
+            const [paragraphs] = await connection.execute(`UPDATE ${TABLE_NAME_PREFIX}_paragraph SET newTitle = ?, oldTitle = ?, status = ?, newText = ?, oldText = ?, newImage = ?, oldImage = ?, newVideo = ?, oldVideo = ?, readability = ? WHERE id = ?`, [newTitle, oldTitle, status, newText, oldText, newImage, oldImage, newVideo, oldVideo, paragraphReadability, req.params.paragraphId]);
             if (paragraphs.affectedRows === 0) {
                 return res.status(404).json({ error: `Paragraph with id ${req.params.paragraphId} for collaboration id ${req.params.id} not found` });
             }

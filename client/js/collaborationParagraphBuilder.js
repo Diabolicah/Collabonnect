@@ -203,11 +203,11 @@ async function approveParagraph(paragraph, paragraphDetails){
     paragraphDetails.newText = paragraph.querySelector("textarea").value;
     paragraphDetails.oldText = paragraphDetails.newText;
     if(paragraph.querySelector(".paragraph_image_video .paragraph_image"))
-        paragraphDetails.newImage = paragraph.querySelector(".paragraph_image_video .paragraph_image").attributes.image.value ? paragraph.querySelector(".paragraph_image_video .paragraph_image").attributes.image.value : "  ";
+        paragraphDetails.newImage = paragraph.querySelector(".paragraph_image_video .paragraph_image").attributes.image.value ? paragraph.querySelector(".paragraph_image_video .paragraph_image").attributes.image.value : " ";
     else paragraphDetails.newImage = null;
 
     if(paragraph.querySelector(".paragraph_image_video .paragraph_video"))
-        paragraphDetails.newVideo = paragraph.querySelector(".paragraph_image_video .paragraph_video").attributes.video.value ? paragraph.querySelector(".paragraph_image_video .paragraph_video").attributes.video.value : "  ";
+        paragraphDetails.newVideo = paragraph.querySelector(".paragraph_image_video .paragraph_video").attributes.video.value ? paragraph.querySelector(".paragraph_image_video .paragraph_video").attributes.video.value : " ";
     else paragraphDetails.newVideo = null;
 
 

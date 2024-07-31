@@ -56,7 +56,7 @@ async function populateCollaborationParagraphs(paragraphs, isEditMode) {
 }
 
 async function addParagraphTypeListeners(){
-    const paragraphJsonTypes =[{"newImage": null, "status": "Up to date", "newText": "", "oldText": "", "newTitle": "", "oldTitle": "", "newVideo": null, "oldVideo": null},
+    const paragraphJsonTypes =[{"newImage": null, "oldImage": null, "status": "Up to date", "newText": "", "oldText": "", "newTitle": "", "oldTitle": "", "newVideo": null, "oldVideo": null},
         {"newImage": " ", "oldImage": " ", "status": "Up to date", "newText": "", "oldText": "", "newTitle": "", "oldTitle": "", "newVideo": null, "oldVideo": null},
         {"newImage": null, "oldImage": null, "status": "Up to date", "newText": "", "oldText": "", "newTitle": "", "oldTitle": "", "newVideo": " ", "oldVideo": " "},
         {"newImage": " ", "oldImage": " ", "status": "Up to date", "newText": "", "oldText": "", "newTitle": "", "oldTitle": "", "newVideo": " ", "oldVideo": " "}
@@ -66,20 +66,24 @@ async function addParagraphTypeListeners(){
     const collaborationId = urlParams.get("id");
 
     const defaultParagraph = async () => {
+        const paragraphId = await addCollaborationParagraph(collaborationId, paragraphJsonTypes[0]);
+        paragraphJsonTypes[0].id = paragraphId;
         document.querySelector("#container_paragraphs").appendChild(await createParagraph(paragraphJsonTypes[0], true));
-        await addCollaborationParagraph(collaborationId, paragraphJsonTypes[0]);
     }
     const imageParagraph = async () => {
+        const paragraphId = await addCollaborationParagraph(collaborationId, paragraphJsonTypes[1]);
+        paragraphJsonTypes[1].id = paragraphId;
         document.querySelector("#container_paragraphs").appendChild(await createParagraph(paragraphJsonTypes[1], true));
-        await addCollaborationParagraph(collaborationId, paragraphJsonTypes[1]);
     }
     const videoParagraph = async () => {
+        const paragraphId = await addCollaborationParagraph(collaborationId, paragraphJsonTypes[2]);
+        paragraphJsonTypes[2].id = paragraphId;
         document.querySelector("#container_paragraphs").appendChild(await createParagraph(paragraphJsonTypes[2], true));
-        await addCollaborationParagraph(collaborationId, paragraphJsonTypes[2]);
     }
     const imageVideoParagraph = async () => {
+        const paragraphId = await addCollaborationParagraph(collaborationId, paragraphJsonTypes[3]);
+        paragraphJsonTypes[3].id = paragraphId;
         document.querySelector("#container_paragraphs").appendChild(await createParagraph(paragraphJsonTypes[3], true));
-        await addCollaborationParagraph(collaborationId, paragraphJsonTypes[3]);
     }
 
     return [defaultParagraph, imageParagraph, videoParagraph, imageVideoParagraph];

@@ -990,7 +990,11 @@ ol.breadcrumb {
     display: none;
 }
 
-#create_badge_button {
+#create_badge_button  {
+    background-color: #20CB98 !important;
+}
+
+#submit_paragraph_image_button, #submit_paragraph_video_button {
     background-color: #20CB98 !important;
 }
 

@@ -171,7 +171,9 @@ async function addCollaborationParagraph(collaborationId, paragraphDetails){
         },
         body: JSON.stringify(paragraphDetails)
     });
-    if(response.status == 201)
-        return true;
+    if(response.status == 201){
+        const res = await response.json();
+        return res.paragraphId;
+    }
     return false;
 }

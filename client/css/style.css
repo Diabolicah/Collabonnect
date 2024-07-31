@@ -317,6 +317,47 @@ ol.breadcrumb {
     border-color: #FFF;
 }
 
+#container_edit_mode .dropdown {
+    display: none;
+}
+
+#container_edit_mode .dropdown .btn {
+    background-color: #444;
+    color: #FFF;
+    border: none;
+    margin-right: 10px;
+    margin-bottom: 4px;
+    font-family: Lora;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+
+}
+
+#container_edit_mode .dropdown-menu {
+    background-color: #444;
+    color: #FFF;
+    border: none;
+}
+
+#container_edit_mode .dropdown-menu li {
+    background-color: #444;
+    color: #FFF;
+    border: none;
+    font-family: Lora;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+
+}
+
+#container_edit_mode .dropdown-menu .active {
+    background-color: #9c9797;
+    color: #FFF;
+}
+
 #container_paragraphs .paragraph{
     padding: 4px 14px 21px 6px;
     border-radius: 15px;
@@ -1136,6 +1177,10 @@ ol.breadcrumb {
 
     #bread_crumb {
         display: none;
+    }
+    
+    #container_edit_mode .dropdown {
+        display: block;
     }
 
     #container_paragraphs .paragraph_title_and_status > input {

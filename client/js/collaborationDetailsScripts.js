@@ -45,13 +45,14 @@ function populateCollaborationEditLogs(editLogs) {
     });
 }
 
-function populateCollaborationParagraphs(paragraphs, isEditMode) {
+async function populateCollaborationParagraphs(paragraphs, isEditMode) {
     const containerParagraphs = document.querySelector("#container_paragraphs");
-
-    paragraphs.forEach(async element => {
-        const paragraph = await createParagraph(element, isEditMode);
-        containerParagraphs.appendChild(paragraph);
-    })
+    const arrayParagraphs = new Array(paragraphs.length);
+    for (let i = 0; i < paragraphs.length; i++) {
+        const paragraph = await createParagraph(paragraphs[i], isEditMode);
+        arrayParagraphs[paragraphs[i].id] = paragraph;
+    }
+    arrayParagraphs.forEach(paragraph => containerParagraphs.appendChild(paragraph));
 }
 
 async function initCollaborationDetails(collaborationData){
@@ -135,17 +136,25 @@ async function addParagraphTypeListeners(){
         {"image": " ", "status": "Up to date", "newText": "", "oldText": "", "newTitle": "", "oldTitle": "", "video": " "}
     ];
 
+    const urlParams = new URLSearchParams(window.location.search);
+    const collaborationId = urlParams.get("id");
+    console.log(collaborationId);
+
     const defaultParagraph = async () => {
         document.querySelector("#container_paragraphs").appendChild(await createParagraph(paragraphJsonTypes[0], true));
+        await addCollaborationParagraph(collaborationId, paragraphJsonTypes[0]);
     }
     const imageParagraph = async () => {
         document.querySelector("#container_paragraphs").appendChild(await createParagraph(paragraphJsonTypes[1], true));
+        await addCollaborationParagraph(collaborationId, paragraphJsonTypes[1]);
     }
     const videoParagraph = async () => {
         document.querySelector("#container_paragraphs").appendChild(await createParagraph(paragraphJsonTypes[2], true));
+        await addCollaborationParagraph(collaborationId, paragraphJsonTypes[2]);
     }
     const imageVideoParagraph = async () => {
         document.querySelector("#container_paragraphs").appendChild(await createParagraph(paragraphJsonTypes[3], true));
+        await addCollaborationParagraph(collaborationId, paragraphJsonTypes[3]);
     }
 
     return [defaultParagraph, imageParagraph, videoParagraph, imageVideoParagraph];

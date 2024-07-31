@@ -47,10 +47,18 @@ const paragraphController = {
     },
     // POST /api/collaboration/:id/paragraphs
     async createCollaborationParagraph(req, res) {
+        const { newTitle, oldTitle, status, newText, oldText, image, video } = req.body;
+        if (!status) {
+            return res.status(400).json({
+                error: "All fields are required",
+                fields: ["status"]
+            });
+        }
+
         const connection = await dbConnection.createConnection();
 
         try {
-            const [paragraphs] = await connection.execute(`INSERT INTO ${TABLE_NAME_PREFIX} (newTitle, oldTitle, status, newText, oldText, image, video) VALUES (?, "", "up to date", "", "", "")`);
+            const [paragraphs] = await connection.execute(`INSERT INTO ${TABLE_NAME_PREFIX}_paragraph (newTitle, oldTitle, status, newText, oldText, image, video) VALUES (?, ?, ?, ?, ?, ?, ?)`, [newTitle, oldTitle, status, newText, oldText, image, video]);
            if(paragraphs.affectedRows != 0){
             const [rows] = await connection.execute(`INSERT INTO ${TABLE_NAME_PREFIX}_collaboration_paragraph (collaborationId, paragraphId) VALUES (?, ?)`, [req.params.id, paragraphs.insertId]);
             return res.status(201).json({ message: `Paragraph with id ${paragraphs.insertId} for collaboration id ${rows.insertId} created` });
@@ -64,13 +72,12 @@ const paragraphController = {
     // PUT /api/collaboration/:id/paragraphs/:paragraphId
     async updateCollaborationParagraph(req, res) {
         const { newTitle, oldTitle, status, newText, oldText, image, video } = req.body;
-        if (!newTitle || !oldTitle || !status || !newText || !oldText) {
+        if (!status) {
             return res.status(400).json({
                 error: "All fields are required",
-                fields: ["title", "status", "text"]
+                fields: ["status"]
             });
         }
-        console.log(req.body);
         const connection = await dbConnection.createConnection();
         try {
             const [paragraphs] = await connection.execute(`UPDATE ${TABLE_NAME_PREFIX}_paragraph SET newTitle = ?, oldTitle = ?, status = ?, newText = ?, oldText = ?, image = ?, video = ? WHERE id = ?`, [newTitle, oldTitle, status, newText, oldText, image, video, req.params.paragraphId]);

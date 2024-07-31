@@ -147,6 +147,16 @@ async function deleteCollaborationParagraph(collaborationId, paragraphId){
     return false;
 }
 
-async function addCollaborationParagraph(){
-    
+async function addCollaborationParagraph(collaborationId, paragraphDetails){
+    const domain = await Settings.domain();
+    const response = await fetch(`${domain}/api/collaborations/${collaborationId}/paragraphs`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(paragraphDetails)
+    });
+    if(response.status == 201)
+        return true;
+    return false;
 }

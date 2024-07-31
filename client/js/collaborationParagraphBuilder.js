@@ -44,16 +44,26 @@ function createTitleParagraph(paragraphDetails, isEditMode, status){
     return title;
 }
 
+function checkPending(paragraphDetails){
+    if(paragraphDetails.newTitle && paragraphDetails.oldTitle && paragraphDetails.newTitle != paragraphDetails.oldTitle)
+        return true;
+    if(paragraphDetails.newText && paragraphDetails.oldText && paragraphDetails.newText != paragraphDetails.oldText)
+        return true;
+    if(paragraphDetails.newImage && paragraphDetails.oldImage && paragraphDetails.newImage != paragraphDetails.oldImage)
+        return true;
+    if(paragraphDetails.newVideo && paragraphDetails.oldVideo && paragraphDetails.newVideo != paragraphDetails.oldVideo)
+        return true;
+    return false;
+}
+
 function createStatusParagraph(paragraphDetails){
     const status = document.createElement("section");
     status.classList.add("status");
-    if(!(paragraphDetails.newText == paragraphDetails.oldText &&
-        paragraphDetails.newTitle == paragraphDetails.oldTitle &&
-        paragraphDetails.newImage == paragraphDetails.oldImage &&
-        paragraphDetails.newVideo == paragraphDetails.oldVideo)){
+    status.textContent = paragraphDetails.status;
+
+    if(checkPending(paragraphDetails)){
         status.classList.add("pending");
     }
-    status.textContent = paragraphDetails.status;
     return status;
 }
 

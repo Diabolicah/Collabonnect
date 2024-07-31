@@ -47,23 +47,32 @@ const paragraphController = {
     },
     // POST /api/collaboration/:id/paragraphs
     async createCollaborationParagraph(req, res) {
-        console.log(req.body);
-        const { newTitle, oldTitle, status, newText, oldText, newImage, oldImage, newVideo, oldVideo } = req.body;
-        if (!status) {
+        const { paragraphType } = req.body;
+        const paragraphTypesJson = require('../Data/paragraphTypes.json');
+
+        if (!paragraphType || Object.keys(paragraphTypesJson).includes(paragraphType) === false) {
             return res.status(400).json({
                 error: "All fields are required",
-                fields: ["status"]
+                fields: ["paragraphType"]
             });
         }
 
         const connection = await dbConnection.createConnection();
 
         try {
-            const [paragraphs] = await connection.execute(`INSERT INTO ${TABLE_NAME_PREFIX}_paragraph (newTitle, oldTitle, status, newText, oldText, newImage, oldImage, newVideo, oldVideo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`, [newTitle, oldTitle, status, newText, oldText, newImage, oldImage, newVideo, oldVideo]);
-           if(paragraphs.affectedRows != 0){
-            const [rows] = await connection.execute(`INSERT INTO ${TABLE_NAME_PREFIX}_collaboration_paragraph (collaborationId, paragraphId) VALUES (?, ?)`, [req.params.id, paragraphs.insertId]);
-            return res.status(201).json({ message: `Paragraph with id ${paragraphs.insertId} for collaboration id ${rows.insertId} created`, paragraphId: paragraphs.insertId });
+            const [paragraphs] = await connection.execute(`INSERT INTO ${TABLE_NAME_PREFIX}_paragraph (newTitle, oldTitle, status, newText, oldText, newImage, oldImage, newVideo, oldVideo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`, ["", "", "Up to date", "", "", "", paragraphTypesJson[paragraphType].oldImage, "", paragraphTypesJson[paragraphType].oldVideo]);
+           if(paragraphs.affectedRows === 0){
+                return res.status(404).json({ error: `Couldn't create paragraph for collaboration id ${req.params.id}` });
            }
+           const [rows] = await connection.execute(`INSERT INTO ${TABLE_NAME_PREFIX}_collaboration_paragraph (collaborationId, paragraphId) VALUES (?, ?)`, [req.params.id, paragraphs.insertId]);
+            if(rows.affectedRows === 0) {
+                return res.status(404).json({ error: `Couldn't create paragraph for collaboration id ${req.params.id}` });
+            }
+           const [paragraph] = await connection.execute(`SELECT id, newTitle, oldTitle, status, newText, oldText, newImage, oldImage, newVideo, oldVideo FROM ${TABLE_NAME_PREFIX}_paragraph WHERE id = ?`, [paragraphs.insertId]);
+           if(paragraph.length === 0){
+                return res.status(404).json({ error: `Couldn't create paragraph for collaboration id ${req.params.id}` });
+           }
+           return res.status(201).json({ message: `Paragraph with id ${paragraphs.insertId} for collaboration id ${rows.insertId} created`, paragraph: paragraph });
         } catch (error) {
             return res.status(500).json({ error: error.message });
         } finally {

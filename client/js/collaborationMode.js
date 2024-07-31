@@ -56,35 +56,22 @@ async function populateCollaborationParagraphs(paragraphs, isEditMode) {
 }
 
 async function addParagraphTypeListeners(){
-    const paragraphJsonTypes =[{"newImage": null, "oldImage": null, "status": "Up to date", "newText": "", "oldText": "", "newTitle": "", "oldTitle": "", "newVideo": null, "oldVideo": null},
-        {"newImage": " ", "oldImage": " ", "status": "Up to date", "newText": "", "oldText": "", "newTitle": "", "oldTitle": "", "newVideo": null, "oldVideo": null},
-        {"newImage": null, "oldImage": null, "status": "Up to date", "newText": "", "oldText": "", "newTitle": "", "oldTitle": "", "newVideo": " ", "oldVideo": " "},
-        {"newImage": " ", "oldImage": " ", "status": "Up to date", "newText": "", "oldText": "", "newTitle": "", "oldTitle": "", "newVideo": " ", "oldVideo": " "}
-    ];
-
     const urlParams = new URLSearchParams(window.location.search);
     const collaborationId = urlParams.get("id");
 
     const defaultParagraph = async () => {
-        const paragraphId = await addCollaborationParagraph(collaborationId, paragraphJsonTypes[0]);
-        paragraphJsonTypes[0].id = paragraphId;
-        document.querySelector("#container_paragraphs").appendChild(await createParagraph(paragraphJsonTypes[0], true));
+        const paragraph = await addCollaborationParagraph(collaborationId, {paragraphType: "DefaultParagraph"});
+        document.querySelector("#container_paragraphs").appendChild(await createParagraph(paragraph, true));
     }
     const imageParagraph = async () => {
-        const paragraphId = await addCollaborationParagraph(collaborationId, paragraphJsonTypes[1]);
-        paragraphJsonTypes[1].id = paragraphId;
-        document.querySelector("#container_paragraphs").appendChild(await createParagraph(paragraphJsonTypes[1], true));
-    }
+        const paragraph = await addCollaborationParagraph(collaborationId, {paragraphType: "ImageParagraph"});
+        document.querySelector("#container_paragraphs").appendChild(await createParagraph(paragraph, true));    }
     const videoParagraph = async () => {
-        const paragraphId = await addCollaborationParagraph(collaborationId, paragraphJsonTypes[2]);
-        paragraphJsonTypes[2].id = paragraphId;
-        document.querySelector("#container_paragraphs").appendChild(await createParagraph(paragraphJsonTypes[2], true));
-    }
+        const paragraph = await addCollaborationParagraph(collaborationId, {paragraphType: "VideoParagraph"});
+        document.querySelector("#container_paragraphs").appendChild(await createParagraph(paragraph, true));    }
     const imageVideoParagraph = async () => {
-        const paragraphId = await addCollaborationParagraph(collaborationId, paragraphJsonTypes[3]);
-        paragraphJsonTypes[3].id = paragraphId;
-        document.querySelector("#container_paragraphs").appendChild(await createParagraph(paragraphJsonTypes[3], true));
-    }
+        const paragraph = await addCollaborationParagraph(collaborationId, {paragraphType: "ImageVideoParagraph"});
+        document.querySelector("#container_paragraphs").appendChild(await createParagraph(paragraph, true));    }
 
     return [defaultParagraph, imageParagraph, videoParagraph, imageVideoParagraph];
 }

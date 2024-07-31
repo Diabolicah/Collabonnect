@@ -365,6 +365,7 @@ ol.breadcrumb {
 }
 
 #container_paragraphs .paragraph.edit_mode {
+    cursor: pointer;
     display: flex;
 }
 
@@ -992,7 +993,7 @@ ol.breadcrumb {
     display: none;
 }
 
-#create_collaboration_button {
+#create_collaboration_button, #submit_paragraph_image_button, #submit_paragraph_video_button {
     background-color: #20CB98 !important;
 }
 
@@ -1111,12 +1112,12 @@ ol.breadcrumb {
     background-color: #35addc !important;
 }
 
-#new_badge_modal .modal-footer {
+#new_badge_modal .modal-footer, #new_image_modal .modal-footer, #new_video_modal .modal-footer{
     display: flex;
     justify-content: space-around;
 }
 
-#new_badge_modal .modal-footer button {
+#new_badge_modal .modal-footer button, #new_image_modal .modal-footer button,  #new_video_modal .modal-footer button {
     width: 100px;
     height: 50px;
     border-radius: 15px;

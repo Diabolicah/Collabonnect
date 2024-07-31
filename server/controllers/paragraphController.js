@@ -58,7 +58,7 @@ const paragraphController = {
         const connection = await dbConnection.createConnection();
 
         try {
-            const [paragraphs] = await connection.execute(`INSERT INTO ${TABLE_NAME_PREFIX}_paragraph (newTitle, oldTitle, status, newText, oldText, newImage, oldImage, newVideo, oldVideo) VALUES (?, ?, ?, ?, ?, ?, ?, ?m ?)`, [newTitle, oldTitle, status, newText, oldText, newImage, oldImage, newVideo, oldVideo]);
+            const [paragraphs] = await connection.execute(`INSERT INTO ${TABLE_NAME_PREFIX}_paragraph (newTitle, oldTitle, status, newText, oldText, newImage, oldImage, newVideo, oldVideo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`, [newTitle, oldTitle, status, newText, oldText, newImage, oldImage, newVideo, oldVideo]);
            if(paragraphs.affectedRows != 0){
             const [rows] = await connection.execute(`INSERT INTO ${TABLE_NAME_PREFIX}_collaboration_paragraph (collaborationId, paragraphId) VALUES (?, ?)`, [req.params.id, paragraphs.insertId]);
             return res.status(201).json({ message: `Paragraph with id ${paragraphs.insertId} for collaboration id ${rows.insertId} created` });

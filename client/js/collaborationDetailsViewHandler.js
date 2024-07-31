@@ -158,5 +158,7 @@ window.addEventListener("resize", onResize);
 
 window.onload = async () => {
     getCollaborationDetailsFromServer();
+    populateParagraphImagesSelection();
+    populateParagraphVideosSelection();
     addListeners();
 }

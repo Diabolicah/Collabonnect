@@ -138,13 +138,20 @@
             <img src="#" alt="user_image" />
           </section>
           <section class="dropdown">
-            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <button
+              class="btn btn-secondary btn-sm dropdown-toggle"
+              type="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
               Select View
             </button>
             <ul class="dropdown-menu dropdown-menu-dark">
               <li><a class="dropdown-item active" href="#">Paragraphs</a></li>
               <li><a class="dropdown-item" href="#">Assets</a></li>
-              <li><a class="dropdown-item" href="#">EditLogs/Readability</a></li>
+              <li>
+                <a class="dropdown-item" href="#">EditLogs/Readability</a>
+              </li>
             </ul>
           </section>
         </section>
@@ -173,12 +180,12 @@
             <section class="col-auto col-lg col-xl-auto">
               <section id="container_ai_readability_and_edit_logs">
                 <section id="container_ai_readability">
-                    <section id="ai_readability">
-                      <img src="./images/ai_icon.svg" alt="ai_icon" />
-                    </section>
-                    <section class="circular_progress_bar" role="progressbar">
-                      <span></span>
-                    </section>
+                  <section id="ai_readability">
+                    <img src="./images/ai_icon.svg" alt="ai_icon" />
+                  </section>
+                  <section class="circular_progress_bar" role="progressbar">
+                    <span></span>
+                  </section>
                 </section>
                 <section id="edit_logs">
                   <h4>Edit Logs</h4>
@@ -316,6 +323,112 @@
                 />
               </section>
             </section>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="modal fade"
+      id="new_image_modal"
+      tabindex="-1"
+      aria-labelledby="new_image_modal"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="new_image_modal_title">
+              choose Image
+            </h1>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+            <label
+                for="collaboration_paragraph_images_data_list"
+                class="form-label"
+                >Image</label
+            >
+            <div class="input-group">
+              <select
+                class="form-control form-select"
+                id="collaboration_paragraph_images_data_list"
+                required
+                name="imageName"
+              ></select>
+              <img
+                src="images/image_placeholder.svg"
+                alt="plus_circle_icon"
+                id="collaboration_paragraph_images_logo"
+                class="input-group-text"
+              />
+            </div>
+          </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              id="cancel_paragraph_image_select_button"
+              type="button"
+              class="btn"
+              data-bs-dismiss="modal"
+            >
+              Cancel
+            </button>
+            <button id="submit_paragraph_image_button" type="button" class="btn">
+              Submit
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="modal fade"
+      id="new_video_modal"
+      tabindex="-1"
+      aria-labelledby="new_video_modal"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="new_video_modal_title">
+              choose Video
+            </h1>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+            <label
+                for="collaboration_paragraph_videos_data_list"
+                class="form-label"
+                >Image</label
+            >
+            <div class="input-group">
+              <select
+                class="form-control form-select"
+                id="collaboration_paragraph_videos_data_list"
+                required
+                name="imageName"
+              ></select>
+              <img
+                src="images/image_placeholder.svg"
+                alt="plus_circle_icon"
+                id="collaboration_paragraph_videos_logo"
+                class="input-group-text"
+              />
+            </div>
+          </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              id="cancel_paragraph_video_select_button"
+              type="button"
+              class="btn"
+              data-bs-dismiss="modal"
+            >
+              Cancel
+            </button>
+            <button id="submit_paragraph_video_button" type="button" class="btn">
+              Submit
+            </button>
           </div>
         </div>
       </div>

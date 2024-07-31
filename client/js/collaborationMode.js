@@ -2,6 +2,41 @@ let collaborationMode = {
     "isEditModeReady": true,
 }
 
+function createOptionElement(value, text) {
+    const option = document.createElement("option");
+    option.value = value;
+    option.text = text;
+    return option;
+}
+
+async function populateParagraphImagesSelection() {
+    const domain = await Settings.domain();
+    const paragraphImagesData = await fetch(`${domain}/api/collaborations/paragraphs/images`).then((response) => response.json());
+    const imagesSelect = document.getElementById("collaboration_paragraph_images_data_list");
+    const defaultOption = createOptionElement("", "Select an image");
+    defaultOption.selected = true;
+    defaultOption.disabled = true;
+    imagesSelect.appendChild(defaultOption);
+    for (let image of paragraphImagesData) {
+        const option = createOptionElement(image, image);
+        imagesSelect.appendChild(option);
+    }
+}
+
+async function populateParagraphVideosSelection() {
+    const domain = await Settings.domain();
+    const paragraphVideosData = await fetch(`${domain}/api/collaborations/paragraphs/videos`).then((response) => response.json());
+    const videosSelect = document.getElementById("collaboration_paragraph_videos_data_list");
+    const defaultOption = createOptionElement("", "Select an video");
+    defaultOption.selected = true;
+    defaultOption.disabled = true;
+    videosSelect.appendChild(defaultOption);
+    for (let video of paragraphVideosData) {
+        const option = createOptionElement(video, video);
+        videosSelect.appendChild(option);
+    }
+}
+
 async function getParagraphs(){
     const urlParams = new URLSearchParams(window.location.search);
     const collaborationId = urlParams.get("id");
@@ -21,10 +56,10 @@ async function populateCollaborationParagraphs(paragraphs, isEditMode) {
 }
 
 async function addParagraphTypeListeners(){
-    const paragraphJsonTypes =[{"image": null, "status": "Up to date", "newText": "", "oldText": "", "newTitle": "", "oldTitle": "", "video": null},
-        {"image": " ", "status": "Up to date", "newText": "", "oldText": "", "newTitle": "", "oldTitle": "", "video": null},
-        {"image": null, "status": "Up to date", "newText": "", "oldText": "", "newTitle": "", "oldTitle": "", "video": " "},
-        {"image": " ", "status": "Up to date", "newText": "", "oldText": "", "newTitle": "", "oldTitle": "", "video": " "}
+    const paragraphJsonTypes =[{"newImage": null, "status": "Up to date", "newText": "", "oldText": "", "newTitle": "", "oldTitle": "", "newVideo": null, "oldVideo": null},
+        {"newImage": " ", "oldImage": " ", "status": "Up to date", "newText": "", "oldText": "", "newTitle": "", "oldTitle": "", "newVideo": null, "oldVideo": null},
+        {"newImage": null, "oldImage": null, "status": "Up to date", "newText": "", "oldText": "", "newTitle": "", "oldTitle": "", "newVideo": " ", "oldVideo": " "},
+        {"newImage": " ", "oldImage": " ", "status": "Up to date", "newText": "", "oldText": "", "newTitle": "", "oldTitle": "", "newVideo": " ", "oldVideo": " "}
     ];
 
     const urlParams = new URLSearchParams(window.location.search);
@@ -88,8 +123,8 @@ function getParagraphDetails(paragraph, paragraphDetailsFromServer){
     const paragraphTitle = paragraph.querySelector(".paragraph_title_and_status input").value;
     const paragraphStatus = paragraph.querySelector(".paragraph_title_and_status .status").textContent;
     const paragraphText = paragraph.querySelector("textarea").value;
-    //const paragraphImage = paragraph.querySelector(".paragraph_image").src;
-    //const paragraphVideo = paragraph.querySelector(".paragraph_video").src;
+    const paragraphImage = paragraph.querySelector(".paragraph_image") ? paragraph.querySelector(".paragraph_image").attributes.image.value : paragraphDetailsFromServer.oldImage;
+    const paragraphVideo = paragraph.querySelector(".paragraph_video") ? paragraph.querySelector(".paragraph_video").attributes.video.value : paragraphDetailsFromServer.oldVideo;
 
     return {
         id: paragraphId,
@@ -99,9 +134,9 @@ function getParagraphDetails(paragraph, paragraphDetailsFromServer){
         newText: paragraphDetailsFromServer.newText,
         oldText: paragraphText,
         newImage: paragraphDetailsFromServer.newImage,
-        oldImage: paragraphDetailsFromServer.oldImage,
+        oldImage: paragraphImage,
         newVideo: paragraphDetailsFromServer.newVideo,
-        oldVideo: paragraphDetailsFromServer.oldVideo
+        oldVideo: paragraphVideo
     };
 }
 

@@ -47,7 +47,10 @@ function createTitleParagraph(paragraphDetails, isEditMode, status){
 function createStatusParagraph(paragraphDetails){
     const status = document.createElement("section");
     status.classList.add("status");
-    if(!(paragraphDetails.newText == paragraphDetails.oldText && paragraphDetails.newTitle == paragraphDetails.oldTitle)){
+    if(!(paragraphDetails.newText == paragraphDetails.oldText &&
+        paragraphDetails.newTitle == paragraphDetails.oldTitle &&
+        paragraphDetails.newImage == paragraphDetails.oldImage &&
+        paragraphDetails.newVideo == paragraphDetails.oldVideo)){
         status.classList.add("pending");
     }
     status.textContent = paragraphDetails.status;
@@ -100,14 +103,43 @@ async function addImage(paragraph, paragraphDetails, isEditMode) {
     const domain = await Settings.domain();
     isEditMode = isEditMode || false;
     let paragraphImageVideo = getElementParagraphImageVideo(paragraph, isEditMode);
-    const paragraphImg = document.createElement("img");
-    paragraphImg.src = isEditMode ? "./images/upload_placeholder_image.svg": `${domain}/assets/paragraphImage/${paragraphDetails.newImage}`;
-    paragraphImg.alt = "image_placeholder";
-    paragraphImg.classList.add("paragraph_image");
-    if(isEditMode)
-        paragraphImg.classList.add("edit_mode");
+    const paragraphImage = document.createElement("img");
+    paragraphImage.src = isEditMode ? "./images/upload_placeholder_image.svg": `${domain}/assets/collaborationParagraphImages/${paragraphDetails.newImage}`;
+    paragraphImage.alt = "image_placeholder";
+    paragraphImage.classList.add("paragraph_image");
 
-    paragraphImageVideo.appendChild(paragraphImg);
+    const paragraphAttributeImage = document.createAttribute("image");
+    paragraphAttributeImage.value = paragraphDetails.oldImage;
+    paragraphImage.setAttributeNode(paragraphAttributeImage);
+
+    if(isEditMode){
+        paragraphImage.classList.add("edit_mode");
+        paragraphImage.addEventListener("click", () => {
+            const newImageModal = new bootstrap.Modal('#new_image_modal', {})
+            newImageModal.show();
+
+            const selectImage = () => {
+                const image = document.querySelector("#collaboration_paragraph_images_data_list").value;
+                paragraphImage.attributes.image.value = image;
+                newImageModal.hide();
+
+                const status = paragraph.querySelector(".status");
+                if(!status.classList.contains("Pending") && paragraphImage.attributes.image.value != paragraphDetails.oldImage){
+                    status.textContent = "Pending";
+                    status.classList.add("pending");
+                }else if(paragraphImage.attributes.image.value == paragraphDetails.oldImage){
+                    status.textContent = "Up to date";
+                    status.classList.remove("pending");
+                }
+            }
+            document.querySelector("#submit_paragraph_image_button").addEventListener("click", selectImage);
+
+            newImageModal._element.addEventListener("hide.bs.modal", () => {
+                document.querySelector("#submit_paragraph_image_button").removeEventListener("click", selectImage);
+            });
+        });
+    }
+    paragraphImageVideo.appendChild(paragraphImage);
 
     return paragraph;
 }
@@ -119,10 +151,37 @@ function addVideo(paragraph, paragraphDetails, isEditMode) {
     paragraphVideo.src = isEditMode ? "./images/upload_placeholder_video.svg": `${paragraphDetails.newVideo}`;
     paragraphVideo.alt = "video_placeholder";
     paragraphVideo.classList.add("paragraph_video");
-    if(isEditMode)
+
+    const paragraphAttributeVideo = document.createAttribute("video");
+    paragraphAttributeVideo.value = paragraphDetails.oldVideo;
+    paragraphVideo.setAttributeNode(paragraphAttributeVideo);
+
+    if(isEditMode){
         paragraphVideo.classList.add("edit_mode");
+        paragraphVideo.addEventListener("click", () => {
+            const newVideoModal = new bootstrap.Modal('#new_video_modal', {})
+            newVideoModal.show();
+            const selectVideo = () => {
+                const video = document.querySelector("#collaboration_paragraph_videos_data_list").value;
+                paragraphVideo.attributes.video.value = video;
+                newVideoModal.hide();
 
+                const status = paragraph.querySelector(".status");
+                if(!status.classList.contains("Pending") && paragraphVideo.attributes.video.value != paragraphDetails.oldVideo){
+                    status.textContent = "Pending";
+                    status.classList.add("pending");
+                }else if(paragraphVideo.attributes.video.value == paragraphDetails.oldVideo){
+                    status.textContent = "Up to date";
+                    status.classList.remove("pending");
+                }
+            }
+            document.querySelector("#submit_paragraph_video_button").addEventListener("click", selectVideo);
 
+            newVideoModal._element.addEventListener("hide.bs.modal", () => {
+                document.querySelector("#submit_paragraph_video_button").removeEventListener("click", selectVideo);
+            });
+        });
+    }
     paragraphImageVideo.appendChild(paragraphVideo);
 
     return paragraph;
@@ -143,6 +202,14 @@ async function approveParagraph(paragraph, paragraphDetails){
     paragraphDetails.status = "Up to date";
     paragraphDetails.newText = paragraph.querySelector("textarea").value;
     paragraphDetails.oldText = paragraphDetails.newText;
+    if(paragraph.querySelector(".paragraph_image_video .paragraph_image"))
+        paragraphDetails.newImage = paragraph.querySelector(".paragraph_image_video .paragraph_image").attributes.image.value ? paragraph.querySelector(".paragraph_image_video .paragraph_image").attributes.image.value : "  ";
+    else paragraphDetails.newImage = null;
+
+    if(paragraph.querySelector(".paragraph_image_video .paragraph_video"))
+        paragraphDetails.newVideo = paragraph.querySelector(".paragraph_image_video .paragraph_video").attributes.video.value ? paragraph.querySelector(".paragraph_image_video .paragraph_video").attributes.video.value : "  ";
+    else paragraphDetails.newVideo = null;
+
 
     if(await approveCollaborationParagraph(collaborationId, paragraphDetails.id, paragraphDetails)){
         paragraph.querySelector(".pending").textContent = "Up to date";

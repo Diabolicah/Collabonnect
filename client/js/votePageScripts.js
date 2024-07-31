@@ -12,9 +12,12 @@ function addObjectToCarousel(collaborationCard, active) {
 
 window.onload = async () => {
     const collaborations = await getCollaborationsList();
-    const leftCarousel = new bootstrap.Carousel("#left_card_carousel", { interval: false });
-    const rightCarousel = new bootstrap.Carousel("#right_card_carousel", { interval: false });
-    const middleCarousel = new bootstrap.Carousel("#middle_card_carousel", { interval: false });
+    const leftCarousel = new bootstrap.Carousel("#left_card_carousel", { interval: false, touch: false });
+    const rightCarousel = new bootstrap.Carousel("#right_card_carousel", { interval: false, touch: false });
+    const middleCarousel = new bootstrap.Carousel("#middle_card_carousel", { interval: false, touch: false });
+
+    const searchInput = document.getElementById("search_bar");
+    searchInput.addEventListener("input", filterCollaborationsOnSearch);
 
     let index = 0;
     await collaborations.forEach(async (collaboration) => {

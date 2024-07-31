@@ -86,6 +86,10 @@ window.onload = async () => {
     const userId = await Settings.userId();
     const brandData = await Data.brands();
     const currentBrand = brandData[userId];
+
+    const searchInput = document.getElementById("search_bar");
+    searchInput.addEventListener("input", filterCollaborationsOnSearch);
+
     populateBadgeImagesSelection();
     populateBadgeContainer();
 

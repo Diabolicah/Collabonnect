@@ -37,11 +37,11 @@ async function createCollaborationLog(editLog) {
 }
 
 function populateCollaborationEditLogs(editLogs) {
-    const containerEditLogs = document.querySelector("#edit_logs");
+    const containerEditLogs = document.querySelector("#edit_logs #container_edit_logs");
 
     editLogs.forEach(element => {
         createCollaborationLog(element)
-        .then(result => containerEditLogs.querySelector("hr").after(result));
+        .then(result => containerEditLogs.append(result));
     });
 }
 
@@ -231,6 +231,8 @@ function onResize(){
                 document.querySelectorAll(".containerr .row > section")[0].style.display = "block";
             else document.querySelectorAll(".containerr .row > section")[idx].style.display = "flex";
         });
+        document.querySelector("#container_object_details .dropdown-menu .active").classList.remove("active");
+        document.querySelector("#container_object_details .dropdown-menu li").classList.add("active");
     }
 }
 

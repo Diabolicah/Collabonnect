@@ -8,10 +8,13 @@ function createTextParagraph(paragraphDetails, isEditMode, status){
         paragraphText.textContent = paragraphDetails.newText;
     }
 
-    paragraphText.addEventListener("click", () => {
-        if(!status.classList.contains("Pending")){
+    paragraphText.addEventListener("change", () => {
+        if(!status.classList.contains("Pending") && paragraphText.value != paragraphDetails.oldText){
             status.textContent = "Pending";
             status.classList.add("pending");
+        }else if(paragraphText.value == paragraphDetails.oldText){
+            status.textContent = "Up to date";
+            status.classList.remove("pending");
         }
     });
 
@@ -28,10 +31,13 @@ function createTitleParagraph(paragraphDetails, isEditMode, status){
         title.textContent = paragraphDetails.newTitle;
     }
 
-    title.addEventListener("click", () => {
-        if(!status.classList.contains("Pending")){
+    title.addEventListener("change", () => {
+        if(!status.classList.contains("Pending") && title.value != paragraphDetails.oldTitle){
             status.textContent = "Pending";
             status.classList.add("pending");
+        }else if(title.value == paragraphDetails.oldTitle){
+            status.textContent = "Up to date";
+            status.classList.remove("pending");
         }
     });
 
@@ -124,6 +130,7 @@ async function addImageAndVideo(paragraph, paragraphDetails, isEditMode){
 }
 
 async function approveParagraph(paragraph, paragraphDetails){
+    if(paragraph.querySelector(".pending") == null) return;
     const urlParams = new URLSearchParams(window.location.search);
     const collaborationId = urlParams.get("id");
 

@@ -288,7 +288,6 @@ ol.breadcrumb {
     margin-right: 0;
 }
 
-
 #container_object_details .dropdown {
     display: none;
 }
@@ -506,7 +505,6 @@ ol.breadcrumb {
 }
 
 #collaboration_assets {
-    max-width: 576px;
     border-radius: 15px;
     min-height: calc(100vh - 96px);
     background-color: rgb(68, 68, 68, 0.5);
@@ -536,9 +534,7 @@ ol.breadcrumb {
 }
 
 #container_ai_readability_and_edit_logs {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    width: 100%;
 }
 
 #container_ai_readability_and_edit_logs #ai_readability {
@@ -550,6 +546,12 @@ ol.breadcrumb {
     background-color: #FFF;
     border-radius: 50%;
     margin-bottom: 5px;
+}
+
+#container_ai_readability_and_edit_logs #container_ai_readability {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .circular_progress_bar {
@@ -572,7 +574,6 @@ ol.breadcrumb {
 }
 
 #edit_logs {
-    max-width: 244px;
     margin-top: 24px;
 }
 
@@ -587,7 +588,7 @@ ol.breadcrumb {
     margin-bottom: 0;
 }
 
-#edit_logs section {
+#edit_logs #container_edit_logs section {
     height: 32px;
     background-color: #FFF;
     border-radius: 10px;
@@ -1188,6 +1189,20 @@ ol.breadcrumb {
         max-width: 150px;
     }
 
+    #container_ai_readability_and_edit_logs #container_ai_readability {
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+    }
+
+    #edit_logs #container_edit_logs {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 4px;
+    }
+
     .paragraph_type .paragraph_type_image {
         width: 60px;
         height: 60px;
@@ -1228,6 +1243,12 @@ ol.breadcrumb {
         justify-content: flex-start;
         margin-top: 200px;
     }
+
+    #collaboration_assets {
+        width: 100%;
+        min-height: calc(100vh - 330px);
+    }
+    
 
     #left_card_carousel, #right_card_carousel {
         display: none;
@@ -1297,6 +1318,10 @@ ol.breadcrumb {
 
     #wrapper .containerr .col-lg:not(:first-child){
         margin-top: 180px;
+    }
+
+    #collaboration_assets {
+        min-height: calc(100vh - 31 0px);
     }
 
     #container_edit_mode img {

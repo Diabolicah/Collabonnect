@@ -36,13 +36,13 @@ window.onload = async () => {
     const leftButton = document.querySelector("#card_carousel_container .carousel-control-prev");
     const rightButton = document.querySelector("#card_carousel_container .carousel-control-next");
 
-    leftButton.addEventListener("click", () => {
+    rightButton.addEventListener("click", () => {
         middleCarousel.prev();
         leftCarousel.prev();
         rightCarousel.prev();
     });
 
-    rightButton.addEventListener("click", () => {
+    leftButton.addEventListener("click", () => {
         leftCarousel.next();
         middleCarousel.next();
         rightCarousel.next();

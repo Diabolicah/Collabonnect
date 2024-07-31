@@ -1156,6 +1156,45 @@ ol.breadcrumb {
     height: 48px;
 }
 
+#badge_information_modal .modal-header {
+    display: flex;
+    justify-content: center;
+}
+
+#badge_information_modal .modal-footer, #new_image_modal .modal-body{
+    display: flex;
+    justify-content: space-around;
+}
+
+#badge_information_modal .modal-body {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#badge_information_modal .modal-body img {
+    width: 64px;
+    height: 64px;
+}
+
+#badge_information_modal .modal-footer button {
+    width: 100px;
+    height: 50px;
+    border-radius: 15px;
+    background-color: #444444;
+    stroke: #000000;
+    color: #FFF;
+    font-family: Merriweather;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+#delete_badge_button {
+    background-color: #DC3545 !important;
+}
+
 /* media query */
 @media screen and (max-width: 992px) {
     .row {
@@ -1254,7 +1293,6 @@ ol.breadcrumb {
         width: 100%;
         min-height: calc(100vh - 330px);
     }
-    
 
     #left_card_carousel, #right_card_carousel {
         display: none;

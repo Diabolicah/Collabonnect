@@ -9,8 +9,6 @@ badgeRouter.get('/:id', badgeController.getBadgeById);
 
 badgeRouter.post('/', badgeController.createBadge);
 
-badgeRouter.put('/:id', badgeController.updateBadgeById);
-
 badgeRouter.delete('/:id', badgeController.deleteBadgeById);
 
 module.exports = { badgeRouter };

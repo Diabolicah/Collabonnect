@@ -8,7 +8,7 @@ function createOptionElement(value, text) {
 async function populateBadgeImagesSelection() {
     const domain = await Settings.domain();
     const badgesData = await fetch(`${domain}/api/badges/images`).then((response) => response.json());
-    const brandSelect = document.getElementById("collaboration_brand_data_list");
+    const brandSelect = document.getElementById("badge_data_list");
     const defaultOption = createOptionElement("", "Select a brand");
     defaultOption.selected = true;
     defaultOption.disabled = true;
@@ -17,6 +17,12 @@ async function populateBadgeImagesSelection() {
         const option = createOptionElement(badge, badge);
         brandSelect.appendChild(option);
     }
+
+    brandSelect.addEventListener("change", async (event) => {
+        const selectedBadge = event.target.value;
+        const brandImage = document.getElementById("badge_image");
+        brandImage.src = `${domain}/assets/badgeImages/${selectedBadge}`;
+    });
 }
 
 async function populateCollaborationContainer(){
@@ -31,6 +37,47 @@ async function populateCollaborationContainer(){
                 document.getElementById("collaboration_cards_container").appendChild(collaborationCard);
             });
         }
+    });
+}
+
+async function OnBadgeClick(badgeInfo, imgSrc){
+    const badgeInformationModal = new bootstrap.Modal('#badge_information_modal', {});
+    badgeInformationModal.show();
+    const badgeNameSpan = document.getElementById("information_badge_name");
+    const badgeDescriptionSpan = document.getElementById("information_badge_description");
+    const badgeImage = document.getElementById("information_badge_image");
+    badgeNameSpan.textContent = badgeInfo.name;
+    badgeDescriptionSpan.textContent = badgeInfo.description;
+    badgeImage.src = imgSrc;
+
+    const cancelBadgeDeletionButton = document.getElementById("cancel_badge_deletion_button");
+    const deleteBadgeButton = document.getElementById("delete_badge_button");
+
+
+    const deleteBadgeFunc = async (event) => {
+        event.stopPropagation();
+        const domain = await Settings.domain();
+        const response = await fetch(`${domain}/api/badges/${badgeInfo.id}`, {
+            method: "DELETE"
+        });
+
+        if(response.status == 204){
+            cancelBadgeDeletionButton.click();
+            populateBadgeContainer();
+        }
+    }
+
+    const hideBadgeInformationModal = (event) => {
+        event.stopPropagation();
+        badgeInformationModal.hide();
+    }
+
+    deleteBadgeButton.addEventListener("click", deleteBadgeFunc);
+    cancelBadgeDeletionButton.addEventListener("click", hideBadgeInformationModal);
+
+    badgeInformationModal._element.addEventListener("hide.bs.modal", () => {
+        deleteBadgeButton.removeEventListener("click", deleteBadgeFunc);
+        cancelBadgeDeletionButton.removeEventListener("click", hideBadgeInformationModal);
     });
 }
 
@@ -49,6 +96,7 @@ async function populateBadgeContainer(){
         img.alt = badge.name;
         section.appendChild(img);
         badgeContainer.appendChild(section);
+        img.addEventListener("click", ()=> OnBadgeClick(badge, img.src));
     });
 }
 

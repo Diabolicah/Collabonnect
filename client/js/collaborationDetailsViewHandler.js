@@ -71,8 +71,7 @@ async function initCollaborationDetails(collaborationData){
     document.querySelector("#collaboration_status").textContent = `Status: ${collaborationData.status}`;
     document.querySelectorAll("#collaboration_upvotes_downvotes span")[0].textContent = collaborationData.upvote;
     document.querySelectorAll("#collaboration_upvotes_downvotes span")[1].textContent = collaborationData.downvote;
-    document.querySelector(".circular_progress_bar span").textContent = collaborationData.aiReadability;
-    updateCircularProgressBar(document.querySelector(".circular_progress_bar"), collaborationData.aiReadability, "#2E2C2C");
+    updateCircularProgressBar(document.querySelector(".circular_progress_bar"), collaborationData.aiReadability);
 
     getCollaborationCoWritersProfileImages(collaborationData)
         .then(populateCollaborationCoWriters);

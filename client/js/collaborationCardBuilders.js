@@ -84,13 +84,7 @@ function createCollaborationCardCircularProgressBar(percentage) {
         percentage = 100;
     const section = document.createElement("section");
     section.className = "circular_progress_bar";
-    section.role = "progressbar";
     updateCircularProgressBar(section, percentage)
-
-    const span = document.createElement("span");
-    span.textContent = `${percentage}`;
-    section.appendChild(span);
-
     return section;
 }
 

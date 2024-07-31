@@ -18,6 +18,7 @@ async function populateBadgeImagesSelection() {
         brandSelect.appendChild(option);
     }
 }
+
 async function populateCollaborationContainer(){
     const collaborationCards = document.querySelectorAll(".collaboration_card");
     collaborationCards.forEach((card, index) => card.remove());
@@ -118,9 +119,7 @@ window.onload = async () => {
         event.preventDefault();
         const formData = new FormData(newCollaborationForm);
         const { domain, userId} = await fetch("./data/settings.json").then((response) => response.json());
-        formData.append("userId", userId)
-        formData.append("imageName", formData.get("image_name"));
-        formData.delete("image_name");
+        formData.append("userId", userId);
         formData.append("brandId", userId);
         const requestData = JSON.stringify(Object.fromEntries(formData));
         const response = await fetch(`${domain}/api/badges/`, {

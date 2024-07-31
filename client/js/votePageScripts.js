@@ -10,7 +10,6 @@ function addObjectToCarousel(collaborationCard, active) {
     document.querySelector("#middle_card_carousel .carousel-inner").appendChild(carouselItemMain);
 }
 
-
 window.onload = async () => {
     const collaborations = await getCollaborationsList();
     const leftCarousel = new bootstrap.Carousel("#left_card_carousel", { interval: false });
@@ -28,7 +27,6 @@ window.onload = async () => {
                 index++;
             });
     });
-
 
     rightCarousel.nextWhenVisible();
     leftCarousel.prev();

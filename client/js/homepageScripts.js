@@ -42,7 +42,6 @@ async function populateCollaborationContainer(){
                 document.getElementById("collaboration_cards_container").appendChild(collaborationCard);
             });
     });
-
 }
 
 window.onload = async () => {
@@ -50,6 +49,10 @@ window.onload = async () => {
     const userId = await Settings.userId();
     const BrandData = await Data.brands();
     const DeveloperData = await Data.developers();
+
+    const searchInput = document.getElementById("search_bar");
+    searchInput.addEventListener("input", filterCollaborationsOnSearch);
+
     populateCollaborationContainer();
 
     populateFormBrandSelection();

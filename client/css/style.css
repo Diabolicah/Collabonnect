@@ -564,8 +564,8 @@ ol.breadcrumb {
     border-radius: 50%;
 }
 
-.circular_progress_bar span {
-    color: #FFF;
+.circular_progress_bar div {
+    color: #FFF !important;
     text-align: center;
     font-family: Lora;
     font-size: 36px;
@@ -840,12 +840,9 @@ ol.breadcrumb {
 .collaboration_card .circular_progress_bar {
     width: 24px;
     height: 24px;
-    background:
-        radial-gradient(closest-side, #FFF 79%, transparent 80% 100%),
-        conic-gradient(from 270deg,#FD7E14 0%, #FD7E14 50%, #FFF 50%);
 }
 
-.collaboration_card .circular_progress_bar span {
+.collaboration_card .circular_progress_bar div {
     color: #000 !important;
     font-size: 12px !important;
     text-align: center !important;
@@ -993,7 +990,11 @@ ol.breadcrumb {
     display: none;
 }
 
-#create_collaboration_button, #submit_paragraph_image_button, #submit_paragraph_video_button {
+#create_badge_button {
+    background-color: #20CB98 !important;
+}
+
+#create_collaboration_button {
     background-color: #20CB98 !important;
 }
 

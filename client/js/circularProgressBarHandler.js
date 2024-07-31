@@ -1,6 +1,23 @@
-function updateCircularProgressBar(progressBar, percentage, backgroundColor){
-    backgroundColor = backgroundColor || "#FFF";
+function updateCircularProgressBar(progressBar, percentage){
     const progressColor = percentage < 25 ? "#DC3545" : percentage < 50 ? "#FD7E14" : percentage < 75 ? "#FFC107" : "#20C997"
-    progressBar.style = `background: radial-gradient(closest-side, ${backgroundColor} 79%, transparent 80% 100%),
-    conic-gradient(from 270deg, ${progressColor} 0%, ${progressColor} ${percentage}%, ${backgroundColor} ${percentage}%);`
+    const progressBarClass = new ProgressBar.Circle(progressBar, {
+        trailColor: "#aaa",
+        strokeWidth: 12,
+        trailWidth: 12,
+        easing: 'easeInOut',
+        duration: 1400,
+        text: {
+            autoStyleContainer: true
+        },
+        step: function(state, circle) {
+            circle.path.setAttribute('stroke', state.color);
+            circle.path.setAttribute('stroke-width', state.width);
+            const value = Math.round(circle.value() * 100);
+            circle.setText(`${value}`);
+        }
+    });
+    progressBarClass.animate(percentage / 100, {
+        from: { color: '#DC3545', width: 12 },
+        to: { color: progressColor, width: 12 },
+    });
 }

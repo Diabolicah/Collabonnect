@@ -33,6 +33,7 @@
     <script src="js/settingsDataLoader.js"></script>
     <script src="js/DataLoader.js" defer></script>
     <script src="js/navbarHandler.js" defer></script>
+    <script src="includes/progressbar.min.js"></script>
     <script src="js/circularProgressBarHandler.js"></script>
     <script src="js/collaborationDetailsDataLoader.js"></script>
     <script src="js/collaborationParagraphBuilder.js"></script>
@@ -183,9 +184,10 @@
                   <section id="ai_readability">
                     <img src="./images/ai_icon.svg" alt="ai_icon" />
                   </section>
-                  <section class="circular_progress_bar" role="progressbar">
-                    <span></span>
-                  </section>
+                  <section
+                    class="circular_progress_bar"
+                    role="progressbar"
+                  ></section>
                 </section>
                 <section id="edit_logs">
                   <h4>Edit Logs</h4>
@@ -343,26 +345,26 @@
           </div>
           <div class="modal-body">
             <div class="mb-3">
-            <label
+              <label
                 for="collaboration_paragraph_images_data_list"
                 class="form-label"
                 >Image</label
-            >
-            <div class="input-group">
-              <select
-                class="form-control form-select"
-                id="collaboration_paragraph_images_data_list"
-                required
-                name="imageName"
-              ></select>
-              <img
-                src="images/image_placeholder.svg"
-                alt="plus_circle_icon"
-                id="collaboration_paragraph_images_logo"
-                class="input-group-text"
-              />
+              >
+              <div class="input-group">
+                <select
+                  class="form-control form-select"
+                  id="collaboration_paragraph_images_data_list"
+                  required
+                  name="imageName"
+                ></select>
+                <img
+                  src="images/image_placeholder.svg"
+                  alt="plus_circle_icon"
+                  id="collaboration_paragraph_images_logo"
+                  class="input-group-text"
+                />
+              </div>
             </div>
-          </div>
           </div>
           <div class="modal-footer">
             <button
@@ -373,7 +375,11 @@
             >
               Cancel
             </button>
-            <button id="submit_paragraph_image_button" type="button" class="btn">
+            <button
+              id="submit_paragraph_image_button"
+              type="button"
+              class="btn"
+            >
               Submit
             </button>
           </div>
@@ -396,26 +402,26 @@
           </div>
           <div class="modal-body">
             <div class="mb-3">
-            <label
+              <label
                 for="collaboration_paragraph_videos_data_list"
                 class="form-label"
                 >Image</label
-            >
-            <div class="input-group">
-              <select
-                class="form-control form-select"
-                id="collaboration_paragraph_videos_data_list"
-                required
-                name="imageName"
-              ></select>
-              <img
-                src="images/image_placeholder.svg"
-                alt="plus_circle_icon"
-                id="collaboration_paragraph_videos_logo"
-                class="input-group-text"
-              />
+              >
+              <div class="input-group">
+                <select
+                  class="form-control form-select"
+                  id="collaboration_paragraph_videos_data_list"
+                  required
+                  name="imageName"
+                ></select>
+                <img
+                  src="images/image_placeholder.svg"
+                  alt="plus_circle_icon"
+                  id="collaboration_paragraph_videos_logo"
+                  class="input-group-text"
+                />
+              </div>
             </div>
-          </div>
           </div>
           <div class="modal-footer">
             <button
@@ -426,7 +432,11 @@
             >
               Cancel
             </button>
-            <button id="submit_paragraph_video_button" type="button" class="btn">
+            <button
+              id="submit_paragraph_video_button"
+              type="button"
+              class="btn"
+            >
               Submit
             </button>
           </div>

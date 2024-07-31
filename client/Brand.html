@@ -57,7 +57,7 @@
                             <span id="user_details_token"></span>
                             <img src="images/token_icon.svg" alt="rankIcon">
                         </section>
-                        <section class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+                        <section class="progress">
                             <section class="progress-bar bg-light"></section>
                         </section>
                     </section>
@@ -144,15 +144,15 @@
                             <input type="text" class="form-control" id="badge_name" maxlength="24" required name="name">
                         </div>
                         <div class="mb-3">
-                            <label for="collaboration_description" class="form-label">Badge Description</label>
-                            <input type="text" class="form-control" id="collaboration_description" maxlength="80" required name="description">
+                            <label for="badge_description" class="form-label">Badge Description</label>
+                            <input type="text" class="form-control" id="badge_description" maxlength="80" required name="description">
                         </div>
                         <div class="mb-3">
-                            <label for="collaboration_brand_data_list" class="form-label">Image</label>
+                            <label for="badge_data_list" class="form-label">Image</label>
                             <div class="input-group">
-                                <select class="form-control form-select" id="collaboration_brand_data_list" required name="imageName">
+                                <select class="form-control form-select" id="badge_data_list" required name="imageName">
                                 </select>
-                                <img src="images/image_placeholder.svg" alt="plus_circle_icon" id="collaboration_brand_logo" class="input-group-text">
+                                <img src="images/image_placeholder.svg" alt="plus_circle_icon" id="badge_image" class="input-group-text">
                             </div>
                         </div>
                         <input type="submit">
@@ -161,6 +161,30 @@
                 <div class="modal-footer">
                   <button id="cancel_badge_creation_button" type="button" class="btn" data-bs-dismiss="modal">Cancel</button>
                   <button id="create_badge_button" type="button" class="btn">Create</button>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="modal fade" id="badge_information_modal" tabindex="-1" aria-labelledby="badge_information_modal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="badge_information_modal_title">Badge</h1>
+                </div>
+                <div class="modal-body">
+                    <section id="badge_information">
+                        <h2>Name</h2>
+                        <span id="information_badge_name">name</span>
+                        <h2>Description</h2>
+                        <p id="information_badge_description"></p>
+                    </section>
+                    <section id="badge_image_container">
+                        <img src="#" alt="information_badge_image" id="information_badge_image">
+                    </section>
+                </div>
+                <div class="modal-footer">
+                  <button id="cancel_badge_deletion_button" type="button" class="btn" data-bs-dismiss="modal">Cancel</button>
+                  <button id="delete_badge_button" type="button" class="btn">Delete</button>
                 </div>
               </div>
             </div>

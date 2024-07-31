@@ -8,7 +8,7 @@ const badgeController = {
         const connection = await dbConnection.createConnection();
 
         try {
-            const [badges] = await connection.execute(`SELECT id, name, imageName FROM ${TABLE_NAME_PREFIX}_badge`);
+            const [badges] = await connection.execute(`SELECT id, name, description, imageName FROM ${TABLE_NAME_PREFIX}_badge`);
             return res.status(200).json(badges);
         } catch (error) {
             return res.status(500).json({ error: error.message });
@@ -21,7 +21,7 @@ const badgeController = {
         const connection = await dbConnection.createConnection();
 
         try {
-            const [badges] = await connection.execute(`SELECT name, imageName FROM ${TABLE_NAME_PREFIX}_badge WHERE id = ?`, [req.params.id]);
+            const [badges] = await connection.execute(`SELECT name, description, imageName FROM ${TABLE_NAME_PREFIX}_badge WHERE id = ?`, [req.params.id]);
             if (badges.length === 0) {
                 return res.status(404).json({ error: `Badge with id ${req.params.id} not found` });
             }
@@ -64,30 +64,6 @@ const badgeController = {
             connection.end();
         }
     },
-    // PUT /api/badge/:id
-    async updateBadgeById(req, res) {
-        const { name, description, imageName } = req.body;
-        if (!name || !imageName || !description) {
-            return res.status(400).json({
-                error: "All fields are required",
-                fields: ["name", "imageName", "description"]
-            });
-        }
-
-        const connection = await dbConnection.createConnection();
-
-        try {
-            const [badges] = await connection.execute(`UPDATE ${TABLE_NAME_PREFIX}_badge SET name = ?, description = ?, imageName = ? WHERE id = ?`, [name, description, imageName, req.params.id]);
-            if (badges.affectedRows === 0) {
-                return res.status(404).json({ error: `Badge with id ${req.params.id} not found` });
-            }
-            return res.status(200).json({ message: `Badge with id ${req.params.id} updated successfully` });
-        } catch (error) {
-            return res.status(500).json({ error: error.message });
-        } finally {
-            connection.end();
-        }
-    },
     // DELETE /api/badge/:id
     async deleteBadgeById(req, res) {
         const connection = await dbConnection.createConnection();
@@ -97,7 +73,7 @@ const badgeController = {
             if (badges.affectedRows === 0) {
                 return res.status(404).json({ error: `Badge with id ${req.params.id} not found` });
             }
-            return res.status(200).json({ message: `Badge with id ${req.params.id} deleted successfully` });
+            return res.status(204).json({ message: `Badge with id ${req.params.id} deleted successfully` });
         } catch (error) {
             return res.status(500).json({ error: error.message });
         } finally {

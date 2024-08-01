@@ -26,7 +26,7 @@ async function getUserData() {
 
 async function getUserInfo() {
     if (!sessionStorage.getItem("userAccessToken")) {
-        window.location.href = "/login.html";
+        window.location.href = "./login.html";
     } else {
         const domain = await Settings.domain();
         const userAccessToken = sessionStorage.getItem("userAccessToken");
@@ -40,7 +40,7 @@ async function getUserInfo() {
             })
         }).then((response) => response.json()).then((response) => {
             if (response.error) {
-                window.location.href = "/login.html";
+                window.location.href = "./login.html";
             } else {
                 _userInfo._data = response;
             }

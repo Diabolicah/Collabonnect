@@ -38,6 +38,6 @@ function updateActiveNavbarTab(tabList) {
     const logoutButton = document.getElementById("logout");
     logoutButton.addEventListener("click", async () => {
         sessionStorage.removeItem("userAccessToken");
-        window.location.href = "/login.html";
+        window.location.href = "./login.html";
     });
 })();

@@ -3,20 +3,19 @@ function createTextParagraph(paragraphDetails, isEditMode, status){
     if(isEditMode) {
         paragraphText = document.createElement("textarea");
         paragraphText.value = paragraphDetails.oldText;
+        paragraphText.addEventListener("change", () => {
+            if(!status.classList.contains("Pending") && paragraphText.value != paragraphDetails.oldText){
+                status.textContent = "Pending";
+                status.classList.add("pending");
+            }else if(paragraphText.value == paragraphDetails.oldText){
+                status.textContent = "Up to date";
+                status.classList.remove("pending");
+            }
+        });
     }else {
         paragraphText = document.createElement("p");
         paragraphText.textContent = paragraphDetails.newText;
     }
-
-    paragraphText.addEventListener("change", () => {
-        if(!status.classList.contains("Pending") && paragraphText.value != paragraphDetails.oldText){
-            status.textContent = "Pending";
-            status.classList.add("pending");
-        }else if(paragraphText.value == paragraphDetails.oldText){
-            status.textContent = "Up to date";
-            status.classList.remove("pending");
-        }
-    });
 
     return paragraphText;
 }
@@ -26,20 +25,20 @@ function createTitleParagraph(paragraphDetails, isEditMode, status){
     if(isEditMode) {
         title = document.createElement("input");
         title.value = paragraphDetails.oldTitle;
+
+        title.addEventListener("change", () => {
+            if(!status.classList.contains("Pending") && title.value != paragraphDetails.oldTitle){
+                status.textContent = "Pending";
+                status.classList.add("pending");
+            }else if(title.value == paragraphDetails.oldTitle){
+                status.textContent = "Up to date";
+                status.classList.remove("pending");
+            }
+        });
     }else {
         title = document.createElement("h2");
         title.textContent = paragraphDetails.newTitle;
     }
-
-    title.addEventListener("change", () => {
-        if(!status.classList.contains("Pending") && title.value != paragraphDetails.oldTitle){
-            status.textContent = "Pending";
-            status.classList.add("pending");
-        }else if(title.value == paragraphDetails.oldTitle){
-            status.textContent = "Up to date";
-            status.classList.remove("pending");
-        }
-    });
 
     return title;
 }
@@ -67,8 +66,11 @@ function createStatusParagraph(paragraphDetails){
     return status;
 }
 
-function createDefaultParagraph(paragraphDetails, isEditMode){
+function createDefaultParagraph(paragraphDetails, isEditMode, isCollaborationForUser){
+    if(!isCollaborationForUser)
+        isEditMode = false;
     isEditMode = isEditMode || false;
+    let status;
     const paragraph = document.createElement("section");
     paragraph.classList.add("paragraph");
 
@@ -79,15 +81,16 @@ function createDefaultParagraph(paragraphDetails, isEditMode){
     const paragraphTitleStatus = document.createElement("section");
     paragraphTitleStatus.classList.add("paragraph_title_and_status");
 
-    const status = createStatusParagraph(paragraphDetails);
+    if(isCollaborationForUser)
+        status = createStatusParagraph(paragraphDetails);
 
     let title = createTitleParagraph(paragraphDetails, isEditMode, status);
 
     let paragraphText = createTextParagraph(paragraphDetails, isEditMode, status);
-
+    if(isCollaborationForUser)
+        paragraphTitleStatus.appendChild(status);
     paragraph.appendChild(paragraphTitleStatus);
     paragraphTitleStatus.appendChild(title);
-    paragraphTitleStatus.appendChild(status);
     paragraph.appendChild(paragraphText);
 
     return paragraph;
@@ -109,8 +112,10 @@ function getElementParagraphImageVideo(paragraph, isEditMode){
     return paragraphImageVideo;
 }
 
-async function addImage(paragraph, paragraphDetails, isEditMode) {
+async function addImage(paragraph, paragraphDetails, isEditMode, isCollaborationForUser) {
     const domain = await Settings.domain();
+    if(!isCollaborationForUser)
+        isEditMode = false;
     isEditMode = isEditMode || false;
     let paragraphImageVideo = getElementParagraphImageVideo(paragraph, isEditMode);
     const paragraphImage = document.createElement("img");
@@ -130,7 +135,9 @@ async function addImage(paragraph, paragraphDetails, isEditMode) {
     return paragraph;
 }
 
-function addVideo(paragraph, paragraphDetails, isEditMode) {
+function addVideo(paragraph, paragraphDetails, isEditMode, isCollaborationForUser) {
+    if(!isCollaborationForUser)
+        isEditMode = false;
     isEditMode = isEditMode || false;
     let paragraphImageVideo = getElementParagraphImageVideo(paragraph, isEditMode);
     const paragraphVideo = document.createElement(`${isEditMode ? "img" : "iframe"}`);
@@ -222,18 +229,18 @@ function addEditButtons(paragraph, paragraphDetails){
     return paragraph;
 }
 
-async function createParagraph(paragraphDetails, isEditMode){
+async function createParagraph(paragraphDetails, isEditMode, isCollaborationForUser){
     isEditMode = isEditMode || false;
-    let paragraph = createDefaultParagraph(paragraphDetails, isEditMode);
-    if(isEditMode) {
+    let paragraph = createDefaultParagraph(paragraphDetails, isEditMode, isCollaborationForUser);
+    if(isCollaborationForUser && isEditMode) {
         paragraph = addEditButtons(paragraph, paragraphDetails);
     }
     if(paragraphDetails.oldImage && paragraphDetails.oldVideo){
-        return paragraph = await addImageAndVideo(paragraph, paragraphDetails, isEditMode);
+        return paragraph = await addImageAndVideo(paragraph, paragraphDetails, isEditMode, isCollaborationForUser);
     }else if(paragraphDetails.oldImage){
-        return paragraph = await addImage(paragraph, paragraphDetails, isEditMode);
+        return paragraph = await addImage(paragraph, paragraphDetails, isEditMode, isCollaborationForUser);
     }else if(paragraphDetails.oldVideo){
-        return paragraph = addVideo(paragraph, paragraphDetails, isEditMode);
+        return paragraph = addVideo(paragraph, paragraphDetails, isEditMode, isCollaborationForUser);
     }
 
     return paragraph;

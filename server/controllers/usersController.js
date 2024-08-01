@@ -82,7 +82,7 @@ const usersController = {
         if (!username || !password || !firstName || !lastName || !profileImage) {
             return res.status(400).json({
                 error: "All fields are required",
-                fields: ["username", "password", "firstName", "lastName"]
+                fields: ["username", "password", "firstName", "lastName", "profileImage"]
             });
         }
 

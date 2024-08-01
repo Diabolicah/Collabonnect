@@ -240,9 +240,32 @@ function setupAddBadgeModal(brandId){
         if(response.status == 201){
             cancelBadgeCreationButton.click();
             newBadgeForm.reset();
-            populateBadgeContainer();
+            populateBadgeContainer(brandId);
         }
         isAddingBadge = false;
+    });
+}
+
+function brandAddListeners(){
+    const editThresholdButton = document.querySelector("#threshold img");
+    editThresholdButton.addEventListener("click", onThresholdEditClick);
+
+    const thresholdInput = document.getElementById("threshold_input");
+    thresholdInput.addEventListener("input", onlyAllowPositiveIntegers);
+
+    const searchInput = document.getElementById("search_bar");
+    searchInput.addEventListener("input", filterCollaborationsOnSearch);
+
+    const objectAdder = document.getElementById("object_adder");
+    objectAdder.addEventListener("click", () => {
+        const newBadgeModal = new bootstrap.Modal('#new_badge_modal', {})
+        newBadgeModal.show();
+    });
+
+    const informationButton = document.querySelector("#search_bar_container > img");
+    informationButton.addEventListener("click", () => {
+        const cardInformationModal = new bootstrap.Modal('#card_information_modal', {})
+        cardInformationModal.show();
     });
 }
 
@@ -256,15 +279,6 @@ window.onload = async () => {
 
     const brandData = await Data.brands();
     const currentBrand = brandData[brandId];
-    
-    const editThresholdButton = document.querySelector("#threshold img");
-    editThresholdButton.addEventListener("click", onThresholdEditClick);
-
-    const thresholdInput = document.getElementById("threshold_input");
-    thresholdInput.addEventListener("input", onlyAllowPositiveIntegers);
-
-    const searchInput = document.getElementById("search_bar");
-    searchInput.addEventListener("input", filterCollaborationsOnSearch);
 
     populateBadgeImagesSelection();
     populateBadgeContainer(brandId);
@@ -275,17 +289,7 @@ window.onload = async () => {
 
     populateCollaborationContainer(brandId);
 
-    const objectAdder = document.getElementById("object_adder");
-    objectAdder.addEventListener("click", () => {
-        const newBadgeModal = new bootstrap.Modal('#new_badge_modal', {})
-        newBadgeModal.show();
-    });
-
-    const informationButton = document.querySelector("#search_bar_container > img");
-    informationButton.addEventListener("click", () => {
-        const cardInformationModal = new bootstrap.Modal('#card_information_modal', {})
-        cardInformationModal.show();
-    });
+    brandAddListeners();
 
     setupAddBadgeModal(brandId);
 }

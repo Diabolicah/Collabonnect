@@ -10,14 +10,11 @@ function addObjectToCarousel(collaborationCard, active) {
     document.querySelector("#middle_card_carousel .carousel-inner").appendChild(carouselItemMain);
 }
 
-window.onload = async () => {
+async function setUpCarousel(){
     const collaborations = await Data.collaborations();
     const leftCarousel = new bootstrap.Carousel("#left_card_carousel", { interval: false, touch: false });
     const rightCarousel = new bootstrap.Carousel("#right_card_carousel", { interval: false, touch: false });
     const middleCarousel = new bootstrap.Carousel("#middle_card_carousel", { interval: false, touch: false });
-
-    const searchInput = document.getElementById("search_bar");
-    searchInput.addEventListener("input", filterCollaborationsOnSearch);
 
     let index = 0;
     for (let collaborationIndex in collaborations){
@@ -53,4 +50,11 @@ window.onload = async () => {
         const newCollaborationModal = new bootstrap.Modal('#card_information_modal', {})
         newCollaborationModal.show();
     });
+}
+
+window.onload = async () => {
+    const searchInput = document.getElementById("search_bar");
+    searchInput.addEventListener("input", filterCollaborationsOnSearch);
+    
+    await setUpCarousel();
 }

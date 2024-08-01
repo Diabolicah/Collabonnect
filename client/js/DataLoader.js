@@ -54,7 +54,10 @@ async function getBrandsData() {
     const domain = await Settings.domain();
     const brands = await fetch(`${domain}/api/brands/`).then((response) => response.json());
     for (let brand of brands) {
-        brand.image = `${domain}/assets/brandImages/${brand.imagePath}`;
+        if (!brand.imagePath.startsWith("http"))
+            brand.image = `${domain}/assets/brandImages/${brand.imagePath}`;
+        else
+            brand.image = brand.imagePath;
     }
     Data._brands = brands.reduce((acc, brand) => {
         acc[brand.id] = brand;
@@ -69,7 +72,10 @@ async function getDevelopersData() {
     const domain = await Settings.domain();
     const developers = await fetch(`${domain}/api/developers/`).then((response) => response.json());
     for (let developer of developers) {
-        developer.image = `${domain}/assets/developerImages/${developer.imagePath}`;
+        if (!developer.imagePath.startsWith("http"))
+            developer.image = `${domain}/assets/developerImages/${developer.imagePath}`;
+        else
+            developer.image = developer.imagePath;
     }
     Data._developers = developers.reduce((acc, developer) => {
         acc[developer.id] = developer;

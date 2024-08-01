@@ -107,7 +107,6 @@ const usersController = {
             }
             const userAccessToken = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
             const [rows] = await connection.execute(`INSERT INTO ${TABLE_NAME_PREFIX}_user (username, password, userAccessToken, firstName, lastName, profileImage, developerId, brandId, token, rank) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, [username, password, userAccessToken, firstName, lastName, profileImage, developerId || null, brandId || null, 3, 1]);
-            console.log(userAccessToken);
             if (rows.affectedRows === 0) {
                 return res.status(500).json({ error: 'Internal server error at register user' });
             }

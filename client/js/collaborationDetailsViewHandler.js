@@ -45,12 +45,19 @@ function populateCollaborationEditLogs(editLogs) {
     });
 }
 
-async function isCollaborationForCurrentUser(collaborationId) {
-    const userId = await UserInfo().id;
-    if(userId == null)
+async function isCollaborationForCurrentUser() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const collaborationId = urlParams.get("id");
+
+    const collaborationData = await Data.collaborations();
+    const user = await UserInfo();
+
+    const currentCollaboration = collaborationData[collaborationId];
+
+    if(user == null)
         return false;
-    if(userId == collaborationId){
-        document.querySelectorAll("#collaboration_edit_delete").style.display = "flex";
+    if(user.id == currentCollaboration.writerId){
+        document.querySelectorAll("#collaboration_edit_delete_vote img").forEach(element => element.style.display = "block");
         return true;
     }
     return false;
@@ -80,10 +87,16 @@ async function initCollaborationDetails(collaborationData){
     getCollaborationEditLogs(collaborationData)
         .then(populateCollaborationEditLogs);
 
-    const isCollaborationForUser = await isCollaborationForCurrentUser(collaborationData.writerId);
+    const isCollaborationForUser = await isCollaborationForCurrentUser();
 
     const urlParams = new URLSearchParams(window.location.search);
+    const voteMode = urlParams.get("vote") == "true" ? true : false;
     const editMode = urlParams.get("edit") == "true" ? true : false;
+
+    if(voteMode)
+        document.querySelector("#collaboration_edit_delete_vote > section").style.display = "block";
+    else document.querySelector("#collaboration_edit_delete_vote > section").style.display = "none";
+
     changeMode(editMode, isCollaborationForUser);
 }
 
@@ -134,9 +147,33 @@ function deleteObjectDetails(){
     });
 }
 
+async function collaborationVote() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const collaborationId = urlParams.get("id");
+
+    if(document.querySelectorAll("#vote_modal .modal-body input")[0].checked)
+        await updateCollaborationVotes(collaborationId, "upvote", 1);
+    else await updateCollaborationVotes(collaborationId, "downvote", 1);
+
+    await getUserData()
+    const user = await UserInfo();
+    document.getElementById("user_details_token").textContent = user.token;
+}
+
+function voteCollaborationDetails() {
+    const voteModal = new bootstrap.Modal('#vote_modal', {})
+    voteModal.show();
+    document.getElementById("vote_button").addEventListener("click", collaborationVote);
+
+    voteModal._element.addEventListener("hide.bs.modal", () => {
+        document.getElementById("vote_button").removeEventListener("click", collaborationVote);
+    });
+}
+
 async function addListeners(){
-    document.querySelector("#collaboration_edit_delete img").addEventListener("click", deleteObjectDetails);
-    document.querySelectorAll("#collaboration_edit_delete > img")[1].addEventListener("click", changeToEditMode);
+    document.querySelector("#collaboration_edit_delete_vote img").addEventListener("click", deleteObjectDetails);
+    document.querySelectorAll("#collaboration_edit_delete_vote > img")[1].addEventListener("click", changeToEditMode);
+    document.querySelector("#collaboration_edit_delete_vote > section").addEventListener("click", voteCollaborationDetails);
     document.querySelectorAll("#container_object_details .dropdown-menu li").forEach((element, idx) => {
         element.addEventListener("click", () => {
             document.querySelector("#container_object_details .dropdown-menu .active").classList.remove("active");

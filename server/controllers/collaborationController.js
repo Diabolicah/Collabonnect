@@ -174,7 +174,7 @@ const collaborationController = {
             if (user.length === 0) {
                 return res.status(404).json({ error: `User with access token ${userAccessToken} not found` });
             }
-            const [users] = await connection.execute(`UPDATE ${TABLE_NAME_PREFIX}_user SET tokens = tokens - ? WHERE id = ? and tokens >= ?`, [amount, user[0].id, amount]);
+            const [users] = await connection.execute(`UPDATE ${TABLE_NAME_PREFIX}_user SET token = token - ? WHERE id = ? and token >= ?`, [amount, user[0].id, amount]);
             if (users.affectedRows === 0) {
                 return res.status(403).json({ error: `User with id ${user[0].id} does not have enough tokens` });
             }
@@ -204,7 +204,7 @@ const collaborationController = {
             if (user.length === 0) {
                 return res.status(404).json({ error: `User with access token ${userAccessToken} not found` });
             }
-            const [users] = await connection.execute(`UPDATE ${TABLE_NAME_PREFIX}_user SET tokens = tokens - ? WHERE id = ? and tokens >= ?`, [amount, user[0].id, amount]);
+            const [users] = await connection.execute(`UPDATE ${TABLE_NAME_PREFIX}_user SET token = token - ? WHERE id = ? and token >= ?`, [amount, user[0].id, amount]);
             if (users.affectedRows === 0) {
                 return res.status(403).json({ error: `User with id ${user[0].id} does not have enough tokens` });
             }

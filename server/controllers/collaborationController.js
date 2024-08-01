@@ -9,8 +9,8 @@ async function isUserPartOfCollaboration(userAccessToken, collaborationId) {
         return false;
     }
 
-    const [users] = await connection.execute(`SELECT userId FROM ${TABLE_NAME_PREFIX}_user WHERE userAccessToken = ?`, [userAccessToken]);
-    if (users.length === 0 || users[0].userId != collaborationUser[0].writerId) {
+    const [users] = await connection.execute(`SELECT id FROM ${TABLE_NAME_PREFIX}_user WHERE userAccessToken = ?`, [userAccessToken]);
+    if (users.length === 0 || users[0].id != collaborationUser[0].writerId) {
         return false;
     }
 

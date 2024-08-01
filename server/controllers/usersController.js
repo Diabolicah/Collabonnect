@@ -19,7 +19,7 @@ const usersController = {
             connection.end();
         }
     },
-    // get /api/users/login
+    // POST /api/users/login
     async getUserAccessToken(req, res) {
         const { username, password } = req.body;
         if (!username || !password) {
@@ -48,7 +48,7 @@ const usersController = {
             await connection.end();
         }
     },
-    // GET /api/users
+    // POST /api/users
     async getUserByAccessToken(req, res) {
         const { userAccessToken } = req.body;
         if (!userAccessToken) {

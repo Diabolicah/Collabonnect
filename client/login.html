@@ -27,23 +27,27 @@
                         <input type="text" class="form-control" id="login_password" maxlength="80" required name="description">
                     </div>
                     <div class="mb-3">
-                        <label for="collaboration_brand_data_search" class="form-label">Brand</label>
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control" id="collaboration_brand_data_search" required name="brandSearchName">
-                            <span class="input-group-text" id="collaboration_brand_data_name">Placeholder</span>
-                            <img src="images/image_placeholder.svg" alt="plus_circle_icon" id="collaboration_brand_data_logo" class="input-group-text">
+                        <label for="brand_data_list" class="form-label">Brand</label>
+                        <div class="input-group">
+                            <select class="form-control form-select" id="brand_data_list" required name="imageName">
+                            </select>
+                            <img src="images/image_placeholder.svg" alt="plus_circle_icon" id="brand_image" class="input-group-text">
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="collaboration_developer_data_search" class="form-label">Developer</label>
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control" id="collaboration_developer_data_search" required name="developerSearchName">
-                            <span class="input-group-text" id="collaboration_developer_data_name">Placeholder</span>
-                            <img src="images/image_placeholder.svg" alt="plus_circle_icon" id="collaboration_developer_data_logo" class="input-group-text">
+                        <label for="developer_data_list" class="form-label">Developer</label>
+                        <div class="input-group">
+                            <select class="form-control form-select" id="developer_data_list" required name="imageName">
+                            </select>
+                            <img src="images/image_placeholder.svg" alt="plus_circle_icon" id="developer_image" class="input-group-text">
                         </div>
                     </div>
                     <input type="submit">
                 </form>
+                <section id="container_register_login">
+                    <button id="register_button" type="button" class="btn" data-bs-dismiss="modal">Register</button>
+                    <button id="login_button" type="button" class="btn">Login</button>
+                </section>
             </section>
         </div>
     </main>

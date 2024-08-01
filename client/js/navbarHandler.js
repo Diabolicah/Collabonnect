@@ -19,17 +19,16 @@ function updateActiveNavbarTab(tabList) {
 
 (async () => {
     const domain = await Settings.domain();
-    const userId = await Settings.userId();
-    const navBarUserDetails = await fetch(`${domain}/api/users/${userId}`).then(response => response.json());
-    navBarUserDetails.profileImage = `${domain}/assets/profileImages/${navBarUserDetails.profileImage}`;
-    updateNavbarDetails(navBarUserDetails);
+    const userDetails = await UserInfo();
+    userDetails.profileImage = `${domain}/assets/profileImages/${userDetails.profileImage}`;
+    updateNavbarDetails(userDetails);
 
     const searchParams = new URLSearchParams(window.location.search);
     if (searchParams.get("fromPage") == "Vote") {
         let voteTabList = document.querySelectorAll("nav a:nth-child(2)");
         updateActiveNavbarTab(voteTabList);
     }
-
+    
     if (searchParams.get("fromPage") == "Brand") {
         let voteTabList = document.querySelectorAll("nav a:nth-child(4)");
         updateActiveNavbarTab(voteTabList);

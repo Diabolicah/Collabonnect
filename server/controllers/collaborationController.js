@@ -60,11 +60,11 @@ const collaborationController = {
     },
     // POST /api/collaboration
     async createCollaboration(req, res) {
-        const { userId, title, description, brandSearchName, developerSearchName } = req.body;
-        if (!userId || !title || !developerSearchName || !brandSearchName || !description) {
+        const { userAccessToken, title, description, brandSearchName, developerSearchName } = req.body;
+        if (!userAccessToken || !title || !developerSearchName || !brandSearchName || !description) {
             return res.status(400).json({
                 error: "All fields are required",
-                fields: ["userId", "title", "developerSearchName", "collaborationSearchName", "description"]
+                fields: ["userAccessToken", "title", "developerSearchName", "collaborationSearchName", "description"]
             });
         }
         const developerList = await fetch(`https://api.brandfetch.io/v2/search/${developerSearchName}`).then(response => response.json());
@@ -80,6 +80,12 @@ const collaborationController = {
         const connection = await dbConnection.createConnection();
 
         try {
+            const [users] = await connection.execute(`SELECT id FROM ${TABLE_NAME_PREFIX}_user WHERE userAccessToken = ?`, [userAccessToken]);
+            if (users.length === 0) {
+                return res.status(404).json({ error: `User with access token ${userAccessToken} not found` });
+            }
+            const userId = users[0].id;
+
             const [developers] = await connection.execute(`SELECT id FROM ${TABLE_NAME_PREFIX}_developer WHERE name = ?`, [developerList[0].name]);
             const developerId = developers.length === 0 ? (await connection.execute(`INSERT INTO ${TABLE_NAME_PREFIX}_developer (name, imagePath) VALUES (?, ?)`, [developerList[0].name, developerList[0].icon]))[0].insertId : developers[0].id;
 

@@ -43,6 +43,7 @@ async function getUserInfo() {
                 window.location.href = "./login.html";
             } else {
                 _userInfo._data = response;
+                _userInfo._data.userAccessToken = userAccessToken;
             }
         });
     }

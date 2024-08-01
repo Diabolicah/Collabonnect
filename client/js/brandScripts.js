@@ -81,6 +81,51 @@ async function OnBadgeClick(badgeInfo, imgSrc){
     });
 }
 
+async function onThresholdEditClick(event){
+    const userId = await Settings.userId();
+    const thresholdModal = new bootstrap.Modal('#threshold_change_modal', {});
+    const thresholdInput = document.getElementById("threshold_input");
+    const brandData = await Data.brands();
+    const currentBrand = brandData[userId];
+    const threshold = currentBrand.threshold;
+    thresholdInput.value = threshold;
+    thresholdModal.show();
+
+    const cancelThresholdChangeButton = document.getElementById("cancel_threshold_update_button");
+    const saveThresholdChangeButton = document.getElementById("threshold_update_button");
+
+    const hideThresholdChangeModal = (event) => {
+        event.stopPropagation();
+        thresholdModal.hide();
+    }
+
+    const updateThreshold = async (event) => {
+        event.stopPropagation();
+        const domain = await Settings.domain();
+        const requestData = JSON.stringify({threshold: thresholdInput.value});
+        const response = await fetch(`${domain}/api/brands/${userId}/threshold`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: requestData
+        });
+
+        if(response.status == 200){
+            hideThresholdChangeModal(event);
+            updateBrandPageThreshold(thresholdInput.value);
+        }
+    }
+
+    saveThresholdChangeButton.addEventListener("click", updateThreshold);
+    cancelThresholdChangeButton.addEventListener("click", hideThresholdChangeModal);
+
+    thresholdModal._element.addEventListener("hide.bs.modal", () => {
+        saveThresholdChangeButton.removeEventListener("click", updateThreshold);
+        cancelThresholdChangeButton.removeEventListener("click", hideThresholdChangeModal);
+    });
+}
+
 async function populateBadgeContainer(){
     const domain = await Settings.domain();
     const badgeCards = document.querySelectorAll(".badge_card");
@@ -166,6 +211,9 @@ window.onload = async () => {
     const userId = await Settings.userId();
     const brandData = await Data.brands();
     const currentBrand = brandData[userId];
+    
+    const editThresholdButton = document.querySelector("#threshold img");
+    editThresholdButton.addEventListener("click", onThresholdEditClick);
 
     const searchInput = document.getElementById("search_bar");
     searchInput.addEventListener("input", filterCollaborationsOnSearch);

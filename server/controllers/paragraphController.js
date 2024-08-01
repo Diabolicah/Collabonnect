@@ -26,7 +26,7 @@ async function isUserPartOfCollaboration(userAccessToken, collaborationId) {
 }
 
 const paragraphController = {
-    // GET /api/collaboration/:id/paragraphs
+    // GET /api/collaborations/:id/paragraphs
     async getCollaborationParagraphs(req, res) {
         const connection = await dbConnection.createConnection();
 
@@ -39,7 +39,7 @@ const paragraphController = {
             connection.end();
         }
     },
-    // GET /api/collaboration/:id/paragraphs/:paragraphId
+    // GET /api/collaborations/:id/paragraphs/:paragraphId
     async getCollaborationParagraphById(req, res) {
         const connection = await dbConnection.createConnection();
 
@@ -55,7 +55,7 @@ const paragraphController = {
             connection.end();
         }
     },
-    // GET /api/collaboration/paragraphs/images
+    // GET /api/collaborations/paragraphs/images
     async getCollaborationParagraphImages(req, res) {
         const fs = require('fs');
         const path = require('path');
@@ -63,12 +63,12 @@ const paragraphController = {
         const files = fs.readdirSync(directoryPath);
         return res.status(200).json(files);
     },
-    // GET /api/collaboration/paragraphs/videos
+    // GET /api/collaborations/paragraphs/videos
     async getCollaborationParagraphVideos(req, res) {
         const videoLinks = ["https://www.youtube.com/embed/YwJotfRP1MI", "https://www.youtube.com/embed/1MIb7RkePSk"]
         return res.status(200).json(videoLinks);
     },
-    // POST /api/collaboration/:id/paragraphs
+    // POST /api/collaborations/:id/paragraphs
     async createCollaborationParagraph(req, res) {
         const { paragraphType, userAccessToken } = req.body;
         const paragraphTypesJson = require('../Data/paragraphTypes.json');
@@ -79,9 +79,7 @@ const paragraphController = {
                 fields: ["paragraphType", "userAccessToken"]
             });
         }
-
         const connection = await dbConnection.createConnection();
-
         try {
             if (!await isUserPartOfCollaboration(userAccessToken, req.params.id)) {
                 return res.status(403).json({ error: "User not part of collaboration" });
@@ -106,8 +104,7 @@ const paragraphController = {
             connection.end();
         }
     },
-
-    // PUT /api/collaboration/:id/paragraphs
+    // PUT /api/collaborations/:id/paragraphs
     async updateCollaborationParagraphs(req, res) {
         const { userAccessToken, paragraphs } = req.body;
         if (!userAccessToken, !paragraphs || paragraphs.length === 0) {
@@ -118,7 +115,6 @@ const paragraphController = {
         }
         const connection = await dbConnection.createConnection();
         try {
-
             if (!await isUserPartOfCollaboration(userAccessToken, req.params.id)) {
                 return res.status(403).json({ error: "User not part of collaboration" });
             }
@@ -126,9 +122,7 @@ const paragraphController = {
             if (users.length === 0) {
                 return res.status(404).json({ error: "User not found" });
             }
-
             const userId = users[0].id;
-
             let sum = 0;
             paragraphs.forEach(async (paragraph) => {
                 const { newTitle, oldTitle, status, newText, oldText, newImage, oldImage, newVideo, oldVideo } = paragraph;
@@ -169,7 +163,7 @@ const paragraphController = {
             connection.end();
         }
     },
-    // PUT /api/collaboration/:id/paragraphs/:paragraphId
+    // PUT /api/collaborations/:id/paragraphs/:paragraphId
     async updateCollaborationParagraph(req, res) {
         const { userAccessToken, newTitle, oldTitle, status, newText, oldText, newImage, oldImage, newVideo, oldVideo } = req.body;
         if (!status || userAccessToken) {
@@ -199,7 +193,7 @@ const paragraphController = {
             connection.end();
         }
     },
-    // DELETE /api/collaboration/:id/paragraphs/:paragraphId
+    // DELETE /api/collaborations/:id/paragraphs/:paragraphId
     async deleteCollaborationParagraph(req, res) {
         const { userAccessToken } = req.body;
         if (!userAccessToken) {

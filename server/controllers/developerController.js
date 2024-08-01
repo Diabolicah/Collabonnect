@@ -3,10 +3,9 @@ const {dbConnection} = require('../db_connection');
 const TABLE_NAME_PREFIX = "tbl_112"
 
 const developerController = {
-    // GET /api/developer/
+    // GET /api/developers/
     async getAllDevelopers(req, res) {
         const connection = await dbConnection.createConnection();
-
         try {
             const [users] = await connection.execute(`SELECT id, name, imagePath FROM ${TABLE_NAME_PREFIX}_developer`);
             return res.status(200).json(users);
@@ -16,10 +15,9 @@ const developerController = {
             connection.end();
         }
     },
-    // GET /api/developer/:id
+    // GET /api/developers/:id
     async getDeveloperById(req, res) {
         const connection = await dbConnection.createConnection();
-
         try {
             const [users] = await connection.execute(`SELECT name, imagePath FROM ${TABLE_NAME_PREFIX}_developer WHERE id = ?`, [req.params.id]);
             if (users.length === 0) {

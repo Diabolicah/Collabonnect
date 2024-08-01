@@ -19,7 +19,7 @@ async function isUserPartOfCollaboration(userAccessToken, collaborationId) {
 }
 
 const collaborationController = {
-    // GET /api/collaboration
+    // GET /api/collaborations
     async getCollaborations(req, res) {
         const connection = await dbConnection.createConnection();
 
@@ -32,7 +32,7 @@ const collaborationController = {
             connection.end();
         }
     },
-    // GET /api/collaboration/:id
+    // GET /api/collaborations/:id
     async getCollaborationById(req, res) {
         const connection = await dbConnection.createConnection();
 
@@ -48,7 +48,7 @@ const collaborationController = {
             connection.end();
         }
     },
-    // GET /api/collaboration/:id/logs
+    // GET /api/collaborations/:id/logs
     async getCollaborationLogs(req, res) {
         const connection = await dbConnection.createConnection();
 
@@ -61,7 +61,7 @@ const collaborationController = {
             connection.end();
         }
     },
-    // GET /api/collaboration/:id/co_writers
+    // GET /api/collaborations/:id/co_writers
     async getCollaborationCoWritersProfileImages(req, res) {
         const connection = await dbConnection.createConnection();
 
@@ -74,7 +74,7 @@ const collaborationController = {
             connection.end();
         }
     },
-    // POST /api/collaboration
+    // POST /api/collaborations
     async createCollaboration(req, res) {
         const { userAccessToken, title, description, brandSearchName, developerSearchName } = req.body;
         if (!userAccessToken || !title || !developerSearchName || !brandSearchName || !description) {
@@ -92,9 +92,7 @@ const collaborationController = {
         if (brandList.length === 0) {
             return res.status(404).json({ error: `Brand with name ${brandSearchName} not found` });
         }
-
         const connection = await dbConnection.createConnection();
-
         try {
             const [users] = await connection.execute(`SELECT id FROM ${TABLE_NAME_PREFIX}_user WHERE userAccessToken = ?`, [userAccessToken]);
             if (users.length === 0) {
@@ -116,10 +114,9 @@ const collaborationController = {
             connection.end();
         }
     },
-    // POST /api/collaboration/:id/co_writers/:coWriterId
+    // POST /api/collaborations/:id/co_writers/:coWriterId
     async addCollaborationCoWriter(req, res) {
         const connection = await dbConnection.createConnection();
-
         try {
             const [coWriters] = await connection.execute(`INSERT INTO ${TABLE_NAME_PREFIX}_collaboration_cowriter (collaborationId, coWriterId) VALUES (?, ?)`, [req.params.id, req.params.coWriterId]);
             return res.status(201).json({ message: `Co-writer with id ${req.params.coWriterId} for collaboration id ${req.params.id} created` });
@@ -129,7 +126,7 @@ const collaborationController = {
             connection.end();
         }
     },
-    // PUT /api/collaboration/:id/status
+    // PUT /api/collaborations/:id/status
     async updateCollaborationStatus(req, res) {
         const { status, userAccessToken } = req.body;
         if (!userAccessToken || !status) {
@@ -162,19 +159,25 @@ const collaborationController = {
             connection.end();
         }
     },
-    // PUT /api/collaboration/:id/upvote
+    // PUT /api/collaborations/:id/upvote
     async updateCollaborationUpvote(req, res) {
-        const { amount } = req.body;
-        if (!amount) {
+        const { userAccessToken, amount } = req.body;
+        if (!userAccessToken  || !amount) {
             return res.status(400).json({
                 error: "All fields are required",
-                fields: ["amount"]
+                fields: ["userAccessToken", "amount"]
             });
         }
-
         const connection = await dbConnection.createConnection();
-
         try {
+            const [user] = await connection.execute(`SELECT id FROM ${TABLE_NAME_PREFIX}_user WHERE userAccessToken = ?`, [userAccessToken]);
+            if (user.length === 0) {
+                return res.status(404).json({ error: `User with access token ${userAccessToken} not found` });
+            }
+            const [users] = await connection.execute(`UPDATE ${TABLE_NAME_PREFIX}_user SET tokens = tokens - ? WHERE id = ? and tokens >= ?`, [amount, user[0].id, amount]);
+            if (users.affectedRows === 0) {
+                return res.status(403).json({ error: `User with id ${user[0].id} does not have enough tokens` });
+            }
             const [collaborations] = await connection.execute(`UPDATE ${TABLE_NAME_PREFIX}_collaboration SET upvote = upvote + ? WHERE id = ?`, [amount, req.params.id]);
             if (collaborations.affectedRows === 0) {
                 return res.status(404).json({ error: `Collaboration with id ${req.params.id} not found` });
@@ -186,19 +189,25 @@ const collaborationController = {
             connection.end();
         }
     },
-    // PUT /api/collaboration/:id/downvote
+    // PUT /api/collaborations/:id/downvote
     async updateCollaborationDownvote(req, res) {
-        const { amount } = req.body;
-        if (!amount) {
+        const { userAccessToken, amount } = req.body;
+        if (!userAccessToken, !amount) {
             return res.status(400).json({
                 error: "All fields are required",
-                fields: ["amount"]
+                fields: ["userAccessToken", "amount"]
             });
         }
-
         const connection = await dbConnection.createConnection();
-
         try {
+            const [user] = await connection.execute(`SELECT id FROM ${TABLE_NAME_PREFIX}_user WHERE userAccessToken = ?`, [userAccessToken]);
+            if (user.length === 0) {
+                return res.status(404).json({ error: `User with access token ${userAccessToken} not found` });
+            }
+            const [users] = await connection.execute(`UPDATE ${TABLE_NAME_PREFIX}_user SET tokens = tokens - ? WHERE id = ? and tokens >= ?`, [amount, user[0].id, amount]);
+            if (users.affectedRows === 0) {
+                return res.status(403).json({ error: `User with id ${user[0].id} does not have enough tokens` });
+            }
             const [collaborations] = await connection.execute(`UPDATE ${TABLE_NAME_PREFIX}_collaboration SET downvote = downvote + ? WHERE id = ?`, [amount, req.params.id]);
             if (collaborations.affectedRows === 0) {
                 return res.status(404).json({ error: `Collaboration with id ${req.params.id} not found` });
@@ -210,7 +219,7 @@ const collaborationController = {
             connection.end();
         }
     },
-    // PUT /api/collaboration/:id/readability
+    // PUT /api/collaborations/:id/readability
     async updateCollaborationReadability(req, res) {
         const { readability } = req.body;
         if (!readability) {
@@ -219,9 +228,7 @@ const collaborationController = {
                 fields: ["readability"]
             });
         }
-
         const connection = await dbConnection.createConnection();
-
         try {
             const [collaborations] = await connection.execute(`UPDATE ${TABLE_NAME_PREFIX}_collaboration SET aiReadability = ? WHERE id = ?`, [readability, req.params.id]);
             if (collaborations.affectedRows === 0) {

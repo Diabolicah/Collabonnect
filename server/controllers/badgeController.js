@@ -17,7 +17,6 @@ const badgeController = {
     // GET /api/badges/
     async getBadges(req, res) {
         const connection = await dbConnection.createConnection();
-
         try {
             const [badges] = await connection.execute(`SELECT id, name, description, imageName, brandId FROM ${TABLE_NAME_PREFIX}_badge left join ${TABLE_NAME_PREFIX}_brand_badge on ${TABLE_NAME_PREFIX}_badge.id = ${TABLE_NAME_PREFIX}_brand_badge.badgeId`);
             return res.status(200).json(badges);
@@ -30,7 +29,6 @@ const badgeController = {
     // GET /api/badges/:id
     async getBadgeById(req, res) {
         const connection = await dbConnection.createConnection();
-
         try {
             const [badges] = await connection.execute(`SELECT name, description, imageName FROM ${TABLE_NAME_PREFIX}_badge WHERE id = ?`, [req.params.id]);
             if (badges.length === 0) {
@@ -61,7 +59,6 @@ const badgeController = {
             });
         }
         const connection = await dbConnection.createConnection();
-
         try {
             if (!isUserPartOfBrand(userAccessToken, brandId)) {
                 return res.status(403).json({ error: "User is not part of the brand" });
@@ -87,9 +84,7 @@ const badgeController = {
                 fields: ["userAccessToken"]
             });
         }
-
         const connection = await dbConnection.createConnection();
-
         try {
             const [badgeBrand] = await connection.execute(`SELECT brandId FROM ${TABLE_NAME_PREFIX}_brand_badge WHERE badgeId = ?`, [req.params.id]);
             if (badgeBrand.length === 0) {

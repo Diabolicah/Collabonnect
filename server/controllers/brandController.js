@@ -14,10 +14,9 @@ async function isUserPartOfBrand(userAccessToken, brandId) {
 }
 
 const brandController = {
-    // GET /api/brand/
+    // GET /api/brands/
     async getAllBrands(req, res) {
         const connection = await dbConnection.createConnection();
-
         try {
             const [users] = await connection.execute(`SELECT id, name, threshold, imagePath FROM ${TABLE_NAME_PREFIX}_brand`);
             return res.status(200).json(users);
@@ -27,10 +26,9 @@ const brandController = {
             connection.end();
         }
     },
-    // GET /api/brand/:id
+    // GET /api/brands/:id
     async getBrandById(req, res) {
         const connection = await dbConnection.createConnection();
-
         try {
             const [users] = await connection.execute(`SELECT name, threshold, imagePath FROM ${TABLE_NAME_PREFIX}_brand WHERE id = ?`, [req.params.id]);
             if (users.length === 0) {
@@ -43,7 +41,7 @@ const brandController = {
             connection.end();
         }
     },
-    // PUT /api/brand/:id/threshold
+    // PUT /api/brands/:id/threshold
     async updateBrandThresholdById(req, res) {
         const { userAccessToken, threshold } = req.body;
         if (!userAccessToken, !threshold) {
@@ -52,7 +50,6 @@ const brandController = {
                 fields: ["userAccessToken", "threshold"]
             });
         }
-        
         const thresholdInt = parseInt(threshold);
         if (isNaN(thresholdInt) || thresholdInt < 0) {
             return res.status(400).json({
@@ -60,14 +57,11 @@ const brandController = {
                 fields: ["threshold"]
             });
         }
-
         const connection = await dbConnection.createConnection();
-
         try {
             if (!await isUserPartOfBrand(userAccessToken, req.params.id)) {
                 return res.status(403).json({ error: "User is not part of this brand" });
             }
-
             const [users] = await connection.execute(`UPDATE ${TABLE_NAME_PREFIX}_brand SET threshold = ? WHERE id = ?`, [thresholdInt, req.params.id]);
             if (users.affectedRows === 0) {
                 return res.status(404).json({ error: `Brand with id ${req.params.id} not found` });

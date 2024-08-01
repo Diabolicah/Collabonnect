@@ -22,7 +22,7 @@ window.onload = async () => {
     let index = 0;
     for (let collaborationIndex in collaborations){
         const collaboration = collaborations[collaborationIndex];
-        votePageCollaborationCardBuilder(collaboration).then(collaborationCard => {
+        await votePageCollaborationCardBuilder(collaboration).then(collaborationCard => {
             if (index < 5) {
                 addObjectToCarousel(collaborationCard, index == 0);
             } else

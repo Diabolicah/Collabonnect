@@ -60,17 +60,32 @@ const collaborationController = {
     },
     // POST /api/collaboration
     async createCollaboration(req, res) {
-        const { userId, title, description, developerId, brandId } = req.body;
-        if (!userId || !title || !developerId || !brandId || !description) {
+        const { userId, title, description, brandSearchName, developerSearchName } = req.body;
+        if (!userId || !title || !developerSearchName || !brandSearchName || !description) {
             return res.status(400).json({
                 error: "All fields are required",
-                fields: ["userId", "title", "developerId", "brandId", "description"]
+                fields: ["userId", "title", "developerSearchName", "collaborationSearchName", "description"]
             });
+        }
+        const developerList = await fetch(`https://api.brandfetch.io/v2/search/${developerSearchName}`).then(response => response.json());
+        if (developerList.length === 0) {
+            return res.status(404).json({ error: `Developer with name ${developerSearchName} not found` });
+        }
+
+        const brandList = await fetch(`https://api.brandfetch.io/v2/search/${brandSearchName}`).then(response => response.json());
+        if (brandList.length === 0) {
+            return res.status(404).json({ error: `Brand with name ${brandSearchName} not found` });
         }
 
         const connection = await dbConnection.createConnection();
 
         try {
+            const [developers] = await connection.execute(`SELECT id FROM ${TABLE_NAME_PREFIX}_developer WHERE name = ?`, [developerList[0].name]);
+            const developerId = developers.length === 0 ? (await connection.execute(`INSERT INTO ${TABLE_NAME_PREFIX}_developer (name, imagePath) VALUES (?, ?)`, [developerList[0].name, developerList[0].icon]))[0].insertId : developers[0].id;
+
+            const [brands] = await connection.execute(`SELECT id FROM ${TABLE_NAME_PREFIX}_brand WHERE name = ?`, [brandList[0].name]);
+            const brandId = brands.length === 0 ? (await connection.execute(`INSERT INTO ${TABLE_NAME_PREFIX}_brand (name, threshold, imagePath) VALUES (?, ?, ?)`, [brandList[0].name, 1000, brandList[0].icon]))[0].insertId : brands[0].id;
+
             const [collaborations] = await connection.execute(`INSERT INTO ${TABLE_NAME_PREFIX}_collaboration (writerId, title, description, developerId, brandId, upvote, downvote, status, aiReadability) VALUES (?, ?, ?, ?, ?, 0, 0, "pending", 0)`, [userId, title, description, developerId, brandId]);
             return res.status(201).json({ message: `Collaboration with id ${collaborations.insertId} created` });
         } catch (error) {

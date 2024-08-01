@@ -256,6 +256,20 @@ header nav a:not(.active_nav):hover {
     border-color: #444;
 }
 
+#container_login input {
+    background-color: #444;
+    border: #444;
+}
+
+#container_login label {
+    color: #FFF;
+    font-family: Lora;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
 #container_login #login_form #developer_data_list {
     border-radius: 10px 0 0 10px;
 }
@@ -1468,6 +1482,9 @@ ol.breadcrumb {
 }
 
 @media screen and (max-width: 370px) {
+    #container_login #container_brand_developer_switches label {
+        font-size: 12px;
+    }
     #container_login #container_register_login button{
         font-size: 12px;
     }

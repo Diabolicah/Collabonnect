@@ -60,7 +60,7 @@ const badgeController = {
         }
         const connection = await dbConnection.createConnection();
         try {
-            if (!isUserPartOfBrand(userAccessToken, brandId)) {
+            if (!await isUserPartOfBrand(userAccessToken, brandId)) {
                 return res.status(403).json({ error: "User is not part of the brand" });
             }
 
@@ -91,7 +91,7 @@ const badgeController = {
                 return res.status(404).json({ error: `Badge with id ${req.params.id} not found` });
             }
 
-            if (!isUserPartOfBrand(userAccessToken, badgeBrand[0].brandId)) {
+            if (!await isUserPartOfBrand(userAccessToken, badgeBrand[0].brandId)) {
                 return res.status(403).json({ error: "User is not part of the brand" });
             }
 

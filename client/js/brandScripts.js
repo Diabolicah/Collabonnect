@@ -29,10 +29,11 @@ async function populateCollaborationContainer(brandId){
     const collaborationCards = document.querySelectorAll(".collaboration_card");
     collaborationCards.forEach((card, index) => card.remove());
 
-    const collaborations = await getCollaborationsList();
-    collaborations.forEach(async (collaboration) => {
+    const collaborations = await Data.collaborations();
+    for (let collaborationIndex in collaborations){
+        const collaboration = collaborations[collaborationIndex];
         if (collaboration.brandId != brandId) {
-            return;
+            continue;
         }
         if (collaboration.status != "Approved" && collaboration.status != "Rejected") {
             brandPageCollaborationCardBuilder(collaboration)
@@ -40,7 +41,7 @@ async function populateCollaborationContainer(brandId){
                 document.getElementById("collaboration_cards_container").appendChild(collaborationCard);
             });
         }
-    });
+    };
 }
 
 async function OnBadgeClick(badgeInfo, imgSrc, brandId){

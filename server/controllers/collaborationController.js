@@ -9,9 +9,9 @@ const collaborationController = {
 
         try {
             const [collaborations] = await connection.execute(`SELECT * FROM ${TABLE_NAME_PREFIX}_collaboration`);
-            res.status(200).json(collaborations);
+            return res.status(200).json(collaborations);
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            return res.status(500).json({ error: error.message });
         } finally {
             connection.end();
         }
@@ -25,9 +25,9 @@ const collaborationController = {
             if (collaborations.length === 0) {
                 res.status(404).json({ error: `Collaboration with id ${req.params.id} not found` });
             }
-            res.status(200).json(collaborations[0]);
+            return res.status(200).json(collaborations[0]);
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            return res.status(500).json({ error: error.message });
         } finally {
             connection.end();
         }
@@ -38,9 +38,9 @@ const collaborationController = {
 
         try {
             const [logs] = await connection.execute(`SELECT * FROM ${TABLE_NAME_PREFIX}_collaboration_logs WHERE collaborationId = ?`, [req.params.id]);
-            res.status(200).json(logs);
+            return res.status(200).json(logs);
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            return res.status(500).json({ error: error.message });
         } finally {
             connection.end();
         }
@@ -51,9 +51,9 @@ const collaborationController = {
 
         try {
             const [coWriters] = await connection.execute(`SELECT profileImage FROM ${TABLE_NAME_PREFIX}_collaboration_cowriter inner join ${TABLE_NAME_PREFIX}_user on ${TABLE_NAME_PREFIX}_user.id = ${TABLE_NAME_PREFIX}_collaboration_cowriter.userId WHERE collaborationId = ?`, [req.params.id]);
-            res.status(200).json(coWriters);
+            return res.status(200).json(coWriters);
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            return res.status(500).json({ error: error.message });
         } finally {
             connection.end();
         }

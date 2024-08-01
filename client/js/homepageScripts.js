@@ -10,7 +10,7 @@ async function updateFormBrandSearch(event) {
     const brandName = document.getElementById("collaboration_brand_data_name");
     const brandImage = document.getElementById("collaboration_brand_data_logo");
     if (brandSelect.value == "") {
-        brandName.textContent = "Placeholder";
+        brandName.textContent = "";
         brandImage.src = "images/image_placeholder.svg";
         return;
     }
@@ -34,7 +34,7 @@ async function updateFormDeveloperSearch(event) {
     const developerName = document.getElementById("collaboration_developer_data_name");
     const developerImage = document.getElementById("collaboration_developer_data_logo");
     if (developerSelect.value == "") {
-        developerName.textContent = "Placeholder";
+        developerName.textContent = "";
         developerImage.src = "images/image_placeholder.svg";
         return;
     }

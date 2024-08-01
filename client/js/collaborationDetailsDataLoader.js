@@ -77,18 +77,14 @@ async function getCollaborationParagraphs(collaboration) {
     return paragraphs;
 }
 
-async function getCollaborationsList() {
-    const domain = await Settings.domain();
-    const response = await fetch(`${domain}/api/collaborations`);
-    if(response.status == 200)
-        return await response.json();
-    return null;
-}
-
 async function deleteCollaboration(collaborationId) {
     const domain = await Settings.domain();
     const response = await fetch(`${domain}/api/collaborations/${collaborationId}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({userAccessToken: await getUserAccessToken()})
     });
     if(response.status == 200)
         return true;

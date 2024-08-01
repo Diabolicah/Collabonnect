@@ -57,15 +57,15 @@ async function populateCollaborationContainer(userId){
     const collaborationCards = document.querySelectorAll(".collaboration_card");
     collaborationCards.forEach((card) => card.remove());
 
-    const collaborations = await getCollaborationsList();
-    collaborations.forEach(async (collaboration) => {
-        if (userId != collaboration.writerId) 
+    const collaborations = await Data.collaborations();
+    for (let collaborationIndex in collaborations){
+        const collaboration = collaborations[collaborationIndex];
+        if (userId != collaboration.writerId)
             return;
-        homePageCollaborationCardBuilder(collaboration)
-            .then(collaborationCard => {
-                document.getElementById("collaboration_cards_container").appendChild(collaborationCard);
-            });
-    });
+        homePageCollaborationCardBuilder(collaboration).then(collaborationCard => {
+            document.getElementById("collaboration_cards_container").appendChild(collaborationCard);
+        });
+    };
 }
 
 window.onload = async () => {
@@ -103,7 +103,7 @@ window.onload = async () => {
     createCollaborationButton.addEventListener("click", async () => {
         document.querySelector("#new_collaboration_modal form > input").click();
     });
-    
+
     newCollaborationForm.addEventListener("submit", async (event) => {
         event.preventDefault();
         if(isCreatingCollaboration)

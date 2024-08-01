@@ -2,6 +2,17 @@ const {dbConnection} = require('../db_connection');
 
 const TABLE_NAME_PREFIX = "tbl_112"
 
+async function isUserPartOfCollaboration(userAccessToken, collaborationId) {
+    const connection = await dbConnection.createConnection();
+    const [user] = await connection.execute(`SELECT brandId FROM ${TABLE_NAME_PREFIX}_user WHERE userAccessToken = ?`, [userAccessToken]);
+    if (user.length === 0 || user[0].brandId != brandId) {
+        connection.end();
+        return false;
+    }
+    connection.end();
+    return true;
+}
+
 const collaborationController = {
     // GET /api/collaboration
     async getCollaborations(req, res) {

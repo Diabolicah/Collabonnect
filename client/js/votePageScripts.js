@@ -11,7 +11,7 @@ function addObjectToCarousel(collaborationCard, active) {
 }
 
 window.onload = async () => {
-    const collaborations = await getCollaborationsList();
+    const collaborations = await Data.collaborations();
     const leftCarousel = new bootstrap.Carousel("#left_card_carousel", { interval: false, touch: false });
     const rightCarousel = new bootstrap.Carousel("#right_card_carousel", { interval: false, touch: false });
     const middleCarousel = new bootstrap.Carousel("#middle_card_carousel", { interval: false, touch: false });
@@ -20,16 +20,16 @@ window.onload = async () => {
     searchInput.addEventListener("input", filterCollaborationsOnSearch);
 
     let index = 0;
-    await collaborations.forEach(async (collaboration) => {
-        votePageCollaborationCardBuilder(collaboration)
-            .then(collaborationCard => {
-                if (index < 5) {
-                    addObjectToCarousel(collaborationCard, index == 0);
-                } else
-                    document.getElementById("collaboration_cards_container").appendChild(collaborationCard);
-                index++;
-            });
-    });
+    for (let collaborationIndex in collaborations){
+        const collaboration = collaborations[collaborationIndex];
+        votePageCollaborationCardBuilder(collaboration).then(collaborationCard => {
+            if (index < 5) {
+                addObjectToCarousel(collaborationCard, index == 0);
+            } else
+                document.getElementById("collaboration_cards_container").appendChild(collaborationCard);
+            index++;
+        });
+    };
 
     rightCarousel.nextWhenVisible();
     leftCarousel.prev();

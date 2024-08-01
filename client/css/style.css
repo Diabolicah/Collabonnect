@@ -470,9 +470,27 @@ ol.breadcrumb {
     margin-top: 165px;
 }
 
-#collaboration_edit_delete {
-    display: none;
+#collaboration_edit_delete_vote {
+    display: flex;
     align-self: flex-end;
+}
+
+#collaboration_edit_delete_vote > section {
+    background-color: #444;
+    color: #FFF;
+    border: none;
+    padding: 5px 20px;
+    border-radius: 5px;
+    font-family: Lora;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    cursor: pointer;
+}
+
+#collaboration_edit_delete_vote img {
+    display: none;
 }
 
 #container_edit_mode img {
@@ -1115,6 +1133,43 @@ ol.breadcrumb {
     height: 48px;
 }
 
+#vote_modal .modal-footer button {
+    width: 100px;
+    height: 50px;
+    border-radius: 15px;
+    background-color: #444444;
+    stroke: #000000;
+    color: #FFF;
+    font-family: Merriweather;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+#vote_modal .modal-footer #vote_button {
+    background-color: #20CB98 !important;
+}
+
+#vote_modal .modal-footer {
+    display: flex;
+    justify-content: space-between;
+}
+
+#vote_modal .modal-body {
+    display: flex;
+    justify-content: space-around;
+}
+
+#vote_modal .modal-body .up_vote, #vote_modal .modal-body .down_vote{
+    background-color: #444;
+    border-color: #444;
+}
+.btn-check:checked+.btn {
+    background-color: #35addc !important;
+    border-color: #35addc !important;
+}
+
 #new_collaboration_modal .modal-footer {
     display: flex;
     justify-content: space-around;
@@ -1562,6 +1617,10 @@ ol.breadcrumb {
 
     #collaboration_assets {
         min-height: calc(100vh - 31 0px);
+    }
+
+    #container_edit_mode {
+        margin-top: 140px;
     }
 
     #container_edit_mode img {

@@ -166,7 +166,7 @@ const paragraphController = {
     // PUT /api/collaborations/:id/paragraphs/:paragraphId
     async updateCollaborationParagraph(req, res) {
         const { userAccessToken, newTitle, oldTitle, status, newText, oldText, newImage, oldImage, newVideo, oldVideo } = req.body;
-        if (!status || userAccessToken) {
+        if (!status || !userAccessToken) {
             return res.status(400).json({
                 error: "All fields are required",
                 fields: ["status", "userAccessToken"]

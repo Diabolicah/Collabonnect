@@ -70,7 +70,13 @@
               <img src="images/token_icon.svg" alt="rankIcon" />
             </section>
             <section
-              class="progress">
+              class="progress"
+              role="progressbar"
+              aria-label="Basic example"
+              aria-valuenow="75"
+              aria-valuemin="0"
+              aria-valuemax="100"
+            >
               <section class="progress-bar bg-light"></section>
             </section>
           </section>
@@ -90,12 +96,12 @@
     </header>
     <main>
       <div id="wrapper">
-        <nav id="bread_crumb">
+        <nav id="bread_crumb" aria-label="breadcrumb">
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
               <a href="index.html">My Collaboration</a>
             </li>
-            <li class="breadcrumb-item active"></li>
+            <li class="breadcrumb-item active" aria-current="page"></li>
           </ol>
         </nav>
         <section id="container_object_details">
@@ -113,6 +119,10 @@
             <section
               class="progress"
               role="progressbar"
+              aria-label="Basic example"
+              aria-valuenow="75"
+              aria-valuemin="0"
+              aria-valuemax="100"
             >
               <section
                 class="progress-bar progress-bar-striped progress-bar-animated"
@@ -137,6 +147,7 @@
               class="btn btn-secondary btn-sm dropdown-toggle"
               type="button"
               data-bs-toggle="dropdown"
+              aria-expanded="false"
             >
               Select View
             </button>
@@ -153,8 +164,8 @@
           <section class="row">
             <section class="col-auto col-lg-8">
               <section id="container_edit_mode">
-                <section>Vote</section>
-                <section id="collaboration_edit_delete">
+                <section id="collaboration_edit_delete_vote">
+                  <section>Vote</section>
                   <img src="./images/delete_icon.svg" alt="delete_icon" />
                   <img src="./images/edit_icon.svg" alt="edit_icon" />
                 </section>
@@ -190,10 +201,31 @@
         </section>
       </div>
     </main>
+    <div class="modal fade" id="vote_modal" tabindex="-1" aria-labelledby="vote_modal" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="vote_modal_title">Vote</h1>
+          </div>
+          <div class="modal-body">
+            <input type="radio" class="btn-check" name="options" id="option1" autocomplete="off" checked>
+            <label class="btn btn-secondary up_vote" for="option1">UpVote</label>
+            <input type="radio" class="btn-check" name="options" id="option2" autocomplete="off">
+            <label class="btn btn-secondary down_vote" for="option2">DownVote</label>
+          </div>
+          <div class="modal-footer">
+            <button id="cancel_vote_button" type="button" class="btn" data-bs-dismiss="modal">Cancel</button>
+            <button id="vote_button" type="button" class="btn">Vote</button>
+          </div>
+        </div>
+      </div>
+  </div>
     <div
       class="modal fade"
       id="delete_collaboration_modal"
       tabindex="-1"
+      aria-labelledby="delete_collaboration_modal_label"
+      aria-hidden="true"
     >
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -218,6 +250,8 @@
       class="modal fade"
       id="add_paragraph_modal"
       tabindex="-1"
+      aria-labelledby="add_paragraph_modal_label"
+      aria-hidden="true"
     >
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -229,6 +263,7 @@
               type="button"
               class="btn-close"
               data-bs-dismiss="modal"
+              aria-label="Close"
             ></button>
           </div>
           <div class="modal-body">
@@ -318,6 +353,8 @@
       class="modal fade"
       id="new_image_modal"
       tabindex="-1"
+      aria-labelledby="new_image_modal"
+      aria-hidden="true"
     >
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -373,6 +410,8 @@
       class="modal fade"
       id="new_video_modal"
       tabindex="-1"
+      aria-labelledby="new_video_modal"
+      aria-hidden="true"
     >
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">

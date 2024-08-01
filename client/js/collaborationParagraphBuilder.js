@@ -87,10 +87,10 @@ function createDefaultParagraph(paragraphDetails, isEditMode, isCollaborationFor
     let title = createTitleParagraph(paragraphDetails, isEditMode, status);
 
     let paragraphText = createTextParagraph(paragraphDetails, isEditMode, status);
-    if(isCollaborationForUser)
-        paragraphTitleStatus.appendChild(status);
     paragraph.appendChild(paragraphTitleStatus);
     paragraphTitleStatus.appendChild(title);
+    if(isCollaborationForUser)
+        paragraphTitleStatus.appendChild(status);
     paragraph.appendChild(paragraphText);
 
     return paragraph;
@@ -157,9 +157,9 @@ function addVideo(paragraph, paragraphDetails, isEditMode, isCollaborationForUse
     return paragraph;
 }
 
-async function addImageAndVideo(paragraph, paragraphDetails, isEditMode){
-    const currParagraph = await addImage(paragraph, paragraphDetails, isEditMode);
-    return addVideo(currParagraph, paragraphDetails, isEditMode);
+async function addImageAndVideo(paragraph, paragraphDetails, isEditMode, isCollaborationForUser){
+    const currParagraph = await addImage(paragraph, paragraphDetails, isEditMode, isCollaborationForUser);
+    return addVideo(currParagraph, paragraphDetails, isEditMode, isCollaborationForUser);
 }
 
 async function approveParagraph(paragraph, paragraphDetails){

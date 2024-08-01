@@ -73,12 +73,6 @@ async function populateParagraphImagesSelection() {
         const option = createOptionElement(image, image);
         imagesSelect.appendChild(option);
     }
-
-    imagesSelect.addEventListener("change", async (event) => {
-        const selectedParagraphImage = event.target.value;
-        const paragraphImage = document.getElementById("collaboration_paragraph_images_logo");
-        paragraphImage.src = paragraphImagesData[selectedParagraphImage].image;
-    });
 }
 
 async function populateParagraphVideosSelection() {
@@ -156,18 +150,19 @@ async function addNewParagraphs(){
 }
 
 async function changeMode(isEditMode, isCollaborationForUser){
-    const editButton = document.querySelectorAll("#collaboration_edit_delete > img")[1];
-    editButton.src = (isCollaborationForUser && isEditMode) ? "./images/edit_mode_icon.svg" : "./images/edit_icon.svg";
-    document.querySelector("#container_paragraphs").innerHTML = (isCollaborationForUser && isEditMode) ? `<section id="object_adder"><img src="./images/add_object_icon.svg" alt="plus_circle_icon"></section>` : "";
+    if(isCollaborationForUser){
+        const editButton = document.querySelectorAll("#collaboration_edit_delete_vote > img")[1];
+        editButton.src = (isCollaborationForUser && isEditMode) ? "./images/edit_mode_icon.svg" : "./images/edit_icon.svg";
+        document.querySelector("#container_paragraphs").innerHTML = (isCollaborationForUser && isEditMode) ? `<section id="object_adder"><img src="./images/add_object_icon.svg" alt="plus_circle_icon"></section>` : "";
+    
+        editButton.removeEventListener("click", isEditMode ? changeToEditMode : changeToViewMode);
+    
+        if(isCollaborationForUser && isEditMode)
+            document.querySelector("#object_adder").addEventListener("click", addNewParagraphs);
 
-    editButton.removeEventListener("click", isEditMode ? changeToEditMode : changeToViewMode);
-
-    if(isCollaborationForUser && isEditMode)
-        document.querySelector("#object_adder").addEventListener("click", addNewParagraphs);
-
+        editButton.addEventListener("click", isEditMode ? changeToViewMode : changeToEditMode);
+    }
     populateCollaborationParagraphs(await getParagraphs(), isEditMode, isCollaborationForUser);
-
-    editButton.addEventListener("click", isEditMode ? changeToViewMode : changeToEditMode);
 }
 
 function getParagraphDetails(paragraph, paragraphDetailsFromServer){
@@ -193,7 +188,7 @@ function getParagraphDetails(paragraph, paragraphDetailsFromServer){
 }
 
 async function changeToEditMode() {
-    changeMode(true, await isCollaborationForUser());
+    changeMode(true, await isCollaborationForCurrentUser());
 }
 
 async function changeToViewMode(){
@@ -208,11 +203,11 @@ async function changeToViewMode(){
         newParagraphs.push(paragraph);
     });
 
-    await updateCollaborationParagraphs(collaborationId, {paragraphs: newParagraphs, userId: 1});
+    await updateCollaborationParagraphs(collaborationId, {paragraphs: newParagraphs});
     if(window.location.search.includes("edit")){
         const url = window.location.href.split("?")[0];
         window.history.pushState({}, document.title, url + "?id=" + collaborationId);
     }
-    window.location.reload();
+    // window.location.reload();
     changeMode(false, await isCollaborationForCurrentUser());
 }

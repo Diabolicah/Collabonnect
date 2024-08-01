@@ -91,6 +91,20 @@ async function deleteCollaboration(collaborationId) {
     return false;
 }
 
+async function updateCollaborationVotes(collaborationId, voteType, vote) {
+    const domain = await Settings.domain();
+    const response = await fetch(`${domain}/api/collaborations/${collaborationId}/${voteType}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({"amount": vote, "userAccessToken": await getUserAccessToken()})
+    });
+    if(response.status == 200)
+        return true;
+    return false;
+}
+
 async function approveCollaboration(collaborationId) {
     const domain = await Settings.domain();
     const response = await fetch(`${domain}/api/collaborations/${collaborationId}/status`, {

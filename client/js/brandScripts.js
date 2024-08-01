@@ -25,12 +25,15 @@ async function populateBadgeImagesSelection() {
     });
 }
 
-async function populateCollaborationContainer(){
+async function populateCollaborationContainer(brandId){
     const collaborationCards = document.querySelectorAll(".collaboration_card");
     collaborationCards.forEach((card, index) => card.remove());
 
     const collaborations = await getCollaborationsList();
     collaborations.forEach(async (collaboration) => {
+        if (collaboration.brandId != brandId) {
+            return;
+        }
         if (collaboration.status != "Approved" && collaboration.status != "Rejected") {
             brandPageCollaborationCardBuilder(collaboration)
             .then(collaborationCard => {
@@ -40,7 +43,7 @@ async function populateCollaborationContainer(){
     });
 }
 
-async function OnBadgeClick(badgeInfo, imgSrc){
+async function OnBadgeClick(badgeInfo, imgSrc, brandId){
     const badgeInformationModal = new bootstrap.Modal('#badge_information_modal', {});
     badgeInformationModal.show();
     const badgeNameSpan = document.getElementById("information_badge_name");
@@ -53,18 +56,27 @@ async function OnBadgeClick(badgeInfo, imgSrc){
     const cancelBadgeDeletionButton = document.getElementById("cancel_badge_deletion_button");
     const deleteBadgeButton = document.getElementById("delete_badge_button");
 
-
+    let isDeletingBadge = false;
     const deleteBadgeFunc = async (event) => {
         event.stopPropagation();
+        if(isDeletingBadge)
+            return;
+        isDeletingBadge = true;
+
         const domain = await Settings.domain();
         const response = await fetch(`${domain}/api/badges/${badgeInfo.id}`, {
-            method: "DELETE"
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({userAccessToken: await getUserAccessToken()})
         });
 
         if(response.status == 204){
             cancelBadgeDeletionButton.click();
-            populateBadgeContainer();
+            populateBadgeContainer(brandId);
         }
+        isDeletingBadge = false;
     }
 
     const hideBadgeInformationModal = (event) => {
@@ -82,11 +94,15 @@ async function OnBadgeClick(badgeInfo, imgSrc){
 }
 
 async function onThresholdEditClick(event){
-    const userId = await Settings.userId();
+    const userInfo = await UserInfo();
+    const brandId = userInfo.brandId;
+    if (brandId == null || brandId <= 0) {
+        return;
+    } 
     const thresholdModal = new bootstrap.Modal('#threshold_change_modal', {});
     const thresholdInput = document.getElementById("threshold_input");
     const brandData = await Data.brands();
-    const currentBrand = brandData[userId];
+    const currentBrand = brandData[brandId];
     const threshold = currentBrand.threshold;
     thresholdInput.value = threshold;
     thresholdModal.show();
@@ -99,11 +115,16 @@ async function onThresholdEditClick(event){
         thresholdModal.hide();
     }
 
+    let isUpdatingThreshold = false;
     const updateThreshold = async (event) => {
         event.stopPropagation();
+        if(isUpdatingThreshold)
+            return;
+        isUpdatingThreshold = true;
+
         const domain = await Settings.domain();
-        const requestData = JSON.stringify({threshold: thresholdInput.value});
-        const response = await fetch(`${domain}/api/brands/${userId}/threshold`, {
+        const requestData = JSON.stringify({threshold: thresholdInput.value, userAccessToken: await getUserAccessToken()});
+        const response = await fetch(`${domain}/api/brands/${brandId}/threshold`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"
@@ -116,6 +137,7 @@ async function onThresholdEditClick(event){
             updateBrandPageThreshold(thresholdInput.value);
             await getBrandsData();
         }
+        isUpdatingThreshold = false;
     }
 
     saveThresholdChangeButton.addEventListener("click", updateThreshold);
@@ -134,7 +156,7 @@ async function onlyAllowPositiveIntegers(event){
     input.value = newValue;
 }
 
-async function populateBadgeContainer(){
+async function populateBadgeContainer(brandId){
     const domain = await Settings.domain();
     const badgeCards = document.querySelectorAll(".badge_card");
     badgeCards.forEach((card, index) => card.remove());
@@ -142,6 +164,9 @@ async function populateBadgeContainer(){
     const badgeContainer = document.getElementById("milestones_container");
     const badges = await fetch(`${domain}/api/badges/`).then((response) => response.json());
     badges.forEach(async (badge) => {
+        if (badge.brandId != brandId) {
+            return;
+        }
         const section = document.createElement("section");
         section.classList.add("badge_card");
         const img = document.createElement("img");
@@ -149,7 +174,7 @@ async function populateBadgeContainer(){
         img.alt = badge.name;
         section.appendChild(img);
         badgeContainer.appendChild(section);
-        img.addEventListener("click", ()=> OnBadgeClick(badge, img.src));
+        img.addEventListener("click", ()=> OnBadgeClick(badge, img.src, brandId));
     });
 }
 
@@ -183,7 +208,7 @@ function updateBrandPageLogo(logo){
     brandPageLogo.src = logo;
 }
 
-function setupAddBadgeModal(){
+function setupAddBadgeModal(brandId){
     const newBadgeForm = document.querySelector("#new_badge_modal form");
     const createBadgeButton = document.getElementById("create_badge_button");
     const cancelBadgeCreationButton = document.getElementById("cancel_badge_creation_button");
@@ -192,12 +217,16 @@ function setupAddBadgeModal(){
         document.querySelector("#new_badge_modal form > input").click();
     });
 
+    let isAddingBadge = false;
     newBadgeForm.addEventListener("submit", async (event) => {
         event.preventDefault();
+        if(isAddingBadge)
+            return;
+        isAddingBadge = true;
         const formData = new FormData(newBadgeForm);
-        const { domain, userId} = await fetch("./data/settings.json").then((response) => response.json());
-        formData.append("userId", userId);
-        formData.append("brandId", userId);
+        const domain = await Settings.domain();
+        formData.append("userAccessToken", await getUserAccessToken());
+        formData.append("brandId", brandId);
         const requestData = JSON.stringify(Object.fromEntries(formData));
         const response = await fetch(`${domain}/api/badges/`, {
             method: "POST",
@@ -212,13 +241,20 @@ function setupAddBadgeModal(){
             newBadgeForm.reset();
             populateBadgeContainer();
         }
+        isAddingBadge = false;
     });
 }
 
 window.onload = async () => {
-    const userId = await Settings.userId();
+    const userInfo = await UserInfo();
+    const brandId = userInfo.brandId;
+    if (brandId == null || brandId <= 0) {
+        window.location.href = "./";
+        return;
+    }
+
     const brandData = await Data.brands();
-    const currentBrand = brandData[userId];
+    const currentBrand = brandData[brandId];
     
     const editThresholdButton = document.querySelector("#threshold img");
     editThresholdButton.addEventListener("click", onThresholdEditClick);
@@ -230,13 +266,13 @@ window.onload = async () => {
     searchInput.addEventListener("input", filterCollaborationsOnSearch);
 
     populateBadgeImagesSelection();
-    populateBadgeContainer();
+    populateBadgeContainer(brandId);
 
     updateBrandPageTitle(currentBrand.name);
     updateBrandPageThreshold(currentBrand.threshold);
     updateBrandPageLogo(currentBrand.image);
 
-    populateCollaborationContainer();
+    populateCollaborationContainer(brandId);
 
     const objectAdder = document.getElementById("object_adder");
     objectAdder.addEventListener("click", () => {
@@ -250,5 +286,5 @@ window.onload = async () => {
         cardInformationModal.show();
     });
 
-    setupAddBadgeModal();
+    setupAddBadgeModal(brandId);
 }

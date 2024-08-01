@@ -17,12 +17,17 @@ function updateActiveNavbarTab(tabList) {
     tabList.forEach((tab) => tab.classList.add("active_nav"));
 }
 
+function showBrandNavbar(show) {
+    const brandNavbar = document.querySelectorAll("header nav a:nth-child(4)");
+    brandNavbar.forEach((tab) => tab.style.display = show ? "flex" : "none");
+}
+
 (async () => {
     const domain = await Settings.domain();
     const userDetails = await UserInfo();
     userDetails.profileImage = `${domain}/assets/profileImages/${userDetails.profileImage}`;
     updateNavbarDetails(userDetails);
-
+    showBrandNavbar(userDetails.brandId != null && userDetails.brandId > 0);
     const searchParams = new URLSearchParams(window.location.search);
     if (searchParams.get("fromPage") == "Vote") {
         let voteTabList = document.querySelectorAll("nav a:nth-child(2)");

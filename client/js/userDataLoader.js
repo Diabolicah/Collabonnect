@@ -49,4 +49,8 @@ async function getUserInfo() {
     }
 }
 
+async function getUserAccessToken() {
+    return _userInfo._data.userAccessToken;
+}
+
 getUserInfo();

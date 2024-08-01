@@ -2,6 +2,15 @@ const {dbConnection} = require('../db_connection');
 
 const TABLE_NAME_PREFIX = "tbl_112";
 
+async function isUserPartOfBrand(userAccessToken, brandId) {
+    const connection = await dbConnection.createConnection();
+    const [user] = await connection.execute(`SELECT brandId FROM ${TABLE_NAME_PREFIX}_user WHERE userAccessToken = ?`, [userAccessToken]);
+    if (user.length === 0 || user[0].brandId != brandId) {
+        return false;
+    }
+    return true;
+}
+
 const brandController = {
     // GET /api/brand/
     async getAllBrands(req, res) {
@@ -34,11 +43,11 @@ const brandController = {
     },
     // PUT /api/brand/:id/threshold
     async updateBrandThresholdById(req, res) {
-        const { threshold } = req.body;
-        if (!threshold) {
+        const { userAccessToken, threshold } = req.body;
+        if (!userAccessToken, !threshold) {
             return res.status(400).json({
                 error: "All fields are required",
-                fields: ["threshold"]
+                fields: ["userAccessToken", "threshold"]
             });
         }
         
@@ -53,6 +62,10 @@ const brandController = {
         const connection = await dbConnection.createConnection();
 
         try {
+            if (!await isUserPartOfBrand(userAccessToken, req.params.id)) {
+                return res.status(403).json({ error: "User is not part of this brand" });
+            }
+
             const [users] = await connection.execute(`UPDATE ${TABLE_NAME_PREFIX}_brand SET threshold = ? WHERE id = ?`, [thresholdInt, req.params.id]);
             if (users.affectedRows === 0) {
                 return res.status(404).json({ error: `Brand with id ${req.params.id} not found` });

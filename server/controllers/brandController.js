@@ -41,11 +41,19 @@ const brandController = {
                 fields: ["threshold"]
             });
         }
+        
+        const thresholdInt = parseInt(threshold);
+        if (isNaN(thresholdInt) || thresholdInt < 0) {
+            return res.status(400).json({
+                error: "Threshold must be a positive integer",
+                fields: ["threshold"]
+            });
+        }
 
         const connection = await dbConnection.createConnection();
 
         try {
-            const [users] = await connection.execute(`UPDATE ${TABLE_NAME_PREFIX}_brand SET threshold = ? WHERE id = ?`, [threshold, req.params.id]);
+            const [users] = await connection.execute(`UPDATE ${TABLE_NAME_PREFIX}_brand SET threshold = ? WHERE id = ?`, [thresholdInt, req.params.id]);
             if (users.affectedRows === 0) {
                 return res.status(404).json({ error: `Brand with id ${req.params.id} not found` });
             }

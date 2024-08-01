@@ -46,10 +46,10 @@ function populateCollaborationEditLogs(editLogs) {
 }
 
 async function isCollaborationForCurrentUser(collaborationId) {
-    const user = await UserInfo().id;
-    if(user == null)
+    const userId = await UserInfo().id;
+    if(userId == null)
         return false;
-    if(user == collaborationId){
+    if(userId == collaborationId){
         document.querySelectorAll("#collaboration_edit_delete").style.display = "flex";
         return true;
     }
@@ -80,7 +80,7 @@ async function initCollaborationDetails(collaborationData){
     getCollaborationEditLogs(collaborationData)
         .then(populateCollaborationEditLogs);
 
-    const isCollaborationForUser = await isCollaborationForCurrentUser(collaborationData.id);
+    const isCollaborationForUser = await isCollaborationForCurrentUser(collaborationData.writerId);
 
     const urlParams = new URLSearchParams(window.location.search);
     const editMode = urlParams.get("edit") == "true" ? true : false;

@@ -166,6 +166,20 @@ header nav a:not(.active_nav):hover {
     background-color: #AAAAAA;
 }
 
+#logout {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;    
+    margin: auto 4px auto 12px;
+}
+
+#logout img {
+    width: 32px;
+    height: 32px;
+}
+
 /* Main */
 #wrapper, #wrapper_login {
     margin: 0 40px;
@@ -1286,8 +1300,45 @@ ol.breadcrumb {
     line-height: normal;
 }
 
+#badge_information_modal #badge_information {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
 #delete_badge_button {
     background-color: #DC3545 !important;
+}
+
+#threshold_change_modal .modal-footer {
+    display: flex;
+    justify-content: space-around;
+}
+
+#threshold_change_modal .modal-footer button {
+    width: 100px;
+    height: 50px;
+    border-radius: 15px;
+    background-color: #444444;
+    stroke: #000000;
+    color: #FFF;
+    font-family: Merriweather;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+#threshold_update_button {
+    background-color: #20C997 !important;
+}
+
+.modal h1, .modal h2, .modal label {
+    font-family: Lora;
+}
+
+.modal span, .modal p {
+    font-family: Merriweather;
 }
 
 /* media query */

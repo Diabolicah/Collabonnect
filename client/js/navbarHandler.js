@@ -34,4 +34,10 @@ function updateActiveNavbarTab(tabList) {
         let voteTabList = document.querySelectorAll("nav a:nth-child(4)");
         updateActiveNavbarTab(voteTabList);
     }
+
+    const logoutButton = document.getElementById("logout");
+    logoutButton.addEventListener("click", async () => {
+        sessionStorage.removeItem("userAccessToken");
+        window.location.href = "/login.html";
+    });
 })();

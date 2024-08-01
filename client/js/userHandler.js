@@ -47,8 +47,3 @@ async function getUserInfo() {
         });
     }
 }
-
-async function logout() {
-    sessionStorage.removeItem("userAccessToken");
-    window.location.href = "/login.html";
-}

@@ -471,7 +471,7 @@ ol.breadcrumb {
 }
 
 #collaboration_edit_delete {
-    display: flex;
+    display: none;
     align-self: flex-end;
 }
 

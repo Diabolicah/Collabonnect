@@ -45,6 +45,17 @@ function populateCollaborationEditLogs(editLogs) {
     });
 }
 
+async function isCollaborationForCurrentUser(collaborationId) {
+    const user = await UserInfo().id;
+    if(user == null)
+        return false;
+    if(user == collaborationId){
+        document.querySelectorAll("#collaboration_edit_delete").style.display = "flex";
+        return true;
+    }
+    return false;
+}
+
 async function initCollaborationDetails(collaborationData){
     getCollaborationLogos(collaborationData)
         .then(({brandLogo, developerLogo}) => {
@@ -69,9 +80,11 @@ async function initCollaborationDetails(collaborationData){
     getCollaborationEditLogs(collaborationData)
         .then(populateCollaborationEditLogs);
 
+    const isCollaborationForUser = await isCollaborationForCurrentUser(collaborationData.id);
+
     const urlParams = new URLSearchParams(window.location.search);
     const editMode = urlParams.get("edit") == "true" ? true : false;
-    changeMode(editMode);
+    changeMode(editMode, isCollaborationForUser);
 }
 
 function updateBreadCrumbs(fromPage){
@@ -79,6 +92,9 @@ function updateBreadCrumbs(fromPage){
     switch (fromPage) {
         case "Vote":
             document.querySelector(".breadcrumb-item a").href = "./votePage.html";
+            break;
+        case "Brand":
+            document.querySelector(".breadcrumb-item a").href = "./brandPage.html";
             break;
         default:
             document.querySelector(".breadcrumb-item a").href = "./index.html";

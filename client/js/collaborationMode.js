@@ -103,11 +103,11 @@ async function getParagraphs(){
     return await getCollaborationParagraphs(currentCollaboration);
 }
 
-async function populateCollaborationParagraphs(paragraphs, isEditMode) {
+async function populateCollaborationParagraphs(paragraphs, isEditMode, isCollaborationForUser) {
     const containerParagraphs = document.querySelector("#container_paragraphs");
     const arrayParagraphs = new Array(paragraphs.length);
     for (let i = 0; i < paragraphs.length; i++) {
-        const paragraph = await createParagraph(paragraphs[i], isEditMode);
+        const paragraph = await createParagraph(paragraphs[i], isEditMode, isCollaborationForUser);
         arrayParagraphs[paragraphs[i].id] = paragraph;
     }
     arrayParagraphs.forEach(paragraph => containerParagraphs.appendChild(paragraph));
@@ -155,17 +155,17 @@ async function addNewParagraphs(){
         });
 }
 
-async function changeMode(isEditMode){
+async function changeMode(isEditMode, isCollaborationForUser){
     const editButton = document.querySelectorAll("#collaboration_edit_delete > img")[1];
-    editButton.src = isEditMode ? "./images/edit_mode_icon.svg" : "./images/edit_icon.svg";
-    document.querySelector("#container_paragraphs").innerHTML = isEditMode ? `<section id="object_adder"><img src="./images/add_object_icon.svg" alt="plus_circle_icon"></section>` : "";
+    editButton.src = (isCollaborationForUser && isEditMode) ? "./images/edit_mode_icon.svg" : "./images/edit_icon.svg";
+    document.querySelector("#container_paragraphs").innerHTML = (isCollaborationForUser && isEditMode) ? `<section id="object_adder"><img src="./images/add_object_icon.svg" alt="plus_circle_icon"></section>` : "";
 
     editButton.removeEventListener("click", isEditMode ? changeToEditMode : changeToViewMode);
 
-    if(isEditMode)
+    if(isCollaborationForUser && isEditMode)
         document.querySelector("#object_adder").addEventListener("click", addNewParagraphs);
 
-    populateCollaborationParagraphs(await getParagraphs(), isEditMode);
+    populateCollaborationParagraphs(await getParagraphs(), isEditMode, isCollaborationForUser);
 
     editButton.addEventListener("click", isEditMode ? changeToViewMode : changeToEditMode);
 }
@@ -192,8 +192,8 @@ function getParagraphDetails(paragraph, paragraphDetailsFromServer){
     };
 }
 
-function changeToEditMode() {
-    changeMode(true);
+async function changeToEditMode() {
+    changeMode(true, await isCollaborationForUser());
 }
 
 async function changeToViewMode(){
@@ -214,5 +214,5 @@ async function changeToViewMode(){
         window.history.pushState({}, document.title, url + "?id=" + collaborationId);
     }
     window.location.reload();
-    changeMode(false);
+    changeMode(false, await isCollaborationForCurrentUser());
 }

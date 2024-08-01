@@ -26,22 +26,40 @@
                         <label for="login_password" class="form-label">Password</label>
                         <input type="text" class="form-control" id="login_password" maxlength="80" required name="description">
                     </div>
-                    <div class="mb-3">
-                        <label for="brand_data_list" class="form-label">Brand</label>
-                        <div class="input-group">
-                            <select class="form-control form-select" id="brand_data_list" required name="imageName">
-                            </select>
-                            <img src="images/image_placeholder.svg" alt="plus_circle_icon" id="brand_image" class="input-group-text">
+                    <section id="container_register">
+                        <div class="mb-3">
+                            <label for="login_username" class="form-label">FirstName</label>
+                            <input type="text" class="form-control" id="login_username" maxlength="24" required name="title">
                         </div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="developer_data_list" class="form-label">Developer</label>
-                        <div class="input-group">
-                            <select class="form-control form-select" id="developer_data_list" required name="imageName">
-                            </select>
-                            <img src="images/image_placeholder.svg" alt="plus_circle_icon" id="developer_image" class="input-group-text">
+                        <div class="mb-3">
+                            <label for="login_password" class="form-label">LastName</label>
+                            <input type="text" class="form-control" id="login_password" maxlength="80" required name="description">
                         </div>
-                    </div>
+                        <div class="form-check form-check-inline form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="brand_switch">
+                            <label class="form-check-label" for="brand_switch">Brand</label>
+                        </div>
+                        <div class="mb-3">
+                            <label for="brand_data_list" class="form-label">Brand</label>
+                            <div class="input-group">
+                                <select class="form-control form-select" id="brand_data_list" required name="imageName">
+                                </select>
+                                <img src="images/image_placeholder.svg" alt="plus_circle_icon" id="brand_image" class="input-group-text">
+                            </div>
+                        </div>
+                        <div class="form-check form-check-inline form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="developer_switch">
+                            <label class="form-check-label" for="developer_switch">Developer</label>
+                        </div>
+                        <div class="mb-3">
+                            <label for="developer_data_list" class="form-label">Developer</label>
+                            <div class="input-group">
+                                <select class="form-control form-select" id="developer_data_list" required name="imageName">
+                                </select>
+                                <img src="images/image_placeholder.svg" alt="plus_circle_icon" id="developer_image" class="input-group-text">
+                            </div>
+                        </div>
+                    </section>
                     <input type="submit">
                 </form>
                 <section id="container_register_login">

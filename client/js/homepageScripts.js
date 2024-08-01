@@ -69,6 +69,8 @@ async function populateCollaborationContainer(){
 window.onload = async () => {
     const domain = await Settings.domain();
     const userId = await Settings.userId();
+    const userInfo = await UserInfo();
+    console.log(userInfo)
 
     const searchInput = document.getElementById("search_bar");
     searchInput.addEventListener("input", filterCollaborationsOnSearch);

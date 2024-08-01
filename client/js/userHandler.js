@@ -3,7 +3,7 @@ let _userInfo = {
     isProcessing: false,
 };
 
-let userInfo = async () => {
+let UserInfo = async () => {
     if (!_userInfo.isReady) {
         if (!_userInfo.isProcessing) {
             await getUserData();

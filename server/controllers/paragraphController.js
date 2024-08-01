@@ -9,6 +9,22 @@ function checkParagraphReadability(title, text) {
     return Math.round((titleReadability + textReadability) / 2);
 }
 
+async function isUserPartOfCollaboration(userAccessToken, collaborationId) {
+    const connection = await dbConnection.createConnection();
+    const [collaborationUser] = await connection.execute(`SELECT writerId FROM ${TABLE_NAME_PREFIX}_collaboration WHERE id = ?`, [collaborationId]);
+    if (collaborationUser.length === 0) {
+        return false;
+    }
+
+    const [users] = await connection.execute(`SELECT id FROM ${TABLE_NAME_PREFIX}_user WHERE userAccessToken = ?`, [userAccessToken]);
+    if (users.length === 0 || users[0].id != collaborationUser[0].writerId) {
+        return false;
+    }
+
+    connection.end();
+    return true;
+}
+
 const paragraphController = {
     // GET /api/collaboration/:id/paragraphs
     async getCollaborationParagraphs(req, res) {
@@ -54,32 +70,36 @@ const paragraphController = {
     },
     // POST /api/collaboration/:id/paragraphs
     async createCollaborationParagraph(req, res) {
-        const { paragraphType } = req.body;
+        const { paragraphType, userAccessToken } = req.body;
         const paragraphTypesJson = require('../Data/paragraphTypes.json');
 
-        if (!paragraphType || Object.keys(paragraphTypesJson).includes(paragraphType) === false) {
+        if (!paragraphType || Object.keys(paragraphTypesJson).includes(paragraphType) === false || !userAccessToken) {
             return res.status(400).json({
                 error: "All fields are required",
-                fields: ["paragraphType"]
+                fields: ["paragraphType", "userAccessToken"]
             });
         }
 
         const connection = await dbConnection.createConnection();
 
         try {
+            if (!await isUserPartOfCollaboration(userAccessToken, req.params.id)) {
+                return res.status(403).json({ error: "User not part of collaboration" });
+            }
+
             const [paragraphs] = await connection.execute(`INSERT INTO ${TABLE_NAME_PREFIX}_paragraph (newTitle, oldTitle, status, newText, oldText, newImage, oldImage, newVideo, oldVideo, readability) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, ["", "", "Up to date", "", "", "", paragraphTypesJson[paragraphType].oldImage, "", paragraphTypesJson[paragraphType].oldVideo, "0"]);
-           if(paragraphs.affectedRows === 0){
+            if(paragraphs.affectedRows === 0){
                 return res.status(404).json({ error: `Couldn't create paragraph for collaboration id ${req.params.id}` });
-           }
-           const [rows] = await connection.execute(`INSERT INTO ${TABLE_NAME_PREFIX}_collaboration_paragraph (collaborationId, paragraphId) VALUES (?, ?)`, [req.params.id, paragraphs.insertId]);
+            }
+            const [rows] = await connection.execute(`INSERT INTO ${TABLE_NAME_PREFIX}_collaboration_paragraph (collaborationId, paragraphId) VALUES (?, ?)`, [req.params.id, paragraphs.insertId]);
             if(rows.affectedRows === 0) {
                 return res.status(404).json({ error: `Couldn't create paragraph for collaboration id ${req.params.id}` });
             }
-           const [paragraph] = await connection.execute(`SELECT id, newTitle, oldTitle, status, newText, oldText, newImage, oldImage, newVideo, oldVideo FROM ${TABLE_NAME_PREFIX}_paragraph WHERE id = ?`, [paragraphs.insertId]);
-           if(paragraph.length === 0){
-                return res.status(404).json({ error: `Couldn't create paragraph for collaboration id ${req.params.id}` });
-           }
-           return res.status(201).json({ message: `Paragraph with id ${paragraphs.insertId} for collaboration id ${rows.insertId} created`, paragraph: paragraph });
+            const [paragraph] = await connection.execute(`SELECT id, newTitle, oldTitle, status, newText, oldText, newImage, oldImage, newVideo, oldVideo FROM ${TABLE_NAME_PREFIX}_paragraph WHERE id = ?`, [paragraphs.insertId]);
+            if(paragraph.length === 0){
+                    return res.status(404).json({ error: `Couldn't create paragraph for collaboration id ${req.params.id}` });
+            }
+            return res.status(201).json({ message: `Paragraph with id ${paragraphs.insertId} for collaboration id ${rows.insertId} created`, paragraph: paragraph });
         } catch (error) {
             return res.status(500).json({ error: error.message });
         } finally {
@@ -89,15 +109,26 @@ const paragraphController = {
 
     // PUT /api/collaboration/:id/paragraphs
     async updateCollaborationParagraphs(req, res) {
-        const { paragraphs, userId } = req.body;
-        if (!paragraphs || !userId || paragraphs.length === 0) {
+        const { userAccessToken, paragraphs } = req.body;
+        if (!userAccessToken, !paragraphs || paragraphs.length === 0) {
             return res.status(400).json({
                 error: "All fields are required",
-                fields: ["paragraphs", "userId"]
+                fields: ["userAccessToken, paragraphs"]
             });
         }
         const connection = await dbConnection.createConnection();
         try {
+
+            if (!await isUserPartOfCollaboration(userAccessToken, req.params.id)) {
+                return res.status(403).json({ error: "User not part of collaboration" });
+            }
+            const [users] = await connection.execute(`SELECT id FROM ${TABLE_NAME_PREFIX}_user WHERE userAccessToken = ?`, [userAccessToken]);
+            if (users.length === 0) {
+                return res.status(404).json({ error: "User not found" });
+            }
+
+            const userId = users[0].id;
+
             let sum = 0;
             paragraphs.forEach(async (paragraph) => {
                 const { newTitle, oldTitle, status, newText, oldText, newImage, oldImage, newVideo, oldVideo } = paragraph;
@@ -140,11 +171,11 @@ const paragraphController = {
     },
     // PUT /api/collaboration/:id/paragraphs/:paragraphId
     async updateCollaborationParagraph(req, res) {
-        const { newTitle, oldTitle, status, newText, oldText, newImage, oldImage, newVideo, oldVideo } = req.body;
-        if (!status) {
+        const { userAccessToken, newTitle, oldTitle, status, newText, oldText, newImage, oldImage, newVideo, oldVideo } = req.body;
+        if (!status || userAccessToken) {
             return res.status(400).json({
                 error: "All fields are required",
-                fields: ["status"]
+                fields: ["status", "userAccessToken"]
             });
         }
 
@@ -153,6 +184,10 @@ const paragraphController = {
 
         const connection = await dbConnection.createConnection();
         try {
+            if (!await isUserPartOfCollaboration(userAccessToken, req.params.id)) {
+                return res.status(403).json({ error: "User not part of collaboration" });
+            }
+
             const [paragraphs] = await connection.execute(`UPDATE ${TABLE_NAME_PREFIX}_paragraph SET newTitle = ?, oldTitle = ?, status = ?, newText = ?, oldText = ?, newImage = ?, oldImage = ?, newVideo = ?, oldVideo = ?, readability = ? WHERE id = ?`, [newTitle, oldTitle, status, newText, oldText, newImage, oldImage, newVideo, oldVideo, paragraphReadability, req.params.paragraphId]);
             if (paragraphs.affectedRows === 0) {
                 return res.status(404).json({ error: `Paragraph with id ${req.params.paragraphId} for collaboration id ${req.params.id} not found` });
@@ -166,9 +201,20 @@ const paragraphController = {
     },
     // DELETE /api/collaboration/:id/paragraphs/:paragraphId
     async deleteCollaborationParagraph(req, res) {
+        const { userAccessToken } = req.body;
+        if (!userAccessToken) {
+            return res.status(400).json({
+                error: "All fields are required",
+                fields: ["userAccessToken"]
+            });
+        }
         const connection = await dbConnection.createConnection();
 
         try {
+            if (!await isUserPartOfCollaboration(userAccessToken, req.params.id)) {
+                return res.status(403).json({ error: "User not part of collaboration" });
+            }
+
             const [paragraphs] = await connection.execute(`DELETE FROM ${TABLE_NAME_PREFIX}_paragraph WHERE id = ?`, [req.params.paragraphId]);
             if (paragraphs.affectedRows === 0) {
                 return res.status(404).json({ error: `Paragraph with id ${req.params.paragraphId} for collaboration id ${req.params.id} not found` });

@@ -26,6 +26,5 @@ collaborationRouter.put('/:id/paragraphs/:paragraphId', paragraphController.upda
 
 collaborationRouter.delete('/:id', collaborationController.deleteCollaboration);
 collaborationRouter.delete('/:id/paragraphs/:paragraphId', paragraphController.deleteCollaborationParagraph);
-collaborationRouter.delete('/:id/coWriters/:coWriterId', collaborationController.deleteCollaborationCoWriter);
 
 module.exports = { collaborationRouter };

@@ -4,11 +4,16 @@ const TABLE_NAME_PREFIX = "tbl_112"
 
 async function isUserPartOfCollaboration(userAccessToken, collaborationId) {
     const connection = await dbConnection.createConnection();
-    const [user] = await connection.execute(`SELECT brandId FROM ${TABLE_NAME_PREFIX}_user WHERE userAccessToken = ?`, [userAccessToken]);
-    if (user.length === 0 || user[0].brandId != brandId) {
-        connection.end();
+    const [collaborationUser] = await connection.execute(`SELECT writerId FROM ${TABLE_NAME_PREFIX}_collaboration WHERE id = ?`, [collaborationId]);
+    if (collaborationUser.length === 0) {
         return false;
     }
+
+    const [users] = await connection.execute(`SELECT userId FROM ${TABLE_NAME_PREFIX}_user WHERE userAccessToken = ?`, [userAccessToken]);
+    if (users.length === 0 || users[0].userId != collaborationUser[0].writerId) {
+        return false;
+    }
+
     connection.end();
     return true;
 }
@@ -126,18 +131,27 @@ const collaborationController = {
     },
     // PUT /api/collaboration/:id/status
     async updateCollaborationStatus(req, res) {
-        const { status } = req.body;
-        if (!status) {
+        const { status, userAccessToken } = req.body;
+        if (!userAccessToken || !status) {
             return res.status(400).json({
                 error: "All fields are required",
-                fields: ["status"]
+                fields: ["userAccessToken", "status"]
             });
         }
 
         const connection = await dbConnection.createConnection();
 
         try {
-            const [collaborations] = await connection.execute(`UPDATE ${TABLE_NAME_PREFIX}_collaboration SET status = ? WHERE id = ?`, [status, req.params.id]);
+            const [users] = await connection.execute(`SELECT id FROM ${TABLE_NAME_PREFIX}_user WHERE userAccessToken = ?`, [userAccessToken]);
+            if (users.length === 0) {
+                return res.status(404).json({ error: `User with access token ${userAccessToken} not found` });
+            }
+
+            const [brands] = await connection.execute(`SELECT brandId FROM ${TABLE_NAME_PREFIX}_user WHERE id = ?`, [users[0].id]);
+            if (brands.length === 0) {
+                return res.status(404).json({ error: `Brand with id ${users[0].id} not found` });
+            }
+            const [collaborations] = await connection.execute(`UPDATE ${TABLE_NAME_PREFIX}_collaboration SET status = ? WHERE id = ? and brandId = ?`, [status, req.params.id, brands[0].brandId]); 
             if (collaborations.affectedRows === 0) {
                 return res.status(404).json({ error: `Collaboration with id ${req.params.id} not found` });
             }
@@ -220,11 +234,22 @@ const collaborationController = {
             connection.end();
         }
     },
-    // DELETE /api/collaboration/:id
+    // DELETE /api/collaborations/:id
     async deleteCollaboration(req, res) {
-        const connection = await dbConnection.createConnection();
+        const { userAccessToken } = req.body;
+        if (!userAccessToken) {
+            return res.status(400).json({
+                error: "All fields are required",
+                fields: ["userAccessToken"]
+            });
+        }
 
+        const connection = await dbConnection.createConnection();
         try {
+            if (!await isUserPartOfCollaboration(userAccessToken, req.params.id)) {
+                return res.status(403).json({ error: "User is not part of this collaboration" });
+            }
+
             const [collaborations] = await connection.execute(`DELETE FROM ${TABLE_NAME_PREFIX}_collaboration WHERE id = ?`, [req.params.id]);
             if (collaborations.affectedRows === 0) {
                 return res.status(404).json({ error: `Collaboration with id ${req.params.id} not found` });
@@ -236,22 +261,6 @@ const collaborationController = {
             connection.end();
         }
     },
-    // DELETE /api/collaboration/:id/coWriters/:coWriterId
-    async deleteCollaborationCoWriter(req, res) {
-        const connection = await dbConnection.createConnection();
-
-        try {
-            const [coWriters] = await connection.execute(`DELETE FROM ${TABLE_NAME_PREFIX}_collaboration_cowriter WHERE collaborationId = ? and coWriterId = ?`, [req.params.id, req.params.coWriterId]);
-            if (coWriters.affectedRows === 0) {
-                return res.status(404).json({ error: `Co-writer with id ${req.params.coWriterId} for collaboration id ${req.params.id} not found` });
-            }
-            return res.status(200).json({ message: `Co-writer with id ${req.params.coWriterId} for collaboration id ${req.params.id} deleted` });
-        } catch (error) {
-            return res.status(500).json({ error: error.message });
-        } finally {
-            connection.end();
-        }
-    }
 };
 
 module.exports = { collaborationController };

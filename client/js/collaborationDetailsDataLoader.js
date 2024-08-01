@@ -98,7 +98,7 @@ async function approveCollaboration(collaborationId) {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({"status": "Approved"})
+        body: JSON.stringify({"status": "Approved", "userAccessToken": await getUserAccessToken()})
     });
     if(response.status == 200)
         return true;
@@ -112,7 +112,7 @@ async function rejectCollaboration(collaborationId) {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({"status": "Rejected"})
+        body: JSON.stringify({"status": "Rejected", "userAccessToken": await getUserAccessToken()})
     });
     if(response.status == 200)
         return true;
@@ -120,6 +120,7 @@ async function rejectCollaboration(collaborationId) {
 }
 
 async function updateCollaborationParagraphs(collaborationId, paragraphs) {
+    paragraphs.userAccessToken = await getUserAccessToken();
     const domain = await Settings.domain();
     const response = await fetch(`${domain}/api/collaborations/${collaborationId}/paragraphs`, {
         method: 'PUT',
@@ -134,6 +135,7 @@ async function updateCollaborationParagraphs(collaborationId, paragraphs) {
 }
 
 async function approveCollaborationParagraph(collaborationId, paragraphId, paragraph) {
+    paragraph.userAccessToken = await getUserAccessToken();
     const domain = await Settings.domain();
     const response = await fetch(`${domain}/api/collaborations/${collaborationId}/paragraphs/${paragraphId}`, {
         method: 'PUT',
@@ -150,7 +152,11 @@ async function approveCollaborationParagraph(collaborationId, paragraphId, parag
 async function deleteCollaborationParagraph(collaborationId, paragraphId){
     const domain = await Settings.domain();
     const response = await fetch(`${domain}/api/collaborations/${collaborationId}/paragraphs/${paragraphId}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({userAccessToken: await getUserAccessToken()})
     });
     if(response.status == 200)
         return true;
@@ -158,6 +164,7 @@ async function deleteCollaborationParagraph(collaborationId, paragraphId){
 }
 
 async function addCollaborationParagraph(collaborationId, paragraphDetails){
+    paragraphDetails.userAccessToken = await getUserAccessToken();
     const domain = await Settings.domain();
     const response = await fetch(`${domain}/api/collaborations/${collaborationId}/paragraphs`, {
         method: 'POST',
@@ -171,5 +178,5 @@ async function addCollaborationParagraph(collaborationId, paragraphDetails){
         console.log(res.paragraph);
         return res.paragraph[0];
     }
-    return false;
+    return null;
 }

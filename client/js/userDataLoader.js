@@ -3,7 +3,7 @@ let _userInfo = {
     isProcessing: false,
 };
 
-let userInfo = async () => {
+let UserInfo = async () => {
     if (!_userInfo.isReady) {
         if (!_userInfo.isProcessing) {
             await getUserData();
@@ -43,9 +43,14 @@ async function getUserInfo() {
                 window.location.href = "./login.html";
             } else {
                 _userInfo._data = response;
+                _userInfo._data.userAccessToken = userAccessToken;
             }
         });
     }
+}
+
+async function getUserAccessToken() {
+    return _userInfo._data.userAccessToken;
 }
 
 getUserInfo();

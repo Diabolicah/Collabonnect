@@ -17,10 +17,3 @@ Settings.domain = async () => {
     }
     return Settings._domain
 }
-
-Settings.userId = async () => {
-    if (!Settings.isReady) {
-        await getSettingsData();
-    }
-    return Settings._userId
-}

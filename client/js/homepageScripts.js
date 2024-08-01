@@ -53,12 +53,14 @@ async function updateFormDeveloperSearch(event) {
     }
 }
 
-async function populateCollaborationContainer(){
+async function populateCollaborationContainer(userId){
     const collaborationCards = document.querySelectorAll(".collaboration_card");
-    collaborationCards.forEach((card, index) => card.remove());
+    collaborationCards.forEach((card) => card.remove());
 
     const collaborations = await getCollaborationsList();
     collaborations.forEach(async (collaboration) => {
+        if (userId != collaboration.writerId) 
+            return;
         homePageCollaborationCardBuilder(collaboration)
             .then(collaborationCard => {
                 document.getElementById("collaboration_cards_container").appendChild(collaborationCard);
@@ -68,12 +70,13 @@ async function populateCollaborationContainer(){
 
 window.onload = async () => {
     const domain = await Settings.domain();
-    const userId = await Settings.userId();
+    const userInfo = await UserInfo();
+    let isCreatingCollaboration = false;
 
     const searchInput = document.getElementById("search_bar");
     searchInput.addEventListener("input", filterCollaborationsOnSearch);
 
-    populateCollaborationContainer();
+    populateCollaborationContainer(userInfo.id);
 
     const brandSelect = document.getElementById("collaboration_brand_data_search");
     brandSelect.addEventListener("change", updateFormBrandSearch);
@@ -100,11 +103,14 @@ window.onload = async () => {
     createCollaborationButton.addEventListener("click", async () => {
         document.querySelector("#new_collaboration_modal form > input").click();
     });
-
+    
     newCollaborationForm.addEventListener("submit", async (event) => {
         event.preventDefault();
+        if(isCreatingCollaboration)
+            return;
+        isCreatingCollaboration = true
         const formData = new FormData(newCollaborationForm);
-        formData.append("userId", userId)
+        formData.append("userAccessToken", userInfo.userAccessToken);
         const requestData = JSON.stringify(Object.fromEntries(formData));
         const response = await fetch(`${domain}/api/collaborations/`, {
             method: "POST",
@@ -119,7 +125,8 @@ window.onload = async () => {
             newCollaborationForm.reset();
             await getBrandsData();
             await getDevelopersData();
-            populateCollaborationContainer();
+            populateCollaborationContainer(userInfo.id);
         }
+        isCreatingCollaboration = false;
     });
 }

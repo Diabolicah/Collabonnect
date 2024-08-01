@@ -31,7 +31,7 @@ async function getUserInfo() {
         const domain = await Settings.domain();
         const userAccessToken = sessionStorage.getItem("userAccessToken");
         await fetch(`${domain}/api/users/`, {
-            method: "GET",
+            method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },

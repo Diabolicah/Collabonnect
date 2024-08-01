@@ -93,8 +93,13 @@ async function initCollaborationDetails(collaborationData){
     const voteMode = urlParams.get("vote") == "true" ? true : false;
     const editMode = urlParams.get("edit") == "true" ? true : false;
 
-    if(voteMode)
+    if(voteMode){
         document.querySelector("#collaboration_edit_delete_vote > section").style.display = "block";
+        console.log(document.getElementById("user_details_token").textContent <= 0);
+        if(document.getElementById("user_details_token").textContent <= 0)
+            document.querySelector("#collaboration_edit_delete_vote > section").style.cursor = "default";
+        else document.querySelector("#collaboration_edit_delete_vote > section").style.cursor = "pointer";
+    }
     else document.querySelector("#collaboration_edit_delete_vote > section").style.display = "none";
 
     changeMode(editMode, isCollaborationForUser);
@@ -147,22 +152,24 @@ function deleteObjectDetails(){
     });
 }
 
-async function collaborationVote() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const collaborationId = urlParams.get("id");
-
-    if(document.querySelectorAll("#vote_modal .modal-body input")[0].checked)
-        await updateCollaborationVotes(collaborationId, "upvote", 1);
-    else await updateCollaborationVotes(collaborationId, "downvote", 1);
-
-    await getUserData()
-    const user = await UserInfo();
-    document.getElementById("user_details_token").textContent = user.token;
-}
-
 function voteCollaborationDetails() {
+    if(document.getElementById("user_details_token").textContent <= 0)
+        return;
     const voteModal = new bootstrap.Modal('#vote_modal', {})
     voteModal.show();
+
+    const collaborationVote = async () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const collaborationId = urlParams.get("id");
+    
+        if(document.querySelectorAll("#vote_modal .modal-body input")[0].checked)
+            await updateCollaborationVotes(collaborationId, "upvote", 1);
+        else await updateCollaborationVotes(collaborationId, "downvote", 1);
+    
+        await getUserData()
+        voteModal.hide();
+        document.location.reload();
+    }
     document.getElementById("vote_button").addEventListener("click", collaborationVote);
 
     voteModal._element.addEventListener("hide.bs.modal", () => {

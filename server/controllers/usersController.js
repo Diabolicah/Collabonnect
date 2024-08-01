@@ -49,7 +49,7 @@ const usersController = {
         }
     },
     // GET /api/users
-    async getUseByAccessToken(req, res) {
+    async getUserByAccessToken(req, res) {
         const { userAccessToken } = req.body;
         if (!userAccessToken) {
             return res.status(400).json({ error: 'Please provide userAccessToken' });

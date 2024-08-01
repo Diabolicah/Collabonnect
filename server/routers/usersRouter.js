@@ -3,7 +3,7 @@ const { usersController } = require('../controllers/usersController');
 
 const userRouter = Router();
 
-userRouter.get('/', usersController.getUseByAccessToken);
+userRouter.get('/', usersController.getUserByAccessToken);
 userRouter.get('/login', usersController.getUserAccessToken);
 userRouter.get('/:id', usersController.getUserById);
 

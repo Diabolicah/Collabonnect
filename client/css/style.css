@@ -1177,7 +1177,7 @@ ol.breadcrumb {
     justify-content: center;
 }
 
-#badge_information_modal .modal-footer, #new_image_modal .modal-body{
+#badge_information_modal .modal-footer{
     display: flex;
     justify-content: space-around;
 }

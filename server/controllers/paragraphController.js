@@ -108,7 +108,7 @@ const paragraphController = {
                     });
                 }
                 let paragraphReadability = checkParagraphReadability(newTitle, newText);
-                sum += paragraphReadability < 0 ? 0 : paragraphReadability;
+                sum += paragraphReadability < 0 ? 0 : paragraphReadability > 100 ? 100 : paragraphReadability;
 
                 const [paragraphs] = await connection.execute(`UPDATE ${TABLE_NAME_PREFIX}_paragraph SET newTitle = ?, oldTitle = ?, status = ?, newText = ?, oldText = ?, newImage = ?, oldImage = ?, newVideo = ?, oldVideo = ? WHERE id = ?`, [newTitle, oldTitle, status, newText, oldText, newImage, oldImage, newVideo, oldVideo, paragraph.id]);
                 if (paragraphs.affectedRows === 0) {
@@ -149,7 +149,7 @@ const paragraphController = {
         }
 
         let paragraphReadability = checkParagraphReadability(newTitle, newText);
-        paragraphReadability = paragraphReadability < 0 ? 0 : paragraphReadability;
+        paragraphReadability = paragraphReadability < 0 ? 0 : paragraphReadability ? 100 : paragraphReadability;
 
         const connection = await dbConnection.createConnection();
         try {

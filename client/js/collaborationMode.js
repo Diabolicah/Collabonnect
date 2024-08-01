@@ -1,3 +1,59 @@
+function videoEditMode(paragraph, paragraphVideo, paragraphDetails){
+    paragraphVideo.classList.add("edit_mode");
+        paragraphVideo.addEventListener("click", () => {
+            const newVideoModal = new bootstrap.Modal('#new_video_modal', {})
+            newVideoModal.show();
+
+            const selectVideo = () => {
+                const video = document.querySelector("#collaboration_paragraph_videos_data_list").value;
+                paragraphVideo.attributes.video.value = video;
+                newVideoModal.hide();
+
+                const status = paragraph.querySelector(".status");
+                if(!status.classList.contains("Pending") && paragraphVideo.attributes.video.value != paragraphDetails.oldVideo){
+                    status.textContent = "Pending";
+                    status.classList.add("pending");
+                }else if(paragraphVideo.attributes.video.value == paragraphDetails.oldVideo){
+                    status.textContent = "Up to date";
+                    status.classList.remove("pending");
+                }
+            }
+            document.querySelector("#submit_paragraph_video_button").addEventListener("click", selectVideo);
+
+            newVideoModal._element.addEventListener("hide.bs.modal", () => {
+                document.querySelector("#submit_paragraph_video_button").removeEventListener("click", selectVideo);
+        });
+    });
+}
+
+function imageEditMode(paragraph, paragraphImage, paragraphDetails){
+    paragraphImage.classList.add("edit_mode");
+        paragraphImage.addEventListener("click", () => {
+            const newImageModal = new bootstrap.Modal('#new_image_modal', {})
+            newImageModal.show();
+
+            const selectImage = () => {
+                const image = document.querySelector("#collaboration_paragraph_images_data_list").value;
+                paragraphImage.attributes.image.value = image;
+                newImageModal.hide();
+
+                const status = paragraph.querySelector(".status");
+                if(!status.classList.contains("Pending") && paragraphImage.attributes.image.value != paragraphDetails.oldImage){
+                    status.textContent = "Pending";
+                    status.classList.add("pending");
+                }else if(paragraphImage.attributes.image.value == paragraphDetails.oldImage){
+                    status.textContent = "Up to date";
+                    status.classList.remove("pending");
+                }
+            }
+            document.querySelector("#submit_paragraph_image_button").addEventListener("click", selectImage);
+
+            newImageModal._element.addEventListener("hide.bs.modal", () => {
+                document.querySelector("#submit_paragraph_image_button").removeEventListener("click", selectImage);
+        });
+    });
+}
+
 function createOptionElement(value, text) {
     const option = document.createElement("option");
     option.value = value;

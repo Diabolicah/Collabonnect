@@ -80,7 +80,7 @@ const collaborationController = {
         if (!userAccessToken || !title || !developerSearchName || !brandSearchName || !description) {
             return res.status(400).json({
                 error: "All fields are required",
-                fields: ["userAccessToken", "title", "developerSearchName", "collaborationSearchName", "description"]
+                fields: ["userAccessToken", "title", "developerSearchName", "brandSearchName", "description"]
             });
         }
         const developerList = await fetch(`https://api.brandfetch.io/v2/search/${developerSearchName}`).then(response => response.json());

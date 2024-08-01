@@ -116,6 +116,25 @@
                 name="lastName"
               />
             </div>
+            <div class="mb-3" id="select_profile_image">
+              <label for="profile_image_data_list" class="form-label"
+                >Profile Image</label
+              >
+              <div class="input-group">
+                <select
+                  class="form-control form-select"
+                  id="profile_image_data_list"
+                  required
+                  name="profileImage"
+                ></select>
+                <img
+                  src="images/image_placeholder.svg"
+                  alt="plus_circle_icon"
+                  id="profile_image"
+                  class="input-group-text"
+                />
+              </div>
+            </div>
             <div class="form-check form-switch">
               <input
                 class="form-check-input"
@@ -131,7 +150,6 @@
                 <select
                   class="form-control form-select"
                   id="brand_data_list"
-                  required
                   name="brand"
                 ></select>
                 <img
@@ -161,7 +179,6 @@
                 <select
                   class="form-control form-select"
                   id="developer_data_list"
-                  required
                   name="developer"
                 ></select>
                 <img
@@ -179,7 +196,6 @@
               id="register_button"
               type="button"
               class="btn"
-              data-bs-dismiss="modal"
             >
               Register
             </button>

@@ -67,6 +67,14 @@ const usersController = {
             await connection.end();
         }
     },
+    // GET /api/users/images
+    async getUserImages(req, res) {
+        const fs = require('fs');
+        const path = require('path');
+        const directoryPath = path.join(__dirname, '../public/profileImages');
+        const files = fs.readdirSync(directoryPath);
+        return res.status(200).json(files);
+    },
     // POST /api/users/register
     async registerUser(req, res) {
         const { username, password, firstName, lastName, developerId, brandId, profileImage} = req.body;

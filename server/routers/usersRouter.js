@@ -3,6 +3,7 @@ const { usersController } = require('../controllers/usersController');
 
 const userRouter = Router();
 
+userRouter.get('/images', usersController.getUserImages);
 userRouter.get('/:id', usersController.getUserById);
 
 userRouter.post('/', usersController.getUserByAccessToken);

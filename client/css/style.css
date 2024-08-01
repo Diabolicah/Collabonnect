@@ -171,7 +171,7 @@ header nav a:not(.active_nav):hover {
     align-items: center;
     cursor: pointer;
     width: 32px;
-    height: 32px;    
+    height: 32px;
     margin: auto 4px auto 12px;
 }
 
@@ -181,14 +181,16 @@ header nav a:not(.active_nav):hover {
 }
 
 /* Main */
-#wrapper, #wrapper_login {
+#wrapper{
     margin: 0 40px;
     min-height: calc(100vh - 52px);
     padding: 12px 0px;
 }
 
 #wrapper_login {
-    height: 100vh;
+    margin: 0 40px;
+    min-height: 100vh;
+    padding: 12px 0px;
 }
 
 #container_loginDetails {
@@ -224,6 +226,14 @@ header nav a:not(.active_nav):hover {
     display: none;
 }
 
+#container_loginDetails #register_form #select_developer{
+    display: none;
+}
+
+#container_loginDetails #register_form #select_brand{
+    display: none;
+}
+
 #container_loginDetails #login_form, #container_loginDetails #register_form{
     width: 80%;
     max-width: 500px;
@@ -252,12 +262,20 @@ header nav a:not(.active_nav):hover {
 
 #container_loginDetails #register_form #brand_data_list {
     border-radius: 10px 0 0 10px;
-    border-right: #FFF;
 }
 
 #container_loginDetails #register_form #brand_image {
     background-color: #444;
     border-color: #444;
+}
+
+#container_loginDetails #register_form #profile_image {
+    background-color: #444;
+    border-color: #444;
+}
+
+#container_loginDetails #register_form #profile_image_data_list {
+    border-radius: 10px 0 0 10px;
 }
 
 #container_loginDetails input {

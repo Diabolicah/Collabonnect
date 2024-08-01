@@ -65,7 +65,7 @@ async function populateParagraphImagesSelection() {
     const domain = await Settings.domain();
     const paragraphImagesData = await fetch(`${domain}/api/collaborations/paragraphs/images`).then((response) => response.json());
     const imagesSelect = document.getElementById("collaboration_paragraph_images_data_list");
-    const defaultOption = createOptionElement("", "Select an image");
+    const defaultOption = createOptionElement(" ", "Select an image");
     defaultOption.selected = true;
     defaultOption.disabled = true;
     imagesSelect.appendChild(defaultOption);
@@ -73,13 +73,19 @@ async function populateParagraphImagesSelection() {
         const option = createOptionElement(image, image);
         imagesSelect.appendChild(option);
     }
+
+    imagesSelect.addEventListener("change", async (event) => {
+        const selectedParagraphImage = event.target.value;
+        const paragraphImage = document.getElementById("collaboration_paragraph_images_logo");
+        paragraphImage.src = paragraphImagesData[selectedParagraphImage].image;
+    });
 }
 
 async function populateParagraphVideosSelection() {
     const domain = await Settings.domain();
     const paragraphVideosData = await fetch(`${domain}/api/collaborations/paragraphs/videos`).then((response) => response.json());
     const videosSelect = document.getElementById("collaboration_paragraph_videos_data_list");
-    const defaultOption = createOptionElement("", "Select an video");
+    const defaultOption = createOptionElement(" ", "Select an video");
     defaultOption.selected = true;
     defaultOption.disabled = true;
     videosSelect.appendChild(defaultOption);

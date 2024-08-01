@@ -73,16 +73,15 @@ function invalidLoginDetails() {
 
 function invalidRegisterDetails() {
     document.querySelector("#register_form #register_username").style.border = "1px solid red";
-    document.querySelector("#register_form #register_password").style.border = "1px solid red";
-    document.querySelector("#register_form #register_firstName").style.border = "1px solid red";
-    document.querySelector("#register_form #register_lastName").style.border = "1px solid red";
-    document.querySelector("#register_form #register_profileImage").style.border = "1px solid red";
-    document.querySelector("#register_form #register_brand").style.border = "1px solid red";
-    document.querySelector("#register_form #register_developer").style.border = "1px solid red";
 }
 
+let loginDebounce = false;
 async function loginUserForm(event) {
     event.preventDefault();
+    if (loginDebounce) {
+        return;
+    }
+    loginDebounce = true;
     const formData = new FormData(document.querySelector("#login_form"));
     const domain = await Settings.domain();
 
@@ -102,11 +101,17 @@ async function loginUserForm(event) {
         }else {
             invalidLoginDetails();
         }
+        loginDebounce = false;
     });
 }
 
+let registerDebounce = false;
 async function registerUserForm(event) {
     event.preventDefault();
+    if (registerDebounce) {
+        return;
+    }
+    registerDebounce = true;
     const formData = new FormData(document.querySelector("#register_form"));
     const domain = await Settings.domain();
 
@@ -133,6 +138,7 @@ async function registerUserForm(event) {
         }else {
             invalidRegisterDetails();
         }
+        registerDebounce = false;
     });
 }
 

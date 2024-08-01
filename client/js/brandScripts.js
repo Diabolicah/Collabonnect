@@ -114,6 +114,7 @@ async function onThresholdEditClick(event){
         if(response.status == 200){
             hideThresholdChangeModal(event);
             updateBrandPageThreshold(thresholdInput.value);
+            await getBrandsData();
         }
     }
 
@@ -124,6 +125,13 @@ async function onThresholdEditClick(event){
         saveThresholdChangeButton.removeEventListener("click", updateThreshold);
         cancelThresholdChangeButton.removeEventListener("click", hideThresholdChangeModal);
     });
+}
+
+async function onlyAllowPositiveIntegers(event){
+    const input = event.target;
+    const value = input.value;
+    const newValue = value.replace(/\D/g, "");
+    input.value = newValue;
 }
 
 async function populateBadgeContainer(){
@@ -214,6 +222,9 @@ window.onload = async () => {
     
     const editThresholdButton = document.querySelector("#threshold img");
     editThresholdButton.addEventListener("click", onThresholdEditClick);
+
+    const thresholdInput = document.getElementById("threshold_input");
+    thresholdInput.addEventListener("input", onlyAllowPositiveIntegers);
 
     const searchInput = document.getElementById("search_bar");
     searchInput.addEventListener("input", filterCollaborationsOnSearch);

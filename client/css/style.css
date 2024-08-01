@@ -182,8 +182,73 @@ header nav a:not(.active_nav):hover {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-top: auto;
-    margin-bottom: auto;
+}
+
+#container_login #login_form .form-label {
+    color: #FFF;
+    font-family: Lora;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+#container_login #login_form .form-control {
+    background-color: #444;
+    color: #FFF;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    font-family: Merriweather;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+#container_login #login_form {
+    width: 80%;
+    max-width: 500px;
+    margin: 40px 0 10px 0;
+}
+
+#container_login #container_register_login {
+    width: 80%;
+    max-width: 500px;
+    display: flex;
+    justify-content: space-between;
+}
+
+#container_login #container_register_login button {
+    width: 48%;
+    height: 50px;
+    border-radius: 15px;
+    background-color: #444;
+    color: #FFF;
+    font-family: Lora;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+#container_login #login_form #brand_data_list {
+    border-radius: 10px 0 0 10px;
+    border-right: #FFF;
+}
+
+#container_login #login_form #brand_image {
+    background-color: #444;
+    border-color: #444;
+}
+
+#container_login #login_form #developer_data_list {
+    border-radius: 10px 0 0 10px;
+}
+
+#container_login #login_form #developer_image {
+    background-color: #444;
+    border-color: #444;
 }
 
 #bread_crumb {
@@ -1351,6 +1416,9 @@ ol.breadcrumb {
 }
 
 @media screen and (max-width: 370px) {
+    #container_login #container_register_login button{
+        font-size: 12px;
+    }
     .paragraph_container_image_video {
         flex-wrap: wrap;
     }

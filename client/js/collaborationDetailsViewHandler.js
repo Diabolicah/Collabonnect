@@ -215,7 +215,7 @@ window.addEventListener("resize", onResize);
 
 window.onload = async () => {
     getCollaborationDetailsFromServer();
-    populateParagraphImagesSelection();
-    populateParagraphVideosSelection();
+    await populateParagraphImagesSelection();
+    await populateParagraphVideosSelection();
     addListeners();
 }

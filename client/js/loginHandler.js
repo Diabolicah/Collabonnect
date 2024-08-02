@@ -196,8 +196,8 @@ function addListeners() {
 }
 
 window.onload = async () => {
-    populateBrandSelection();
-    populateDeveloperSelection();
-    populateProfileImagesSelection();
+    await populateBrandSelection();
+    await populateDeveloperSelection();
+    await populateProfileImagesSelection();
     addListeners();
 }

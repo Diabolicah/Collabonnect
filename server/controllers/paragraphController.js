@@ -146,13 +146,20 @@ const paragraphController = {
             if (collaborations.affectedRows === 0) {
                 return res.status(404).json({ error: `Couldn't update ai readability for Collaboration with id ${req.params.id}, Collaboration not found` });
             }
+            
+            let date = new Date();
+            let dd = String(date.getDate()).padStart(2, '0');
+            let mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
+            let yyyy = date.getFullYear();
 
-            const date = new Date().toISOString().slice(0, 19).replace('T', ' ');
-            const [editLog] = await connection.execute(`SELECT * FROM ${TABLE_NAME_PREFIX}_collaboration_logs WHERE date = ?`, [date]);
-            if (editLog.length === 0) {
+            date = yyyy + '-' + mm + '-' + dd;
+            // const date = Date.now().toLocaleString().slice(0, 19).replace('T', ' ');
+            console.log(date);
+            const [editLog] = await connection.execute(`SELECT * FROM ${TABLE_NAME_PREFIX}_collaboration_logs WHERE userId = ? and collaborationId = ? and date = ?`, [userId, req.params.id, date]);
+            if (editLog.length > 0) {
                 return res.status(409).json({ error: `Edit log for collaboration id ${req.params.id} already exists` });
             }
-            const [editLogs] = await connection.execute(`INSERT INTO ${TABLE_NAME_PREFIX}_collaboration_logs (userId, collaborationId, date) VALUES (?, ?, ?)`, [userId, req.params.id, date]);
+            const [editLogs] = await connection.execute(`INSERT INTO ${TABLE_NAME_PREFIX}_collaboration_logs (userId, collaborationId, date) VALUES (?, ?, Date(?))`, [userId, req.params.id, date]);
             if (editLogs.affectedRows === 0) {
                 return res.status(404).json({ error: `Couldn't create log for collaboration id ${req.params.id}` });
             }

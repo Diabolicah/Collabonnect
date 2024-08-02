@@ -113,19 +113,19 @@ async function addParagraphTypeListeners(){
 
     const defaultParagraph = async () => {
         const paragraph = await addCollaborationParagraph(collaborationId, {paragraphType: "DefaultParagraph"});
-        document.querySelector("#container_paragraphs").appendChild(await createParagraph(paragraph, true));
+        document.querySelector("#container_paragraphs").appendChild(await createParagraph(paragraph, true, await isCollaborationForCurrentUser()));
     }
     const imageParagraph = async () => {
         const paragraph = await addCollaborationParagraph(collaborationId, {paragraphType: "ImageParagraph"});
-        document.querySelector("#container_paragraphs").appendChild(await createParagraph(paragraph, true));
+        document.querySelector("#container_paragraphs").appendChild(await createParagraph(paragraph, true, await isCollaborationForCurrentUser()));
     }
     const videoParagraph = async () => {
         const paragraph = await addCollaborationParagraph(collaborationId, {paragraphType: "VideoParagraph"});
-        document.querySelector("#container_paragraphs").appendChild(await createParagraph(paragraph, true));
+        document.querySelector("#container_paragraphs").appendChild(await createParagraph(paragraph, true, await isCollaborationForCurrentUser()));
     }
     const imageVideoParagraph = async () => {
         const paragraph = await addCollaborationParagraph(collaborationId, {paragraphType: "ImageVideoParagraph"});
-        document.querySelector("#container_paragraphs").appendChild(await createParagraph(paragraph, true));
+        document.querySelector("#container_paragraphs").appendChild(await createParagraph(paragraph, true, await isCollaborationForCurrentUser()));
     }
 
     return [defaultParagraph, imageParagraph, videoParagraph, imageVideoParagraph];

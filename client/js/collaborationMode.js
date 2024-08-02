@@ -208,6 +208,6 @@ async function changeToViewMode(){
         const url = window.location.href.split("?")[0];
         window.history.pushState({}, document.title, url + "?id=" + collaborationId);
     }
-    // window.location.reload();
+    window.location.reload();
     changeMode(false, await isCollaborationForCurrentUser());
 }

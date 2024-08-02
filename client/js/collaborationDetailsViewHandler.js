@@ -95,7 +95,6 @@ async function initCollaborationDetails(collaborationData){
 
     if(voteMode){
         document.querySelector("#collaboration_edit_delete_vote > section").style.display = "block";
-        console.log(document.getElementById("user_details_token").textContent <= 0);
         if(document.getElementById("user_details_token").textContent <= 0)
             document.querySelector("#collaboration_edit_delete_vote > section").style.cursor = "default";
         else document.querySelector("#collaboration_edit_delete_vote > section").style.cursor = "pointer";

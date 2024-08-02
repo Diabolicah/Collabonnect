@@ -153,8 +153,6 @@ const paragraphController = {
             let yyyy = date.getFullYear();
 
             date = yyyy + '-' + mm + '-' + dd;
-            // const date = Date.now().toLocaleString().slice(0, 19).replace('T', ' ');
-            console.log(date);
             const [editLog] = await connection.execute(`SELECT * FROM ${TABLE_NAME_PREFIX}_collaboration_logs WHERE userId = ? and collaborationId = ? and date = ?`, [userId, req.params.id, date]);
             if (editLog.length > 0) {
                 return res.status(409).json({ error: `Edit log for collaboration id ${req.params.id} already exists` });

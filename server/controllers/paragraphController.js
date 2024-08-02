@@ -65,7 +65,7 @@ const paragraphController = {
     },
     // GET /api/collaborations/paragraphs/videos
     async getCollaborationParagraphVideos(req, res) {
-        const videoLinks = require('../Data/videoLinks.json');
+        const videoLinks = require('../Data/videos.json');
         return res.status(200).json(videoLinks);
     },
     // POST /api/collaborations/:id/paragraphs

@@ -61,7 +61,7 @@ async function populateCollaborationContainer(userId){
     for (let collaborationIndex in collaborations){
         const collaboration = collaborations[collaborationIndex];
         if (userId != collaboration.writerId)
-            return;
+            continue;
         homePageCollaborationCardBuilder(collaboration).then(collaborationCard => {
             document.getElementById("collaboration_cards_container").appendChild(collaborationCard);
         });

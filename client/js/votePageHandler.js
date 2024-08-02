@@ -55,6 +55,6 @@ async function setUpCarousel(){
 window.onload = async () => {
     const searchInput = document.getElementById("search_bar");
     searchInput.addEventListener("input", filterCollaborationsOnSearch);
-    
+
     await setUpCarousel();
 }

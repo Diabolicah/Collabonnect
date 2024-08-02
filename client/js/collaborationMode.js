@@ -77,7 +77,7 @@ async function populateParagraphImagesSelection() {
 
 async function populateParagraphVideosSelection() {
     const domain = await Settings.domain();
-    const paragraphVideosData = await fetch(`${domain}/api/collaborations/paragraphs/videos`).then((response) => response.json());
+    const paragraphVideosData = await fetch(`${domain}/api/collaborations/paragraphs/videos`).then((response) => response.json()).then((data) => data.videoLinks);
     const videosSelect = document.getElementById("collaboration_paragraph_videos_data_list");
     const defaultOption = createOptionElement(" ", "Select an video");
     defaultOption.selected = true;
